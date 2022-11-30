@@ -5,10 +5,11 @@ import lombok.*;
 
 public class Scooter extends Vehicle {
 
-    private final int _price = 200;
+    private final static int _price = 200;
+    private final static String _title = "Scooter";
 
-    public Scooter(int id,String location,String title){
-        super(id,location,title);
+    public Scooter(int id,String location){
+        super(id,location, _title, _price);
 
     }
 

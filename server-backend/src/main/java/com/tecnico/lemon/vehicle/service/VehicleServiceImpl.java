@@ -1,6 +1,7 @@
 package com.tecnico.lemon.vehicle.service;
 
 import com.tecnico.lemon.vehicle.dataBase.DataBase;
+import com.tecnico.lemon.vehicle.dto.VehicleDto;
 import com.tecnico.lemon.vehicle.model.Scooter;
 import com.tecnico.lemon.vehicle.model.Vehicle;
 import org.springframework.stereotype.Service;
@@ -16,18 +17,23 @@ public class VehicleServiceImpl implements VehicleService{
 
 
     @Override
-    public List<Vehicle> getVehicles() {
-        List<Vehicle> vehicles = new ArrayList<Vehicle>();
+    public List<VehicleDto> getAvailableVehicles() {
+        Vehicle vec;
+        List<VehicleDto> vehicles = new ArrayList<VehicleDto>();
         Map<Integer, Vehicle> map = dBase.get_hm();
-        for (Map.Entry<Integer,Vehicle> entry : map.entrySet())
-            vehicles.add(entry.getValue());
+        for (Map.Entry<Integer,Vehicle> entry : map.entrySet()){
+            vec = entry.getValue();
+            if (vec.isFree()) {
+                vehicles.add(new VehicleDto(entry.getValue()));
+            }
+        }
         return vehicles;
 
     }
 
     @Override
-    public Vehicle getVehicle(int id) {
-        return dBase.get_hm().get(id);
+    public VehicleDto getVehicle(int id) {
+        return new VehicleDto(dBase.get_hm().get(id));
     }
 
     @Override

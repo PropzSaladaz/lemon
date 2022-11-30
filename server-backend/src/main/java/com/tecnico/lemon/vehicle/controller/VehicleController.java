@@ -1,5 +1,6 @@
 package com.tecnico.lemon.vehicle.controller;
 
+import com.tecnico.lemon.vehicle.dto.VehicleDto;
 import com.tecnico.lemon.vehicle.model.Vehicle;
 import com.tecnico.lemon.vehicle.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,45 +17,45 @@ public class VehicleController {
     VehicleService vehicleService;
 
     @GetMapping()
-    public List<Vehicle> getVehicles() {
-        return vehicleService.getVehicles();
+    public List<VehicleDto> getVehicles() {
+        return vehicleService.getAvailableVehicles();
     }
 
-    @GetMapping(value="/Get/{id}")
-    public Vehicle getVehicle(@PathVariable("id") int id) {
+    @GetMapping(value="/get/{id}")
+    public VehicleDto getVehicle(@PathVariable("id") int id) {
        return vehicleService.getVehicle(id);
     }
 
-    @PutMapping (value="/Bike/{loc}")
+    @PutMapping (value="/bike/{loc}")
     public void createBike(@PathVariable("loc") String loc) {
         vehicleService.createBike(loc);
     }
 
-    @PutMapping (value="/Scooter/{location}")
+    @PutMapping (value="/scooter/{location}")
     public void createScooter(@PathVariable("location") String loc) {
         vehicleService.createScooter(loc);
     }
 
-    @PutMapping (value="/Remove/{id}")
+    @PutMapping (value="/remove/{id}")
     public void removeVehicle(@PathVariable("id") int id) {
         vehicleService.removeVehicle(id);
     }
 
-    @PutMapping (value="/Lock/{id}")
+    @PostMapping (value="/lock/{id}")
     public void lockVehicle(@PathVariable("id") int id) {
         System.out.println(id);
         vehicleService.lockVehicle(id);
     }
 
-    @PutMapping (value="/Unlock/{id}")
+    @PostMapping (value="/unlock/{id}")
     public void unlockVehicle(@PathVariable("id") int id) {
         vehicleService.unlockVehicle(id);
     }
 
-    @PutMapping (value="/Pay/{id}")
-    public void payVehicle(@PathVariable("id") int id) {
-        vehicleService.payVehicle(id);
-    }
+//    @PutMapping (value="/pay/{id}")
+//    public void payVehicle(@PathVariable("id") int id) {
+//        vehicleService.payVehicle(id);
+//    }
 
 
 

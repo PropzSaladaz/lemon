@@ -6,34 +6,51 @@ import lombok.Builder;
 
 public class Vehicle implements IVehicle{
     private int _id;
+    private int _price;
     private String _location;
     private  boolean _payed;
-    public boolean _lockState;
+    public boolean _locked;
 
     private String _title;
 
-    public Vehicle(int id,String location,String title){
+    public Vehicle(int id,String location,String title, int price){
         _id = id;
         _location = location ;
         _title = title;
-        _lockState = false;
+        _locked = false;
         _payed = false;
+        _price = price;
     }
 
 
-    public int get_id() {
+    public int getId() {
         return _id;
+    }
+    public String getLocation(){
+        return _location;
+    }
+
+    public boolean isFree() {
+        return !_locked;
+    }
+
+    public int getPrice(){
+        return _price;
+    }
+
+    public String getTitle(){
+        return _title;
     }
 
     public void unlockVehicle()
     {
-        if (_lockState) _lockState = false;
+        if (_locked) _locked = false;
 
     }
 
     public void lockVehicle()
     {
-        if (!_lockState) _lockState = true;
+        if (!_locked) _locked = true;
 
     }
 

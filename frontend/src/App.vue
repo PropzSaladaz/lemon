@@ -82,7 +82,7 @@ export default {
   },
   data() {
     return {
-      email: 'd',
+      email: '', // DEBUG
       loginFormVisible: false,
       signUpFromVisible: false,
       invalidAccount: false,

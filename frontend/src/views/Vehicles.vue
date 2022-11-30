@@ -10,9 +10,9 @@
             </thead>
             <tbody>
                 <tr v-for="vehicle in vehicles" key="vehicle.id">
-                    <th > {{ vehicle.type }} </th>
-                    <th > {{ vehicle.price }} </th>
-                    <th class="button-column flex" > <button class="button is-primary is-outlined">Make Reservation</button> </th>
+                    <th class="normal-text"> {{ vehicle.title }} </th>
+                    <th class="normal-text"> {{ vehicle.price }} </th>
+                    <th class="button-column flex" > <button class="button is-primary is-outlined" @click="requestReservation(vehicle.id)">Make Reservation</button> </th>
                 </tr>
             </tbody>
         </table>
@@ -25,14 +25,35 @@ import DatabaseService from '@/service/DatabaseService.js'
 export default {
     name: 'HomeView',
     created(){
-        this.vehicles = DatabaseService.getVehicles();
-        console.log(this.vehicles);
+       this.getVehicles();
     },
     data() {
         return {
             vehicles: null,
         }
     },
+    methods: {
+        requestReservation(id) {
+            console.log("aqui");
+            DatabaseService.requestReservation(id)
+            .then((response) => {
+                this.getVehicles();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        },
+
+        getVehicles() {
+            DatabaseService.getVehicles()
+            .then((response) => {
+                this.vehicles = response.data;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }
+    }
 }
 </script>
 
@@ -48,6 +69,9 @@ table {
     display: flex;
     align-items: flex-end;
     justify-content: flex-end;
+}
+.normal-text {
+    font-weight: normal;
 }
 
 </style>

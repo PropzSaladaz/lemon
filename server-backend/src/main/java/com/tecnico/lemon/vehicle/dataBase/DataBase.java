@@ -16,6 +16,9 @@ public class DataBase {
     public DataBase(){
         _hm = new HashMap<Integer, Vehicle>();
         _id = 1;
+        createBike("ali");
+        createBike("acolá");
+        createScooter("ali");
     }
 
     public Map<Integer, Vehicle> get_hm() {
@@ -30,12 +33,12 @@ public class DataBase {
     }
 
     public void createScooter(String location){
-        _hm.put(_id,new Scooter(_id,location,"Scooter"));
+        _hm.put(_id,new Scooter(_id,location));
         incrementID();
     }
 
     public void createBike(String location){
-        _hm.put(_id,new Bike(_id,location,"Bike"));
+        _hm.put(_id,new Bike(_id,location));
         incrementID();
     }
 

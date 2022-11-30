@@ -1,3 +1,7 @@
+import axios from "axios";
+
+const serverHostname = "http://localhost:8080/";
+
 const users = [
     {
         email: "admin@gmail.com",
@@ -34,6 +38,15 @@ const DataBase = {
     vehicles: vehicles
 }
 
+const apiClient = axios.create({
+    baseURL: serverHostname,
+    withCredentials: false,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+});
+
 export default {
     emailExists(email) {
         for (var user of users) {
@@ -57,6 +70,10 @@ export default {
     },
 
     getVehicles() {
-        return vehicles;
+        return apiClient.get("/vehicle");
+    },
+
+    requestReservation(id){
+        return apiClient.post("/vehicle/lock/" + id);
     }
 }

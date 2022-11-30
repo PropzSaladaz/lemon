@@ -1,5 +1,6 @@
 package com.tecnico.lemon.vehicle.service;
 
+import com.tecnico.lemon.vehicle.dto.VehicleDto;
 import com.tecnico.lemon.vehicle.model.Vehicle;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +13,9 @@ public interface VehicleService {
 
     void createBike(String location);
 
-    Vehicle getVehicle(int id);
+    VehicleDto getVehicle(int id);
 
-    List<Vehicle> getVehicles();
+    List<VehicleDto> getAvailableVehicles();
 
     void removeVehicle(int id);
     void lockVehicle(int id);
