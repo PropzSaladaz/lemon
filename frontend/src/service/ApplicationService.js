@@ -100,7 +100,7 @@ export default {
     },
 
     createUser(_email, _password, _type) {
-        apiClient.post("/user/signup/_signup" + 
+        apiClient.post("/user/signup/_signup",
             JSON.stringify({
                 email: _email,
                 password: _password,

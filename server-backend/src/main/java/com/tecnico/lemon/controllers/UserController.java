@@ -23,5 +23,5 @@ public class UserController {
     @GetMapping(value="/lookup/{email}")
     public UserInfoDto lookupUser(@PathVariable("email") String email) {
         return userService.lookupUser(email);
-    }
+    } 
 }
