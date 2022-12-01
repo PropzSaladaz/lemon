@@ -100,12 +100,16 @@ export default {
     },
 
     createUser(_email, _password, _type) {
-        apiClient.post("/user/signup/_signup" + 
+        apiClient.post("/user/signup/_signup",
             JSON.stringify({
                 email: _email,
                 password: _password,
                 type: _type,
             })
         );
-    }
+    },
+    
+    isRegistered(_email) {
+        return apiClient.get("/user/lookup/" + _email);
+    },
 }

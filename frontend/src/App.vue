@@ -116,7 +116,7 @@ export default {
       }
     },
     onSignup(event) {
-      if (!ApplicationService.isRegistered(event.email) && event.password == event.passwordRep) {
+      if ((ApplicationService.isRegistered(event.email).id != null) && event.password == event.passwordRep) {
         alert(`Account already exists with email ${event.email}`);
         this.invalidAccount = true;
       }

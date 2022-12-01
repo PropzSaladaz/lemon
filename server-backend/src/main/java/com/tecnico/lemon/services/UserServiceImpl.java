@@ -2,6 +2,8 @@ package com.tecnico.lemon.services;
 import com.tecnico.lemon.contract.*;
 import org.springframework.stereotype.Service;
 
+import com.tecnico.lemon.dtos.UserInfoDto;
+
 import com.tecnico.lemon.database.DataBase;
 import com.tecnico.lemon.models.user.UserForm;
 
@@ -14,5 +16,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void signupUser(UserForm userForm) {
         dBase.createUser(userForm);
+    }
+
+    @Override
+    public UserInfoDto lookupUser(String email) {
+        return dBase.lookupUser(email);
     }
 }
