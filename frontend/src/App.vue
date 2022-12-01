@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import DatabaseService from '@/service/DatabaseService.js'
+import ApplicationService from '@/service/ApplicationService.js'
 
 export default {
   name: 'App',
@@ -90,14 +90,14 @@ export default {
       return this.email != '';
     },
     gotoLogin() {
-      this.$router.push('/home/login');
+      this.$router.push('/user/login');
     },
     gotoSignup() {
-      this.$router.push('/home/signup');
+      this.$router.push('/user/signup');
     },
 
     onLogin(event) {
-      var result = DatabaseService.validateLogin(event.email, event.password, event.employer);
+      var result = ApplicationService.validateLogin(event.email, event.password, event.employer);
       if ( result == "Employer") {
         this.isEmployee = true;
         this.isCustomer = false;
@@ -116,12 +116,12 @@ export default {
       }
     },
     onSignup(event) {
-      if (!DatabaseService.isRegistered(event.email) && event.password == event.passwordRep) {
+      if (!ApplicationService.isRegistered(event.email) && event.password == event.passwordRep) {
         alert(`Account already exists with email ${event.email}`);
         this.invalidAccount = true;
       }
       else {
-        DatabaseService.createUser(event.email, event.password, event.employer);
+        ApplicationService.createUser(event.email, event.password, event.employer);
         // TODO: goto other page
       }
     },

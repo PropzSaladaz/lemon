@@ -36,10 +36,10 @@ public class VehicleController {
         vehicleService.unlockVehicle(id);
     }
 
+}
     /*@GetMapping(value="/get/{id}")
     public VehicleDto getVehicle(@PathVariable("id") int id) {
        return vehicleService.getVehicle(id);*/
-    }
 
      /*@PutMapping (value="/bike/{loc}")
     public void createBike(@PathVariable("loc") String loc) {

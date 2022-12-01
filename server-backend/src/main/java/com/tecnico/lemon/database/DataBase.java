@@ -1,22 +1,36 @@
 package com.tecnico.lemon.database;
 
 import com.tecnico.lemon.dtos.VehicleDto;
-import com.tecnico.lemon.services.VehicleServiceFrontend;
+import com.tecnico.lemon.models.vehicle.Bike;
+import com.tecnico.lemon.models.vehicle.Scooter;
+import com.tecnico.lemon.models.vehicle.Vehicle;
+import com.tecnico.lemon.models.user.UserForm;
 
-import java.util.ArrayList;
-import java.util.List;
+import lombok.Builder;
+import lombok.Data;
+
+import java.util.*;
 
 
 
 public class DataBase {
 
-    VehicleServiceFrontend vehicleFront;
-    public DataBase(){
-        vehicleFront =  new VehicleServiceFrontend();
+    VehicleTableServiceFrontend vehicleFrontend;
+    UserTableServiceFrontend usersFrontend;
+    int user_id;
+
+    public DataBase() {
+        vehicleFrontend = new VehicleTableServiceFrontend();
+        usersFrontend = new UserTableServiceFrontend();
+        user_id = 0;
+    }
+
+    public void createUser(UserForm userForm) {
+        usersFrontend.createUser(userForm, user_id++);
     }
 
     public List<VehicleDto> getAvailableVehicles() {
-        List<VehicleDto> list = vehicleFront.getVehicles();
+        List<VehicleDto> list = vehicleFrontend.getVehicles();
         List<VehicleDto> listFinal = new ArrayList<VehicleDto>();
         for (VehicleDto vehicle : list) {
             if(!vehicle.getLocked()){
@@ -27,7 +41,7 @@ public class DataBase {
     }
 
     public List<VehicleDto> getLockedVehicles() {
-        List<VehicleDto> list = vehicleFront.getVehicles();
+        List<VehicleDto> list = vehicleFrontend.getVehicles();
         List<VehicleDto> listFinal = new ArrayList<VehicleDto>();
         for (VehicleDto vehicle : list) {
             if(vehicle.getLocked()){
@@ -38,38 +52,10 @@ public class DataBase {
     }
 
     public void lockVehicle(int id){
-        vehicleFront.lockVehicle(id);
+        vehicleFrontend.lockVehicle(id);
     }
 
     public void unlockVehicle(int id){
-        vehicleFront.unlockVehicle(id);
+        vehicleFrontend.unlockVehicle(id);
     }
-
-    /*
-    public void createScooter(String location){
-        _hm.put(_id,new Scooter(_id,location));
-        incrementID();
-    }
-
-    public void createBike(String location){
-        _hm.put(_id,new Bike(_id,location));
-        incrementID();
-    }
-
-    public void removeVehicle(int id){
-        _hm.remove(id);
-    }
-
-    public void lockVehicle(int id){
-        _hm.get(id).lockVehicle();
-    }
-
-    public void unlockVehicle(int id){
-        _hm.get(id).unlockVehicle();
-    }
-
-    public void payVehicle(int id){
-        _hm.get(id).payVehicle();
-    }*/
-
 }

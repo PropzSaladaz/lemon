@@ -7,10 +7,10 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 public class DatabaseManagerImpl implements DatabaseManager {
-  private static final String database_name = "postgres";
+  private static final String database_name = "sirsdb";
   private static final String hostname = "localhost";
   private static final String port = "5432";
-  private static final String username = "sirsadmin";
+  private static final String username = "sirsdb_manager";
   private static final String password = "1234";
 
   private static Connection conn;

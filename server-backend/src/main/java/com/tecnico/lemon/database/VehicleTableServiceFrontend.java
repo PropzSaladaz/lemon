@@ -1,6 +1,10 @@
-package com.tecnico.lemon.services;
+package com.tecnico.lemon.database;
+import com.tecnico.lemon.contract.*;
+import com.tecnico.lemon.database.DataBase;
+import com.tecnico.lemon.dtos.VehicleDto;
+import com.tecnico.lemon.models.vehicle.Vehicle;
 
-import com.tecnico.lemon.contract.VehicleServiceGrpc;
+import com.tecnico.lemon.contract.VehicleTableServiceGrpc;
 import com.tecnico.lemon.dtos.VehicleDto;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -8,20 +12,17 @@ import io.grpc.ManagedChannelBuilder;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.tecnico.lemon.contract.VehicleServiceOuterClass.*;
+import static com.tecnico.lemon.contract.VehicleTableServiceOuterClass.*;
 
-
-public class VehicleServiceFrontend {
+public class VehicleTableServiceFrontend {
 
     private final String target = "localhost:8080";
     private final ManagedChannel channel;
-    private final VehicleServiceGrpc.VehicleServiceBlockingStub stub;
+    private final VehicleTableServiceGrpc.VehicleTableServiceBlockingStub stub;
 
-    public VehicleServiceFrontend() {
-
+    public VehicleTableServiceFrontend() {
         channel = ManagedChannelBuilder.forTarget(target).usePlaintext().build();
-        stub =  VehicleServiceGrpc.newBlockingStub(channel);
-
+        stub =  VehicleTableServiceGrpc.newBlockingStub(channel);
     }
 
     public List<VehicleDto> getVehicles() {
@@ -47,9 +48,4 @@ public class VehicleServiceFrontend {
         UnlockVehicleResp resp =  stub.unlockVehicle(request);
 
     }
-
-
-
-
-
 }

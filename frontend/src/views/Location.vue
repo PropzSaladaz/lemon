@@ -3,7 +3,7 @@
 </template>
   
 <script>
-import DatabaseService from '@/service/DatabaseService.js'
+import ApplicationService from '@/service/ApplicationService.js'
   
 export default {
     name: 'HomeView',
@@ -18,7 +18,7 @@ export default {
     methods: {
         requestReservation(id) {
             console.log("aqui");
-            DatabaseService.requestReservation(id)
+            ApplicationService.requestReservation(id)
             .then((response) => {
                 this.getVehicles();
             })
@@ -28,7 +28,7 @@ export default {
         },
 
         getVehicles() {
-            DatabaseService.getLockedVehicles()
+            ApplicationService.getLockedVehicles()
             .then((response) => {
                 this.vehicles = response.data;
             })

@@ -1,6 +1,6 @@
 package com.tecnico.lemon.dtos;
 
-import com.tecnico.lemon.contract.VehicleServiceOuterClass;
+import com.tecnico.lemon.contract.VehicleTableServiceOuterClass;
 import com.tecnico.lemon.models.vehicle.Vehicle;
 
 public class VehicleDto {
@@ -18,7 +18,7 @@ public class VehicleDto {
         locked = vehicle.getLocked();
     }
 
-    public VehicleDto(VehicleServiceOuterClass.Vehicle vehicle) {
+    public VehicleDto(VehicleTableServiceOuterClass.Vehicle vehicle) {
         id = vehicle.getId();
         location = vehicle.getLocation();
         title = vehicle.getDescription();

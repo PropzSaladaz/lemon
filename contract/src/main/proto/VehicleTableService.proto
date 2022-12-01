@@ -33,10 +33,8 @@ message Vehicle {
   int32 price = 5;
 }
 
-service VehicleService {
+service VehicleTableService {
   rpc getVehicles(VehiclesReq) returns (VehiclesResp);
   rpc lockVehicle(LockVehicleReq) returns (LockVehicleResp);
   rpc unlockVehicle(UnlockVehicleReq) returns (UnlockVehicleResp);
-
-
 }

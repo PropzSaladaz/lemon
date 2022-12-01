@@ -1,4 +1,5 @@
 package com.tecnico.lemon.services;
+import com.tecnico.lemon.contract.*;
 
 import com.tecnico.lemon.database.DataBase;
 import com.tecnico.lemon.dtos.VehicleDto;
@@ -31,31 +32,4 @@ public class VehicleServiceImpl implements VehicleService{
     public void unlockVehicle(int id){
         dBase.unlockVehicle(id);
     }
-
-    /*@Override
-    public VehicleDto getVehicle(int id) {
-        return new VehicleDto(dBase.get_hm().get(id));
-    }*/
-
-    /*@Override
-    public void createScooter(String location) {
-        dBase.createScooter(location);
-    }*/
-
-    /*@Override
-    public void createBike(String location) {
-        dBase.createBike(location);
-    }
-      @Override
-    public void payVehicle(int id){
-        dBase.payVehicle(id);
-    }
-
-    @Override
-    public void removeVehicle(int id){
-        dBase.removeVehicle(id);
-    }*/
-
-
-
 }

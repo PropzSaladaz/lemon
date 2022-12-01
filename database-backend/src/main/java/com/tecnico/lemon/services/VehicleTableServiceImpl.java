@@ -1,6 +1,6 @@
 package com.tecnico.lemon.services;
 
-import com.tecnico.lemon.contract.VehicleServiceGrpc;
+import com.tecnico.lemon.contract.VehicleTableServiceGrpc;
 import com.tecnico.lemon.database.DatabaseManager;
 import com.tecnico.lemon.database.Queries;
 import com.tecnico.lemon.database.Tables;
@@ -9,12 +9,12 @@ import io.grpc.stub.StreamObserver;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static com.tecnico.lemon.contract.VehicleServiceOuterClass.*;
+import static com.tecnico.lemon.contract.VehicleTableServiceOuterClass.*;
 
-public class VehicleServiceImpl extends VehicleServiceGrpc.VehicleServiceImplBase {
+public class VehicleTableServiceImpl extends VehicleTableServiceGrpc.VehicleTableServiceImplBase {
     DatabaseManager _db;
 
-    public VehicleServiceImpl(DatabaseManager dbInterface) {
+    public VehicleTableServiceImpl(DatabaseManager dbInterface) {
         _db = dbInterface;
     }
 
