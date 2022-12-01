@@ -22,12 +22,12 @@ public class VehicleTableServiceImpl extends VehicleTableServiceGrpc.VehicleTabl
     public void getVehicles(VehiclesReq request, StreamObserver<VehiclesResp> responseObserver) {
         VehiclesResp.Builder resp = VehiclesResp.newBuilder();
         try{
-            ResultSet res = _db.executeQuery(Queries.SELECT_ALL_FROM_USERS);
+            ResultSet res = _db.executeQuery(Queries.SELECT_ALL_FROM_VEHICLES);
             while(res.next()) {
                     Vehicle v = Vehicle.newBuilder()
                             .setDescription(res.getString(Tables.Vehicle.DESCRIPTION))
                             .setPrice(res.getInt(Tables.Vehicle.PRICE))
-                            .setLocation(Tables.Vehicle.LOCALIZATION)
+                            .setLocation(res.getString(Tables.Vehicle.LOCALIZATION))
                             .setLocked(res.getBoolean(Tables.Vehicle.LOCKED))
                             .setId(res.getInt(Tables.Vehicle.ID))
                             .build();

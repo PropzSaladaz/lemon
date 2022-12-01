@@ -52,7 +52,7 @@ export default {
             ApplicationService.getLockedVehicles()
             .then((response) => {
                 this.vehicles = response.data;
-                
+                console.log(this.vehicles);
             })
             .catch((error) => {
                 console.log(error);

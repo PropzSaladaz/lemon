@@ -8,10 +8,12 @@ import io.grpc.BindableService;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 
+import java.io.IOException;
+
 public class LemonDatabaseServer {
 
-    private static final int port = 8080;
-    public static void main( String[] args ) throws InterruptedException {
+    private static final int port = 8082;
+    public static void main( String[] args ) throws InterruptedException, IOException {
         System.out.println( "Starting Lemon Database server..." );
         Server server;
         DatabaseManager db = new DatabaseManagerImpl();
@@ -23,6 +25,8 @@ public class LemonDatabaseServer {
         server = ServerBuilder.forPort(port)
                 .addService(vehicleService)
                 .build();
+
+        server.start();
 
         Thread closeState = new Thread(db::close);
         Runtime.getRuntime().addShutdownHook(closeState);
