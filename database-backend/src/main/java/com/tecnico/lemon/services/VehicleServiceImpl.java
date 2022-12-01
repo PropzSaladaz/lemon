@@ -13,7 +13,7 @@ public class VehicleServiceImpl extends VehicleServiceGrpc.VehicleServiceImplBas
     }
     @Override
     public void getAvailableVehicles(AvailableVehiclesReq request, StreamObserver<AvailableVehiclesResp> responseObserver) {
-        String query = "SELECT id, description, price FROM "
+        String query = "SELECT id, description, price FROM ";
 //        responseObserver.onNext();
     }
 
