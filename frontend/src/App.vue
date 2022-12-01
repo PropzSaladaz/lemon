@@ -17,14 +17,18 @@
         <div>
 
         </div>
-        <a class="navbar-item">
+        <a class="navbar-item" @click="$router.push('/')">
           Home
         </a>
 
-        <a class="navbar-item" @click="$router.push('/vehicles')">
+        <a class="navbar-item" @click="$router.push('/vehicles')" v-if="(isCustomer === true && isEmployee === false && loggedIn() )">
           Vehicles
         </a>
 
+        <a class="navbar-item"  @click="$router.push('/localization')" v-if="(isEmployee === true && isCustomer === false && loggedIn())">
+          Localization
+        </a>
+        
         <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link">
             More
@@ -86,6 +90,9 @@ export default {
       loginFormVisible: false,
       signUpFromVisible: false,
       invalidAccount: false,
+      isEmployee: false,
+      isCustomer:false,
+
     }
   },
   methods: {
@@ -100,7 +107,15 @@ export default {
     },
 
     onLogin(event) {
-      if (DatabaseService.validateLogin(event.email, event.password)) {
+      var result = DatabaseService.validateLogin(event.email, event.password,event.employer);
+      if ( result == "Employer") {
+        this.isEmployee = true;
+        this.isCustomer = false;
+        this.email = event.email;
+        this.loginFormVisible = false;
+      }else if(result == "Customer"){
+        this.isCustomer = true;
+        this.isEmployee = false;
         this.email = event.email;
         this.loginFormVisible = false;
       }

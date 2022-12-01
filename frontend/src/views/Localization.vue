@@ -1,20 +1,24 @@
 <template>
      <div class="container is-max-desktop table-container">
         <table class="table is-hoverable is-fullwidth">
-            <thead>
+        
                 <tr>
                     <th>Vehicle</th>
                     <th>Price</th>
-                    <th></th>
+                    <th>Location</th>
                 </tr>
-            </thead>
-            <tbody>
+            
+        
                 <tr v-for="vehicle in vehicles" key="vehicle.id">
-                    <th class="normal-text"> {{ vehicle.title }} </th>
-                    <th class="normal-text"> {{ vehicle.price }} </th>
-                    <th class="button-column flex" > <button class="button is-primary is-outlined" @click="requestReservation(vehicle.id)">Make Reservation</button> </th>
+                    <td>  {{ vehicle.title }} </td>
+                    <td>  {{ vehicle.price }} </td>
+                    <td><p>
+                        <iframe :src="vehicle.location"
+                        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </p>
+                    </td>   
                 </tr>
-            </tbody>
+            
         </table>
     </div>
 </template>
@@ -45,9 +49,10 @@ export default {
         },
 
         getVehicles() {
-            DatabaseService.getAvailableVehicles()
+            DatabaseService.getLockedVehicles()
             .then((response) => {
                 this.vehicles = response.data;
+                
             })
             .catch((error) => {
                 console.log(error);

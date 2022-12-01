@@ -30,6 +30,21 @@ public class VehicleServiceImpl implements VehicleService{
         return vehicles;
 
     }
+    @Override
+    public List<VehicleDto> getLockedVehicles() {
+        Vehicle vec;
+        List<VehicleDto> vehicles = new ArrayList<VehicleDto>();
+        Map<Integer, Vehicle> map = dBase.get_hm();
+        for (Map.Entry<Integer,Vehicle> entry : map.entrySet()){
+            vec = entry.getValue();
+            if (!vec.isFree()) {
+                vehicles.add(new VehicleDto(entry.getValue()));
+            }
+        }
+        return vehicles;
+
+    }
+
 
     @Override
     public VehicleDto getVehicle(int id) {

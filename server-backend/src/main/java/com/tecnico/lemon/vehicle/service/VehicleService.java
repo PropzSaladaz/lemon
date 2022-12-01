@@ -17,6 +17,8 @@ public interface VehicleService {
 
     List<VehicleDto> getAvailableVehicles();
 
+    List<VehicleDto> getLockedVehicles();
+
     void removeVehicle(int id);
     void lockVehicle(int id);
     void unlockVehicle(int id);

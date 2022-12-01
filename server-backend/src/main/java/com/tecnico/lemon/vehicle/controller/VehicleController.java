@@ -17,8 +17,13 @@ public class VehicleController {
     VehicleService vehicleService;
 
     @GetMapping()
-    public List<VehicleDto> getVehicles() {
+    public List<VehicleDto> getAvailableVehicles() {
         return vehicleService.getAvailableVehicles();
+    }
+
+    @GetMapping(value="/locked")
+    public List<VehicleDto> getLockedVehicles() {
+        return vehicleService.getLockedVehicles();
     }
 
     @GetMapping(value="/get/{id}")
@@ -51,6 +56,8 @@ public class VehicleController {
     public void unlockVehicle(@PathVariable("id") int id) {
         vehicleService.unlockVehicle(id);
     }
+
+
 
 //    @PutMapping (value="/pay/{id}")
 //    public void payVehicle(@PathVariable("id") int id) {

@@ -77,6 +77,7 @@ export default {
             let employer = this.employer;
             console.log();
             this.resetInputs();
+            console.log(employer)
             this.$emit('login', { email: email, password: password, employer: employer});
         },
         onSelectUserType: function(event) {

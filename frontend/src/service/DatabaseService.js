@@ -2,6 +2,8 @@ import axios from "axios";
 
 const serverHostname = "http://localhost:8080/";
 
+
+
 const users = [
     {
         email: "admin@gmail.com",
@@ -54,14 +56,19 @@ export default {
         }
         return false;
     },
-    validateLogin(email, password) {
+    validateLogin(email, password, employer) {
         for (var user of users) {
-            if ((user.email == email) && (user.password == password)) {
+            console.log(employer)
+            if ((user.email == email) && (user.password == password) && (user.employer == employer)) {
                 console.log("here");
-                return true ;
+                if (user.type == "Employer"){
+                    console.log(user.type);
+                    return "Employer" ;
+                }
+                else return "Customer"
             }
         }
-        return false;
+        return "";
     },
     getUserType(email) {
         for (var user of users) {
@@ -69,11 +76,17 @@ export default {
         }
     },
 
-    getVehicles() {
+    getAvailableVehicles() {
         return apiClient.get("/vehicle");
+    },
+
+    getLockedVehicles() {
+        return apiClient.get("/vehicle/locked");
     },
 
     requestReservation(id){
         return apiClient.post("/vehicle/lock/" + id);
     }
+
+
 }

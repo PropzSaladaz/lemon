@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeLoggedIn from '../views/HomeLoggedIn.vue'
 import Vehicles from '../views/Vehicles.vue'
+import Localization from '../views/Localization.vue'
+import Location from '../views/Location.vue'
 
 const routes = [
   {
@@ -21,6 +23,19 @@ const routes = [
     path: '/vehicles',
     name: 'vehicles',
     component: Vehicles,
+    props: true,
+  },
+  {
+    path: '/localization',
+    name: 'localization',
+    component: Localization,
+    props: true,
+  },
+
+  {
+    path: '/location',
+    name: 'location',
+    component: Location,
     props: true,
   },
 ]
