@@ -12,4 +12,20 @@ Lemon's employees also have an internal app to pick up wrongly parked vehicles, 
 Skeleton: https://github.com/akmolina28/mvc5-vuejs-template
 
 
-Build commands
+# Build commands
+
+### Launch Database server
+```
+mvn exec:java -Dexec.mainClass="com.tecnico.lemon.LemonDatabaseServer" -Dexec.args=""
+```
+
+### Launch Backend server
+```
+mvn spring-boot:run
+```
+
+### Launch frontend
+```
+npm install
+npm run serve
+```

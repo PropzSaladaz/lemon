@@ -13,7 +13,7 @@ import static com.tecnico.lemon.contract.VehicleServiceOuterClass.*;
 
 public class VehicleServiceFrontend {
 
-    private final String target = "localhost:";
+    private final String target = "localhost:8080";
     private final ManagedChannel channel;
     private final VehicleServiceGrpc.VehicleServiceBlockingStub stub;
 
