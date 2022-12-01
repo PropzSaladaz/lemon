@@ -1,3 +1,25 @@
 syntax = "proto3";
 package com.tecnico.lemon.contract;
+import "ResponseCode.proto";
 
+message UserReq {
+  string email = 1;
+}
+
+message UserResp {
+  string password = 1;
+}
+
+message CreateUserReq {
+  string email = 1;
+  string password = 2;
+}
+
+message CreateUserResp {
+  ResponseCode operationCode = 1;
+}
+
+service UserService {
+  rpc getUser(UserReq) returns (UserResp);
+  rpc createUser(CreateUserReq) returns (CreateUserResp);
+}

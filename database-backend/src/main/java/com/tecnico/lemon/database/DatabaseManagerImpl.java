@@ -3,10 +3,11 @@ package com.tecnico.lemon.database;
 import org.postgresql.Driver;
 
 import java.sql.*;
+import java.util.Objects;
 
 public class DatabaseManagerImpl implements DatabaseManager {
 
-  private static final String database = "postgres";
+  private static final String database = "sirsdb";
   private static final String hostname = "localhost";
   private static final String username = "sirsdb_manager";
   private static final String password = "1234";
@@ -27,14 +28,37 @@ public class DatabaseManagerImpl implements DatabaseManager {
   }
 
   @Override
+  public void populate() {
+    executeQuery(Queries.insertUser("admin@gmail.com", "1234", "Employer"));
+    executeQuery(Queries.insertUser("cust@gmail.com", "1234", "Customer"));
+    executeQuery(Queries.insertVehicle(1, 200, "baba", "Scooter"));
+    executeQuery(Queries.insertVehicle(2, 15, "bobo", "Bike"));
+  }
+  @Override
+  public void buildSchema(){
+    clean();
+    System.out.println(Queries.CREATE_TABLE_VEHICLES);
+    executeQuery(Queries.CREATE_TABLE_USERS);
+    executeQuery(Queries.CREATE_TABLE_VEHICLES);
+//    populate();
+  }
+
+  @Override
   public ResultSet executeQuery(String query) {
     try (Statement stmt = conn.createStatement()) {
+      System.out.println(query);
       return stmt.executeQuery(query);
     } catch (SQLException e) {
-      e.printStackTrace();
-      System.exit(0);
+      if (!Objects.equals(e.getMessage(), "No results were returned by the query."))
+        e.printStackTrace();
     }
     return null;
+  }
+
+  @Override
+  public void clean() {
+    executeQuery(Queries.DROP_TABLE_USERS);
+    executeQuery(Queries.DROP_TABLE_VEHICLES);
   }
 
   @Override
