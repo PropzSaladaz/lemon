@@ -8,11 +8,17 @@ public class VehicleDto {
     public String location;
     public String title;
     public int price;
+    public Boolean locked;
 
     public VehicleDto(Vehicle vehicle) {
         id = vehicle.getId();
         location = vehicle.getLocation();
         title = vehicle.getTitle();
         price = vehicle.getPrice();
+        locked = vehicle.getLocked();
+    }
+
+    public Boolean getLocked(){
+        return locked;
     }
 }

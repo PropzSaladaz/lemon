@@ -15,68 +15,52 @@ public class VehicleServiceImpl implements VehicleService{
 
     private DataBase dBase = new DataBase();
 
-
     @Override
     public List<VehicleDto> getAvailableVehicles() {
-        Vehicle vec;
-        List<VehicleDto> vehicles = new ArrayList<VehicleDto>();
-        Map<Integer, Vehicle> map = dBase.get_hm();
-        for (Map.Entry<Integer,Vehicle> entry : map.entrySet()){
-            vec = entry.getValue();
-            if (vec.isFree()) {
-                vehicles.add(new VehicleDto(entry.getValue()));
-            }
-        }
-        return vehicles;
+        return dBase.getAvailableVehicles();
+
 
     }
     @Override
     public List<VehicleDto> getLockedVehicles() {
-        Vehicle vec;
-        List<VehicleDto> vehicles = new ArrayList<VehicleDto>();
-        Map<Integer, Vehicle> map = dBase.get_hm();
-        for (Map.Entry<Integer,Vehicle> entry : map.entrySet()){
-            vec = entry.getValue();
-            if (!vec.isFree()) {
-                vehicles.add(new VehicleDto(entry.getValue()));
-            }
-        }
-        return vehicles;
+        return dBase.getLockedVehicles();
 
     }
 
-
     @Override
+    public void lockVehicle(int id){
+        /*List<VehicleDto> lista = dBase.getAvailableVehicles();
+        for ()*/
+    }
+    @Override
+    public void unlockVehicle(int id){
+        //dBase.unlockVehicle(id);
+    }
+
+    /*@Override
     public VehicleDto getVehicle(int id) {
         return new VehicleDto(dBase.get_hm().get(id));
-    }
+    }*/
 
-    @Override
+    /*@Override
     public void createScooter(String location) {
         dBase.createScooter(location);
-    }
+    }*/
 
-    @Override
+    /*@Override
     public void createBike(String location) {
         dBase.createBike(location);
+    }
+      @Override
+    public void payVehicle(int id){
+        dBase.payVehicle(id);
     }
 
     @Override
     public void removeVehicle(int id){
         dBase.removeVehicle(id);
-    }
-    @Override
-    public void lockVehicle(int id){
-        dBase.lockVehicle(id);
-    }
-    @Override
-    public void unlockVehicle(int id){
-        dBase.unlockVehicle(id);
-    }
-    @Override
-    public void payVehicle(int id){
-        dBase.payVehicle(id);
-    }
+    }*/
+
 
 
 }
