@@ -5,7 +5,6 @@ import SignupForm from '../components/SignupForm.vue'
 import Vehicles from '../views/Vehicles.vue'
 import Localization from '../views/Localization.vue'
 import Reservation from '../views/Reservation.vue'
-import Location from '../views/Location.vue'
 
 const routes = [
   {
@@ -27,27 +26,19 @@ const routes = [
     props: true,  
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  },
-  {
-    path: '/vehicles',
+    path: '/user/vehicles',
     name: 'vehicles',
     component: Vehicles,
     props: true,
   },
   {
-    path: '/localization',
+    path: '/user/localization',
     name: 'localization',
     component: Localization,
     props: true,
   },
   {
-    path: '/reservation',
+    path: '/user/reservation',
     name: 'reservation',
     component: Reservation,
     props: true,
@@ -55,11 +46,14 @@ const routes = [
 
 
   {
-    path: '/location',
-    name: 'location',
-    component: Location,
-    props: true,
+    path: '/about',
+    name: 'about',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
   },
+  
 ]
 
 const router = createRouter({

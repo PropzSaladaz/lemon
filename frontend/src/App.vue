@@ -21,15 +21,15 @@
           Home
         </a>
 
-        <a class="navbar-item" @click="$router.push('/vehicles')" v-if="(isCustomer === true && isEmployee === false && loggedIn() )">
+        <a class="navbar-item" @click="$router.push('/user/vehicles')" v-if="(isCustomer === true && isEmployee === false && loggedIn() )">
           Vehicles
         </a>
 
-        <a class="navbar-item"  @click="$router.push('/localization')" v-if="(isEmployee === true && isCustomer === false && loggedIn())">
+        <a class="navbar-item"  @click="$router.push('/user/localization')" v-if="(isEmployee === true && isCustomer === false && loggedIn())">
           Localization
         </a>
 
-        <a class="navbar-item" @click="$router.push('/reservation')" v-if="(isCustomer === true && isEmployee === false && loggedIn() )">
+        <a class="navbar-item" @click="$router.push('/user/reservation')" v-if="(isCustomer === true && isEmployee === false && loggedIn() )">
           My Reservations
         </a>
 
@@ -100,6 +100,7 @@ export default {
     gotoSignup() {
       this.$router.push('/user/signup');
     },
+  
 
     onLogin(event) {
       var result = ApplicationService.validateLogin(event.email, event.password, event.employer);
@@ -107,12 +108,12 @@ export default {
         this.isEmployee = true;
         this.isCustomer = false;
         this.email = event.email;
-        // TODO: goto other page
+        this.$router.push('/user/localization')
       }else if(result == "Customer"){
         this.isCustomer = true;
         this.isEmployee = false;
         this.email = event.email;
-        // TODO: goto other page
+        this.$router.push('/user/reservation');
       }
       else {
         console.log(event.email, event.password);
