@@ -55,7 +55,7 @@
       <div class="navbar-end" v-if="!loggedIn()">
         <div class="navbar-item">
           <div class="buttons">
-            <a class="button is-primary">
+            <a class="button is-primary" @click="showSignUpPage">
               <strong>Sign up</strong>
             </a>
             <a class="button is-light" @click="showLoginForm">
@@ -69,6 +69,7 @@
 
   <WelcomePage v-if="showWelcomePage"/>
   <LoginForm v-else-if="loginFormVisible" @login="onLogin" :invalidAccount="invalidAccount"/>
+  <SignupForm v-else-if="signUpFromVisible" @login="onSignup" :invalidAccount="invalidAccount"/>
   <router-view v-else/>
 
 </template>
@@ -76,12 +77,14 @@
 <script>
 import WelcomePage from '@/views/WelcomePage.vue'
 import LoginForm from '@/components/LoginForm.vue'
+import SignupForm from '@/components/SignupForm.vue'
 import DatabaseService from '@/service/DatabaseService.js'
 
 export default {
   name: 'App',
   components: {
     LoginForm,
+    SignupForm,
     WelcomePage,
   },
   data() {
@@ -107,7 +110,7 @@ export default {
     },
 
     onLogin(event) {
-      var result = DatabaseService.validateLogin(event.email, event.password,event.employer);
+      var result = DatabaseService.validateLogin(event.email, event.password, event.employer);
       if ( result == "Employer") {
         this.isEmployee = true;
         this.isCustomer = false;
@@ -124,7 +127,16 @@ export default {
         this.invalidAccount = true;
         alert("Account doesn't exist");
       }
-
+    },
+    onSignup(event) {
+      if (!DatabaseService.isRegistered(event.email) && event.password == event.passwordRep) {
+        alert(`Account already exists with email ${event.email}`);
+        this.invalidAccount = true;
+      }
+      else {
+        DatabaseService.createUser(event.email, event.password, event.employer);
+        this.signUpFromVisible = false;
+      }
     },
     hideForms() {
       this.loginFormVisible = false;

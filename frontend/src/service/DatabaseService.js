@@ -2,15 +2,17 @@ import axios from "axios";
 
 const serverHostname = "http://localhost:8080/";
 
-
+let user_id = 0;
 
 const users = [
     {
+        id: 0,
         email: "admin@gmail.com",
         password: "1234",
         type: "Employer",
     },
     {
+        id: 1,
         email: "cust@gmail.com",
         password: "1234",
         type: "Customer",
@@ -70,6 +72,15 @@ export default {
         }
         return "";
     },
+    isRegistered(email) {
+        for (var user of users) {
+            console.log(employer)
+            if (user.email == email) {
+                return false;
+            }
+        }
+        return true;
+    },
     getUserType(email) {
         for (var user of users) {
             if (user.email === email) return user.type;
@@ -86,7 +97,16 @@ export default {
 
     requestReservation(id){
         return apiClient.post("/vehicle/lock/" + id);
+    },
+
+    createUser(_email, _password, _type) {
+        apiClient.post("/users/" + 
+            JSON.stringify({
+                id: user_id++,
+                email: _email,
+                password: _password,
+                type: _type,
+            })
+        );
     }
-
-
 }

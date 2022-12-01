@@ -1,8 +1,12 @@
 package com.tecnico.lemon.services;
 import com.tecnico.lemon.contract.*;
+
 import com.tecnico.lemon.database.DatabaseManager;
 import com.tecnico.lemon.database.Queries;
 import com.tecnico.lemon.database.Tables;
+
+import com.tecnico.lemon.database.DatabaseManager;
+
 import io.grpc.stub.StreamObserver;
 
 import java.sql.ResultSet;
@@ -12,12 +16,13 @@ import java.util.List;
 
 import static com.tecnico.lemon.contract.VehicleServiceOuterClass.*;
 
-public class VehicleServiceImpl extends VehicleServiceGrpc.VehicleServiceImplBase{
+public class VehicleServiceImpl extends VehicleServiceGrpc.VehicleServiceImplBase {
     DatabaseManager _db;
 
-    public VehicleServiceImpl(DatabaseManager db) {
-        _db = db;
+    public VehicleServiceImpl(DatabaseManager dbInterface) {
+        _db = dbInterface;
     }
+
     @Override
     public void getAvailableVehicles(AvailableVehiclesReq request, StreamObserver<AvailableVehiclesResp> responseObserver) {
         AvailableVehiclesResp.Builder resp = AvailableVehiclesResp.newBuilder();

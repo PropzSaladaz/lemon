@@ -7,20 +7,21 @@ import java.util.Objects;
 
 public class DatabaseManagerImpl implements DatabaseManager {
 
-  private static final String database = "sirsdb";
+
+  private static final String database_name = "sirsdb";
   private static final String hostname = "localhost";
+  private static final String port = "5432";
   private static final String username = "sirsdb_manager";
   private static final String password = "1234";
-  private static final String port = "5432";
 
   private static Connection conn;
 
   public DatabaseManagerImpl() {
 
-    String url = String.format("jdbc:postgresql://%s:%s/%s", hostname, port, database);
+    String db_url = String.format("jdbc:postgresql://%s:%s/%s", hostname, port, database_name);
     try {
       DriverManager.registerDriver(new Driver());
-      conn = DriverManager.getConnection(url, username, password);
+      conn = DriverManager.getConnection(db_url, username, password);
     } catch (Exception e) {
       System.err.println(e.getClass().getName() + ": " + e.getMessage());
       System.exit(0);

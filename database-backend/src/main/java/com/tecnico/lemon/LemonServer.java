@@ -9,6 +9,7 @@ import io.grpc.Server;
 import io.grpc.ServerBuilder;
 
 public class LemonServer {
+
     private static final int port = 8080;
     public static void main( String[] args ) throws InterruptedException {
         System.out.println( "Starting Lemon Database server..." );

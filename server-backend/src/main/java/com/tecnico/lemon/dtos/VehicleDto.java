@@ -1,7 +1,7 @@
-package com.tecnico.lemon.vehicle.dto;
+package com.tecnico.lemon.dtos;
 
-import com.tecnico.lemon.vehicle.model.IVehicle;
-import com.tecnico.lemon.vehicle.model.Vehicle;
+import com.tecnico.lemon.models.vehicle.IVehicle;
+import com.tecnico.lemon.models.vehicle.Vehicle;
 
 public class VehicleDto {
     public int id;

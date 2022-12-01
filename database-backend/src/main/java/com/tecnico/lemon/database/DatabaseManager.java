@@ -13,6 +13,4 @@ public interface DatabaseManager {
     ResultSet executeQuery(String query);
     void clean();
     void close();
-
-
 }

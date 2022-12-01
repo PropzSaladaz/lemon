@@ -1,9 +1,9 @@
-package com.tecnico.lemon.vehicle.service;
+package com.tecnico.lemon.services;
 
-import com.tecnico.lemon.vehicle.dataBase.DataBase;
-import com.tecnico.lemon.vehicle.dto.VehicleDto;
-import com.tecnico.lemon.vehicle.model.Scooter;
-import com.tecnico.lemon.vehicle.model.Vehicle;
+import com.tecnico.lemon.database.DataBase;
+import com.tecnico.lemon.dtos.VehicleDto;
+import com.tecnico.lemon.models.vehicle.Scooter;
+import com.tecnico.lemon.models.vehicle.Vehicle;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
