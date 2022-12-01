@@ -1,7 +1,4 @@
 package com.tecnico.lemon.models.vehicle;
-import lombok.*;
-
-
 
 public class Scooter extends Vehicle {
 

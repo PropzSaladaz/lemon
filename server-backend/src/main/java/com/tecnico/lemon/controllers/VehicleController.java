@@ -1,10 +1,8 @@
 package com.tecnico.lemon.controllers;
 
 import com.tecnico.lemon.dtos.VehicleDto;
-import com.tecnico.lemon.models.vehicle.Vehicle;
 import com.tecnico.lemon.services.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

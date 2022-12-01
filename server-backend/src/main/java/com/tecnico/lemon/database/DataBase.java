@@ -1,16 +1,10 @@
 package com.tecnico.lemon.database;
 
 import com.tecnico.lemon.dtos.VehicleDto;
-import com.tecnico.lemon.models.vehicle.Bike;
-import com.tecnico.lemon.models.vehicle.Scooter;
-import com.tecnico.lemon.models.vehicle.Vehicle;
 import com.tecnico.lemon.services.VehicleServiceFrontend;
 
-
-import lombok.Builder;
-import lombok.Data;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 

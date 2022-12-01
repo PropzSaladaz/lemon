@@ -1,17 +1,14 @@
 package com.tecnico.lemon.services;
-import com.tecnico.lemon.contract.*;
-import com.tecnico.lemon.database.DataBase;
-import com.tecnico.lemon.dtos.VehicleDto;
-import com.tecnico.lemon.models.vehicle.Vehicle;
 
-import org.springframework.stereotype.Service;
+import com.tecnico.lemon.contract.VehicleServiceGrpc;
+import com.tecnico.lemon.dtos.VehicleDto;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import io.grpc.*;
-import io.grpc.StatusRuntimeException;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.tecnico.lemon.contract.VehicleServiceOuterClass.*;
 
 
 public class VehicleServiceFrontend {
@@ -30,25 +27,24 @@ public class VehicleServiceFrontend {
     public List<VehicleDto> getVehicles() {
 
         VehiclesReq request = VehiclesReq.newBuilder().build();
-        VehiclesResp resp = stub.getVehicles(request).getVehilces();
-        List<VehicleDto> vehicles = resp.getVehiclesList().stream()
-                .map(s -> new VehicleDto(s.getVehicle))
+        VehiclesResp resp = stub.getVehicles(request);
+        return resp.getVehiclesList().stream()
+                .map(VehicleDto::new)
                 .collect(Collectors.toList());
-        return vehicles;
 
     }
 
     public void lockVehicle(int id) {
 
-        lockVehicleReq request = lockVehicleReq.newBuilder().setId(id).build();
-        stub.lockVehicle(request);
+        LockVehicleReq request = LockVehicleReq.newBuilder().setId(id).build();
+        LockVehicleResp resp =  stub.lockVehicle(request);
     }
 
 
     public void unlockVehicle(int id) {
 
-        unlockVehicleReq request = unlockVehicleReq.newBuilder().setId(id).build();
-        stub.unlockVehicle(request);
+        UnlockVehicleReq request = UnlockVehicleReq.newBuilder().setId(id).build();
+        UnlockVehicleResp resp =  stub.unlockVehicle(request);
 
     }
 

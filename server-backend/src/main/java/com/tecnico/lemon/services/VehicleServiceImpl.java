@@ -2,13 +2,9 @@ package com.tecnico.lemon.services;
 
 import com.tecnico.lemon.database.DataBase;
 import com.tecnico.lemon.dtos.VehicleDto;
-import com.tecnico.lemon.models.vehicle.Scooter;
-import com.tecnico.lemon.models.vehicle.Vehicle;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class VehicleServiceImpl implements VehicleService{

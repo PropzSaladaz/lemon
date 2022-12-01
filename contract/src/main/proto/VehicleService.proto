@@ -8,19 +8,19 @@ message VehiclesResp {
   repeated Vehicle vehicles = 1;
 }
 
-message lockVehicleReq {
+message LockVehicleReq {
   int32 id = 1;
 }
 
-message lockVehicleResp {
+message LockVehicleResp {
 
 }
 
-message unlockVehicleReq {
+message UnlockVehicleReq {
   int32 id = 1;
 }
 
-message unlockVehicleResp {
+message UnlockVehicleResp {
 
 }
 
@@ -35,8 +35,8 @@ message Vehicle {
 
 service VehicleService {
   rpc getVehicles(VehiclesReq) returns (VehiclesResp);
-  rpc lockVehicle(lockVehicleReq) returns (lockVehicleResp);
-  rpc unlockVehicle(unlockVehicleReq) returns (unlockVehicleResp);
+  rpc lockVehicle(LockVehicleReq) returns (LockVehicleResp);
+  rpc unlockVehicle(UnlockVehicleReq) returns (UnlockVehicleResp);
 
 
 }
