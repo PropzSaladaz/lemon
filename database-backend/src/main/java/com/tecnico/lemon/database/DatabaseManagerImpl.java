@@ -7,11 +7,10 @@ import java.util.Objects;
 
 public class DatabaseManagerImpl implements DatabaseManager {
 
-
-  private static final String database_name = "sirsdb";
+  private static final String database_name = "postgres";
   private static final String hostname = "localhost";
   private static final String port = "5432";
-  private static final String username = "sirsdb_manager";
+  private static final String username = "sirsadmin";
   private static final String password = "1234";
 
   private static Connection conn;
@@ -30,8 +29,8 @@ public class DatabaseManagerImpl implements DatabaseManager {
 
   @Override
   public void populate() {
-    executeQuery(Queries.insertUser("admin@gmail.com", "1234", "Employer"));
-    executeQuery(Queries.insertUser("cust@gmail.com", "1234", "Customer"));
+    executeQuery(Queries.insertUser(0, "admin@gmail.com", "1234", "Employer"));
+    executeQuery(Queries.insertUser(1, "cust@gmail.com", "1234", "Customer"));
     executeQuery(Queries.insertVehicle(1, 200, "baba", "Scooter"));
     executeQuery(Queries.insertVehicle(2, 15, "bobo", "Bike"));
   }

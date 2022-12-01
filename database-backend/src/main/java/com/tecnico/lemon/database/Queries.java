@@ -3,11 +3,13 @@ package com.tecnico.lemon.database;
 public class Queries {
     public static final String CREATE_TABLE_USERS =
             String.format("create table %s (" +
+            "%s integer unique, " +
             "%s varchar(60) unique, " +
             "%s char(64)," +
             "%s varchar(32)," +
             "primary key (%s))",
                     Tables.User.TABLE_NAME,
+                    Tables.User.ID,
                     Tables.User.EMAIL,
                     Tables.User.PASSWORD,
                     Tables.User.TYPE,
@@ -38,7 +40,7 @@ public class Queries {
     public static final String SELECT_ALL_FROM_VEHICLES = "select * from " + Tables.Vehicle.TABLE_NAME;
 
     public static String insertUser(String email, String password, String type) {
-        return String.format("insert into %s values ('%s', '%s', '%s')", Tables.User.TABLE_NAME, email, password, type);
+        return String.format("insert into %s values ('%s', '%s', '%s', '%s')", Tables.User.TABLE_NAME, id, email, password, type);
     }
 
     public static String insertVehicle(int id, int price, String localization, String description) {

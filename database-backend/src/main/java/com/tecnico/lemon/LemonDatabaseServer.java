@@ -8,7 +8,7 @@ import io.grpc.BindableService;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 
-public class LemonServer {
+public class LemonDatabaseServer {
 
     private static final int port = 8080;
     public static void main( String[] args ) throws InterruptedException {
