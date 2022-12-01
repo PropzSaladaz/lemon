@@ -1,0 +1,42 @@
+syntax = "proto3";
+package com.tecnico.lemon.contract;
+
+message VehiclesReq {
+}
+
+message VehiclesResp {
+  repeated Vehicle vehicles = 1;
+}
+
+message lockVehicleReq {
+  int32 id = 1;
+}
+
+message lockVehicleResp {
+
+}
+
+message unlockVehicleReq {
+  int32 id = 1;
+}
+
+message unlockVehicleResp {
+
+}
+
+
+message Vehicle {
+  int32 id = 1;
+  string description = 2;
+  string location =3;
+  bool locked = 4;
+  int32 price = 5;
+}
+
+service VehicleTableService {
+  rpc getVehicles(VehiclesReq) returns (VehiclesResp);
+  rpc lockVehicle(lockVehicleReq) returns (lockVehicleResp);
+  rpc unlockVehicle(unlockVehicleReq) returns (unlockVehicleResp);
+
+
+}

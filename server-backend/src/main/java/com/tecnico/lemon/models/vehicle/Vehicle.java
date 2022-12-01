@@ -41,6 +41,10 @@ public class Vehicle implements IVehicle{
         return _title;
     }
 
+    public Boolean getLocked(){
+        return _locked;
+    }
+
     public void unlockVehicle()
     {
         if (_locked) _locked = false;

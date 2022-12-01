@@ -3,7 +3,7 @@ import com.tecnico.lemon.contract.*;
 import org.springframework.stereotype.Service;
 
 import com.tecnico.lemon.database.DataBase;
-import com.tecnico.lemon.models.UserForm;
+import com.tecnico.lemon.models.user.UserForm;
 
 @Service
 public class UserServiceImpl implements UserService {

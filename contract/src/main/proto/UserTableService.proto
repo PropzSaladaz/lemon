@@ -14,13 +14,14 @@ message CreateUserReq {
   string id = 1;
   string email = 2;
   string password = 3;
+  string type = 4;
 }
 
 message CreateUserResp {
   ResponseCode operationCode = 1;
 }
 
-service UserService {
+service UserTableService {
   rpc getUser(UserReq) returns (UserResp);
   rpc createUser(CreateUserReq) returns (CreateUserResp);
 }

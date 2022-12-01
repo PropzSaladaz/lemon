@@ -26,25 +26,6 @@ public class VehicleController {
         return vehicleService.getLockedVehicles();
     }
 
-    @GetMapping(value="/get/{id}")
-    public VehicleDto getVehicle(@PathVariable("id") int id) {
-       return vehicleService.getVehicle(id);
-    }
-
-    @PutMapping (value="/bike/{loc}")
-    public void createBike(@PathVariable("loc") String loc) {
-        vehicleService.createBike(loc);
-    }
-
-    @PutMapping (value="/scooter/{location}")
-    public void createScooter(@PathVariable("location") String loc) {
-        vehicleService.createScooter(loc);
-    }
-
-    @PutMapping (value="/remove/{id}")
-    public void removeVehicle(@PathVariable("id") int id) {
-        vehicleService.removeVehicle(id);
-    }
 
     @PostMapping (value="/lock/{id}")
     public void lockVehicle(@PathVariable("id") int id) {
@@ -57,7 +38,25 @@ public class VehicleController {
         vehicleService.unlockVehicle(id);
     }
 
+}
+    /*@GetMapping(value="/get/{id}")
+    public VehicleDto getVehicle(@PathVariable("id") int id) {
+       return vehicleService.getVehicle(id);*/
 
+     /*@PutMapping (value="/bike/{loc}")
+    public void createBike(@PathVariable("loc") String loc) {
+        vehicleService.createBike(loc);
+    }
+
+   @PutMapping (value="/scooter/{location}")
+    public void createScooter(@PathVariable("location") String loc) {
+        vehicleService.createScooter(loc);
+    }
+
+    @PutMapping (value="/remove/{id}")
+    public void removeVehicle(@PathVariable("id") int id) {
+        vehicleService.removeVehicle(id);
+    }*/
 
 //    @PutMapping (value="/pay/{id}")
 //    public void payVehicle(@PathVariable("id") int id) {
@@ -66,7 +65,7 @@ public class VehicleController {
 
 
 
-}
+
 
 
 

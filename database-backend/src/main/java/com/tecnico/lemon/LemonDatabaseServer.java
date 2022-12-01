@@ -3,7 +3,7 @@ package com.tecnico.lemon;
 import com.tecnico.lemon.database.DatabaseManager;
 import com.tecnico.lemon.database.DatabaseManagerImpl;
 import com.tecnico.lemon.services.UserServiceImpl;
-import com.tecnico.lemon.services.VehicleServiceImpl;
+import com.tecnico.lemon.services.VehicleTableServiceImpl;
 import io.grpc.BindableService;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
