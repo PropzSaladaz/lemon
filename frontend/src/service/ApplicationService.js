@@ -99,6 +99,10 @@ export default {
         return apiClient.post("/vehicle/lock/" + id);
     },
 
+    cancelReservation(id){
+        return apiClient.post("/vehicle/unlock/" + id);
+    },
+
     createUser(_email, _password, _type) {
         apiClient.post("/user/signup/_signup",
             JSON.stringify({

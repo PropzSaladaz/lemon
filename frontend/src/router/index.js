@@ -4,6 +4,7 @@ import LoginForm from '../components/LoginForm.vue'
 import SignupForm from '../components/SignupForm.vue'
 import Vehicles from '../views/Vehicles.vue'
 import Localization from '../views/Localization.vue'
+import Reservation from '../views/Reservation.vue'
 import Location from '../views/Location.vue'
 
 const routes = [
@@ -45,6 +46,13 @@ const routes = [
     component: Localization,
     props: true,
   },
+  {
+    path: '/reservation',
+    name: 'reservation',
+    component: Reservation,
+    props: true,
+  },
+
 
   {
     path: '/location',

@@ -28,6 +28,11 @@
         <a class="navbar-item"  @click="$router.push('/localization')" v-if="(isEmployee === true && isCustomer === false && loggedIn())">
           Localization
         </a>
+
+        <a class="navbar-item" @click="$router.push('/reservation')" v-if="(isCustomer === true && isEmployee === false && loggedIn() )">
+          My Reservations
+        </a>
+
         
         <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link">
