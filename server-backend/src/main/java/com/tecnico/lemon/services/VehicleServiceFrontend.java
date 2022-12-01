@@ -38,6 +38,21 @@ public class VehicleServiceFrontend {
 
     }
 
+    public void lockVehicle(int id) {
+
+        lockVehicleReq request = lockVehicleReq.newBuilder().setId(id).build();
+        stub.lockVehicle(request);
+    }
+
+
+    public void unlockVehicle(int id) {
+
+        unlockVehicleReq request = unlockVehicleReq.newBuilder().setId(id).build();
+        stub.unlockVehicle(request);
+
+    }
+
+
 
 
 

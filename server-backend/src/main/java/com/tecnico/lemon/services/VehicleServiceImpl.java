@@ -29,12 +29,11 @@ public class VehicleServiceImpl implements VehicleService{
 
     @Override
     public void lockVehicle(int id){
-        /*List<VehicleDto> lista = dBase.getAvailableVehicles();
-        for ()*/
+        dBase.lockVehicle(id);
     }
     @Override
     public void unlockVehicle(int id){
-        //dBase.unlockVehicle(id);
+        dBase.unlockVehicle(id);
     }
 
     /*@Override

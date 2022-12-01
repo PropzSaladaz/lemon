@@ -12,5 +12,6 @@ public interface DatabaseManager {
     void populate();
     ResultSet executeQuery(String query);
     void clean();
+    void drop();
     void close();
 }

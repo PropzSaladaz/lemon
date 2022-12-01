@@ -16,6 +16,14 @@ message lockVehicleResp {
 
 }
 
+message unlockVehicleReq {
+  int32 id = 1;
+}
+
+message unlockVehicleResp {
+
+}
+
 
 message Vehicle {
   int32 id = 1;
@@ -28,6 +36,7 @@ message Vehicle {
 service VehicleService {
   rpc getVehicles(VehiclesReq) returns (VehiclesResp);
   rpc lockVehicle(lockVehicleReq) returns (lockVehicleResp);
+  rpc unlockVehicle(unlockVehicleReq) returns (unlockVehicleResp);
 
 
 }

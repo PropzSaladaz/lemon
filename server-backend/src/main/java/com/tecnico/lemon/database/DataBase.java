@@ -43,20 +43,15 @@ public class DataBase {
         return listFinal;
     }
 
-    /*public List<VehicleDto> Vehicle() {
-        List<VehicleDto> vehicles = getLockedVehicles();
-        for (v in vehicles){
-            (if)
-        }
-    }*/
-
-    /*public int get_id() {
-        return _id;
-    }
-    public void incrementID(){
-        _id+=1;
+    public void lockVehicle(int id){
+        vehicleFront.lockVehicle(id);
     }
 
+    public void unlockVehicle(int id){
+        vehicleFront.unlockVehicle(id);
+    }
+
+    /*
     public void createScooter(String location){
         _hm.put(_id,new Scooter(_id,location));
         incrementID();

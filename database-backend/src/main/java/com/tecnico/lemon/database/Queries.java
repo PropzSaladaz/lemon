@@ -33,8 +33,11 @@ public class Queries {
                     Tables.Vehicle.LOCKED,
                     Tables.Vehicle.ID);
 
-    public static final String DROP_TABLE_USERS = "drop table " + Tables.User.TABLE_NAME;
-    public static final String DROP_TABLE_VEHICLES = "drop table " + Tables.Vehicle.TABLE_NAME;
+    public static final String DROP_TABLE_USERS = "drop table if exists " + Tables.User.TABLE_NAME;
+    public static final String DROP_TABLE_VEHICLES = "drop table if exists " + Tables.Vehicle.TABLE_NAME;
+
+    public static final String DELETE_ALL_USERS = "delete from " + Tables.User.TABLE_NAME + " *";
+    public static final String DELETE_ALL_VEHICLES = "delete from " + Tables.Vehicle.TABLE_NAME + " *";
 
     public static final String SELECT_ALL_FROM_USERS = "select * from " + Tables.User.TABLE_NAME;
     public static final String SELECT_ALL_FROM_VEHICLES = "select * from " + Tables.Vehicle.TABLE_NAME;
@@ -48,5 +51,4 @@ public class Queries {
         return String.format("insert into %s values ('%s', '%s', '%s', '%s', false, false)",
                 Tables.Vehicle.TABLE_NAME, id, price, localization, description);
     }
-
 }

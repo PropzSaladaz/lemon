@@ -50,9 +50,27 @@ public class VehicleServiceImpl extends VehicleServiceGrpc.VehicleServiceImplBas
     @Override
     public void lockVehicle(lockVehiclesReq request, StreamObserver<lockVehiclesResp> responseObserver) {
 
-        public static final String SELECT_ALL_FROM_VEHICLES = "select * from " + Tables.Vehicle.TABLE_NAME;
+        lockVehiclesResp.Builder resp = lockVehiclesResp.newBuilder();
+        try{
+            _db.executeQuery("update " + Tables.Vehicle.TABLE_NAME + " set locked = " + true + " where id= " + request.getId());
+        }catch(SQLException ex) {
+            ex.printStackTrace();
+        }
+        responseObserver.onNext(resp.build());
+        responseObserver.onCompleted();
+    }
 
-        _db.executeQuery(Queries.SELECT_ALL_FROM_USERS);
+    @Override
+    public void unlockVehicle(unlockVehiclesReq request, StreamObserver<unlockVehiclesResp> responseObserver) {
+
+        unlockVehiclesResp.Builder resp = unlockVehiclesResp.newBuilder();
+        try{
+            _db.executeQuery("update " + Tables.Vehicle.TABLE_NAME + " set locked = " + false + " where id= " + request.getId());
+        }catch(SQLException ex) {
+            ex.printStackTrace();
+        }
+        responseObserver.onNext(resp.build());
+        responseObserver.onCompleted();
 
 
     }

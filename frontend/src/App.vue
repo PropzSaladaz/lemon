@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <router-link class="navbar-item" @click="hideForms" to="/">
+      <router-link class="navbar-item" to="/">
         <span>
           <img src="https://d29fhpw069ctt2.cloudfront.net/icon/image/85173/preview.svg" width="112" height="28">
           <h1>Lemon</h1>
@@ -55,10 +55,10 @@
       <div class="navbar-end" v-if="!loggedIn()">
         <div class="navbar-item">
           <div class="buttons">
-            <a class="button is-primary" @click="showSignUpPage">
+            <a class="button is-primary" @click="gotoSignup">
               <strong>Sign up</strong>
             </a>
-            <a class="button is-light" @click="showLoginForm">
+            <a class="button is-light" @click="gotoLogin">
               Log in
             </a>
           </div>
@@ -67,31 +67,18 @@
     </div>
   </nav>
 
-  <WelcomePage v-if="showWelcomePage"/>
-  <LoginForm v-else-if="loginFormVisible" @login="onLogin" :invalidAccount="invalidAccount"/>
-  <SignupForm v-else-if="signUpFromVisible" @login="onSignup" :invalidAccount="invalidAccount"/>
-  <router-view v-else/>
+  <router-view @login="onLogin" @signup="onSignup" :invalidAccount="invalidAccount"/>
 
 </template>
 
 <script>
-import WelcomePage from '@/views/WelcomePage.vue'
-import LoginForm from '@/components/LoginForm.vue'
-import SignupForm from '@/components/SignupForm.vue'
 import DatabaseService from '@/service/DatabaseService.js'
 
 export default {
   name: 'App',
-  components: {
-    LoginForm,
-    SignupForm,
-    WelcomePage,
-  },
   data() {
     return {
       email: '', // DEBUG
-      loginFormVisible: false,
-      signUpFromVisible: false,
       invalidAccount: false,
       isEmployee: false,
       isCustomer:false,
@@ -102,11 +89,11 @@ export default {
     loggedIn(){
       return this.email != '';
     },
-    showLoginForm() {
-      this.loginFormVisible = true;
+    gotoLogin() {
+      this.$router.push('/home/login');
     },
-    showSignUpPage() {
-      this.signUpFromVisible = true;
+    gotoSignup() {
+      this.$router.push('/home/signup');
     },
 
     onLogin(event) {
@@ -115,12 +102,12 @@ export default {
         this.isEmployee = true;
         this.isCustomer = false;
         this.email = event.email;
-        this.loginFormVisible = false;
+        // TODO: goto other page
       }else if(result == "Customer"){
         this.isCustomer = true;
         this.isEmployee = false;
         this.email = event.email;
-        this.loginFormVisible = false;
+        // TODO: goto other page
       }
       else {
         console.log(event.email, event.password);
@@ -135,12 +122,9 @@ export default {
       }
       else {
         DatabaseService.createUser(event.email, event.password, event.employer);
-        this.signUpFromVisible = false;
+        // TODO: goto other page
       }
     },
-    hideForms() {
-      this.loginFormVisible = false;
-    }
   },
   computed: {
     showWelcomePage(){ 
