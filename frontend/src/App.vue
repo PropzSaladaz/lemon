@@ -134,7 +134,7 @@ export default {
         this.invalidAccount = true;
       }
       else {
-        createUser(event.email, event.password, event.employer);
+        DatabaseService.createUser(event.email, event.password, event.employer);
         this.signUpFromVisible = false;
       }
     },
