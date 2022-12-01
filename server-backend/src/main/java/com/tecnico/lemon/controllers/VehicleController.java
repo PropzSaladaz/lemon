@@ -1,4 +1,4 @@
-package com.tecnico.lemon.database;
+package com.tecnico.lemon.controllers;
 
 import com.tecnico.lemon.dtos.VehicleDto;
 import com.tecnico.lemon.models.vehicle.Vehicle;

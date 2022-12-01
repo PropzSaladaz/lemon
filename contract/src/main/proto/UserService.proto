@@ -11,8 +11,9 @@ message UserResp {
 }
 
 message CreateUserReq {
-  string email = 1;
-  string password = 2;
+  string id = 1;
+  string email = 2;
+  string password = 3;
 }
 
 message CreateUserResp {

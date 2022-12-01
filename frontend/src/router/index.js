@@ -14,13 +14,13 @@ const routes = [
     props: true,
   },
   {
-    path: '/home/login',
+    path: '/user/login',
     name: 'login',
     component: LoginForm,
     props: true,  
   },
   {
-    path: '/home/signup',
+    path: '/user/signup',
     name: 'signup',
     component: SignupForm,
     props: true,  
