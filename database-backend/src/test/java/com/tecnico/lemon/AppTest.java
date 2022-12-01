@@ -1,13 +1,19 @@
 package com.tecnico.lemon;
 
+import com.tecnico.lemon.contract.VehicleServiceOuterClass;
 import com.tecnico.lemon.database.DatabaseManager;
 import com.tecnico.lemon.database.DatabaseManagerImpl;
 import com.tecnico.lemon.database.Queries;
 import com.tecnico.lemon.database.Tables;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 
+import javax.sql.rowset.CachedRowSet;
+import javax.sql.rowset.RowSetFactory;
+import javax.sql.rowset.RowSetProvider;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -22,10 +28,12 @@ public class AppTest
     public static void startDatabase(){
         db.buildSchema();
     }
-    @AfterAll
-    public static void closeDatabase(){
+
+    @BeforeEach
+    public void cleanDatabase(){
         db.clean();
     }
+
     @Test
     public void builSchema()
     {
@@ -42,19 +50,24 @@ public class AppTest
     public void queryVehicle() throws SQLException {
         db.executeQuery(Queries.insertVehicle(3, 100, "ali","Scooter"));
         ResultSet rs = db.executeQuery(Queries.SELECT_ALL_FROM_VEHICLES);
-        while (rs.next()){
-            String localization = rs.getString(Tables.Vehicle.LOCALIZATION);
-            String description  = rs.getString(Tables.Vehicle.DESCRIPTION);
-            int id = rs.getInt(Tables.Vehicle.ID);
-            double price = rs.getDouble(Tables.Vehicle.PRICE);
-            boolean lock = rs.getBoolean(Tables.Vehicle.LOCKED);
-            boolean payed = rs.getBoolean(Tables.Vehicle.PAYED);
-            assertEquals(id, 3);
-            assertEquals(price, 100);
-            assertEquals(localization, "ali");
-            assertEquals(description, "Scooter");
-            assertFalse(lock);
-            assertFalse(payed);
+        RowSetFactory factory = RowSetProvider.newFactory();
+        CachedRowSet crs = factory.createCachedRowSet();
+        crs.populate(rs);
+        while(crs.next()) {
+            if (!crs.getBoolean(Tables.Vehicle.LOCKED)) {
+                String localization = crs.getString(Tables.Vehicle.LOCALIZATION);
+                String description  = crs.getString(Tables.Vehicle.DESCRIPTION);
+                int id = crs.getInt(Tables.Vehicle.ID);
+                double price = crs.getDouble(Tables.Vehicle.PRICE);
+                boolean lock = crs.getBoolean(Tables.Vehicle.LOCKED);
+                boolean payed = crs.getBoolean(Tables.Vehicle.PAYED);
+                assertEquals(3, id);
+                assertEquals(100, price, 0.5);
+                assertEquals("ali", localization);
+                assertEquals("Scooter", description);
+                assertFalse(lock);
+                assertFalse(payed);
+            }
         }
         rs.close();
     }
