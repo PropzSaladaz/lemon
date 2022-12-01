@@ -1,16 +1,17 @@
 package com.tecnico.lemon.services;
 import com.tecnico.lemon.contract.*;
-import com.tecnico.lemon.database.DatabaseManager;
+import com.tecnico.lemon.database.IDatabaseManager;
 import io.grpc.stub.StreamObserver;
 
 import static com.tecnico.lemon.contract.VehicleServiceOuterClass.*;
 
-public class VehicleServiceImpl extends VehicleServiceGrpc.VehicleServiceImplBase{
-    DatabaseManager _db;
+public class VehicleServiceImpl extends VehicleServiceGrpc.VehicleServiceImplBase {
+    IDatabaseManager _dbInterface;
 
-    public VehicleServiceImpl(DatabaseManager db) {
-        _db = db;
+    public VehicleServiceImpl(IDatabaseManager dbInterface) {
+        _dbInterface = dbInterface;
     }
+
     @Override
     public void getAvailableVehicles(AvailableVehiclesReq request, StreamObserver<AvailableVehiclesResp> responseObserver) {
         String query = "SELECT id, description, price FROM ";

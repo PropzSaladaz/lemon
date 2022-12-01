@@ -70,6 +70,15 @@ export default {
         }
         return "";
     },
+    isRegistered(email) {
+        for (var user of users) {
+            console.log(employer)
+            if (user.email == email) {
+                return false;
+            }
+        }
+        return true;
+    },
     getUserType(email) {
         for (var user of users) {
             if (user.email === email) return user.type;
@@ -86,7 +95,13 @@ export default {
 
     requestReservation(id){
         return apiClient.post("/vehicle/lock/" + id);
+    },
+
+    createUser(_email, _password, _employer) {
+        users.push({
+            email: _email,
+            password: _password,
+            type: _employer
+        })
     }
-
-
 }

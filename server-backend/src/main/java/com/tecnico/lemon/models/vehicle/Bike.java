@@ -1,4 +1,4 @@
-package com.tecnico.lemon.vehicle.model;
+package com.tecnico.lemon.models.vehicle;
 import lombok.*;
 
 

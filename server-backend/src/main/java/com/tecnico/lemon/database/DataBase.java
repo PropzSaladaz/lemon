@@ -1,8 +1,8 @@
-package com.tecnico.lemon.vehicle.dataBase;
+package com.tecnico.lemon.database;
 
-import com.tecnico.lemon.vehicle.model.Bike;
-import com.tecnico.lemon.vehicle.model.Scooter;
-import com.tecnico.lemon.vehicle.model.Vehicle;
+import com.tecnico.lemon.models.vehicle.Bike;
+import com.tecnico.lemon.models.vehicle.Scooter;
+import com.tecnico.lemon.models.vehicle.Vehicle;
 import lombok.Builder;
 import lombok.Data;
 
