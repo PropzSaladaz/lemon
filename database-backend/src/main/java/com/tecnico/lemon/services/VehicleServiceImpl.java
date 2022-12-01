@@ -10,6 +10,9 @@ import com.tecnico.lemon.database.DatabaseManager;
 import io.grpc.stub.StreamObserver;
 
 import java.sql.ResultSet;
+import javax.sql.rowset.CachedRowSet;
+import javax.sql.rowset.RowSetFactory;
+import javax.sql.rowset.RowSetProvider;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,19 +29,22 @@ public class VehicleServiceImpl extends VehicleServiceGrpc.VehicleServiceImplBas
     @Override
     public void getAvailableVehicles(AvailableVehiclesReq request, StreamObserver<AvailableVehiclesResp> responseObserver) {
         AvailableVehiclesResp.Builder resp = AvailableVehiclesResp.newBuilder();
-        try{
+        try {
             ResultSet res = _db.executeQuery(Queries.SELECT_ALL_FROM_USERS);
-            while(res.next()) {
-                if (!res.getBoolean(Tables.Vehicle.LOCKED)) {
+            RowSetFactory factory = RowSetProvider.newFactory();
+            CachedRowSet crs = factory.createCachedRowSet();
+            crs.populate(res);
+            while(crs.next()) {
+                if (!crs.getBoolean(Tables.Vehicle.LOCKED)) {
                     Vehicle v = Vehicle.newBuilder()
-                            .setDescription(res.getString(Tables.Vehicle.DESCRIPTION))
-                            .setPrice(res.getInt(Tables.Vehicle.PRICE))
-                            .setId(res.getInt(Tables.Vehicle.ID))
+                            .setDescription(crs.getString(Tables.Vehicle.DESCRIPTION))
+                            .setPrice(crs.getInt(Tables.Vehicle.PRICE))
+                            .setId(crs.getInt(Tables.Vehicle.ID))
                             .build();
                     resp.addVehicles(v);
                 }
             }
-        }catch(SQLException ex) {
+        } catch(SQLException ex) {
             ex.printStackTrace();
         }
         responseObserver.onNext(resp.build());
