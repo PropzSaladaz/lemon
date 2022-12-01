@@ -47,6 +47,10 @@ public class Queries {
         return String.format("insert into %s values ('%s', '%s', '%s', '%s')", Tables.User.TABLE_NAME, id, email, password, type);
     }
 
+    public static String lookupUserByEmail(String email) {
+        return String.format("select * from %s where email='%s'", Tables.User.TABLE_NAME, email);
+    }
+
     public static String insertVehicle(int id, int price, String localization, String description) {
         return String.format("insert into %s values ('%s', '%s', '%s', '%s', false, false)",
                 Tables.Vehicle.TABLE_NAME, id, price, localization, description);

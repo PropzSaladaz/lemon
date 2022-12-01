@@ -2,6 +2,7 @@ package com.tecnico.lemon.database;
 
 import com.tecnico.lemon.contract.*;
 import com.tecnico.lemon.database.DataBase;
+import com.tecnico.lemon.dtos.UserInfoDto;
 
 import org.springframework.stereotype.Service;
 import io.grpc.ManagedChannel;
@@ -38,5 +39,10 @@ public class UserTableServiceFrontend {
             .setType(userForm.get_type())
             .build();
         CreateUserResp resp = stub.createUser(request);
+    }
+
+    public UserInfoDto lookupUser(String email) {
+        LookupUserResp resp = stub.lookupUser(LookupUserReq.newBuilder().setEmail(email).build());
+        return new UserInfoDto(resp.getId(), resp.getEmail(), resp.getPassword(), resp.getType());
     }
 }

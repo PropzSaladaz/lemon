@@ -21,7 +21,19 @@ message CreateUserResp {
   ResponseCode operationCode = 1;
 }
 
+message LookupUserReq {
+  string email = 1;
+}
+
+message LookupUserResp {
+  int32 id = 1;
+  string email = 2;
+  string password = 3;
+  string type = 4;
+}
+
 service UserTableService {
   rpc getUser(UserReq) returns (UserResp);
   rpc createUser(CreateUserReq) returns (CreateUserResp);
+  rpc lookupUser(LookupUserReq) returns (LookupUserResp);
 }

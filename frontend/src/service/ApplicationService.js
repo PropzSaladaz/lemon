@@ -107,5 +107,9 @@ export default {
                 type: _type,
             })
         );
-    }
+    },
+    
+    isRegistered(_email) {
+        return apiClient.get("/user/lookup/" + _email);
+    },
 }
