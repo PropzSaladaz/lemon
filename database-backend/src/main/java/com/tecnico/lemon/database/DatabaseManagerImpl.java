@@ -4,9 +4,9 @@ import org.postgresql.Driver;
 
 import java.sql.*;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 public class DatabaseManagerImpl implements DatabaseManager {
-
   private static final String database_name = "postgres";
   private static final String hostname = "localhost";
   private static final String port = "5432";
@@ -36,8 +36,7 @@ public class DatabaseManagerImpl implements DatabaseManager {
   }
   @Override
   public void buildSchema(){
-    clean();
-    System.out.println(Queries.CREATE_TABLE_VEHICLES);
+    drop();
     executeQuery(Queries.CREATE_TABLE_USERS);
     executeQuery(Queries.CREATE_TABLE_VEHICLES);
 //    populate();
@@ -45,8 +44,9 @@ public class DatabaseManagerImpl implements DatabaseManager {
 
   @Override
   public ResultSet executeQuery(String query) {
-    try (Statement stmt = conn.createStatement()) {
+    try {
       System.out.println(query);
+      Statement stmt = conn.createStatement();
       return stmt.executeQuery(query);
     } catch (SQLException e) {
       if (!Objects.equals(e.getMessage(), "No results were returned by the query."))
@@ -57,6 +57,12 @@ public class DatabaseManagerImpl implements DatabaseManager {
 
   @Override
   public void clean() {
+    executeQuery(Queries.DELETE_ALL_USERS);
+    executeQuery(Queries.DELETE_ALL_VEHICLES);
+  }
+
+  @Override
+  public void drop() {
     executeQuery(Queries.DROP_TABLE_USERS);
     executeQuery(Queries.DROP_TABLE_VEHICLES);
   }
