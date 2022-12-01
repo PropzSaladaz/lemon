@@ -1,19 +1,13 @@
 package com.tecnico.lemon.services;
-import com.tecnico.lemon.contract.*;
 
+import com.tecnico.lemon.contract.VehicleTableServiceGrpc;
 import com.tecnico.lemon.database.DatabaseManager;
 import com.tecnico.lemon.database.Queries;
 import com.tecnico.lemon.database.Tables;
-
-import com.tecnico.lemon.database.DatabaseManager;
-
 import io.grpc.stub.StreamObserver;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.tecnico.lemon.contract.VehicleTableServiceOuterClass.*;
 
@@ -48,27 +42,19 @@ public class VehicleTableServiceImpl extends VehicleTableServiceGrpc.VehicleTabl
     }
 
     @Override
-    public void lockVehicle(lockVehiclesReq request, StreamObserver<lockVehiclesResp> responseObserver) {
+    public void lockVehicle(LockVehicleReq request, StreamObserver<LockVehicleResp> responseObserver) {
 
-        lockVehiclesResp.Builder resp = lockVehiclesResp.newBuilder();
-        try{
-            _db.executeQuery("update " + Tables.Vehicle.TABLE_NAME + " set locked = " + true + " where id= " + request.getId());
-        }catch(SQLException ex) {
-            ex.printStackTrace();
-        }
+        LockVehicleResp.Builder resp = LockVehicleResp.newBuilder();
+        _db.executeQuery("update " + Tables.Vehicle.TABLE_NAME + " set locked = " + true + " where id= " + request.getId());
         responseObserver.onNext(resp.build());
         responseObserver.onCompleted();
     }
 
     @Override
-    public void unlockVehicle(unlockVehiclesReq request, StreamObserver<unlockVehiclesResp> responseObserver) {
+    public void unlockVehicle(UnlockVehicleReq request, StreamObserver<UnlockVehicleResp> responseObserver) {
 
-        unlockVehiclesResp.Builder resp = unlockVehiclesResp.newBuilder();
-        try{
-            _db.executeQuery("update " + Tables.Vehicle.TABLE_NAME + " set locked = " + false + " where id= " + request.getId());
-        }catch(SQLException ex) {
-            ex.printStackTrace();
-        }
+        UnlockVehicleResp.Builder resp = UnlockVehicleResp.newBuilder();
+        _db.executeQuery("update " + Tables.Vehicle.TABLE_NAME + " set locked = " + false + " where id= " + request.getId());
         responseObserver.onNext(resp.build());
         responseObserver.onCompleted();
 

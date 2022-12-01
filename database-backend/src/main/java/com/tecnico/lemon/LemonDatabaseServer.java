@@ -2,7 +2,7 @@ package com.tecnico.lemon;
 
 import com.tecnico.lemon.database.DatabaseManager;
 import com.tecnico.lemon.database.DatabaseManagerImpl;
-import com.tecnico.lemon.services.UserServiceImpl;
+import com.tecnico.lemon.services.UserTableServiceImpl;
 import com.tecnico.lemon.services.VehicleTableServiceImpl;
 import io.grpc.BindableService;
 import io.grpc.Server;
@@ -17,8 +17,8 @@ public class LemonDatabaseServer {
         DatabaseManager db = new DatabaseManagerImpl();
         db.buildSchema();
 
-        final BindableService vehicleService = new VehicleServiceImpl(db);
-        final BindableService userService = new UserServiceImpl(db);
+        final BindableService vehicleService = new VehicleTableServiceImpl(db);
+        final BindableService userService = new UserTableServiceImpl(db);
 
         server = ServerBuilder.forPort(port)
                 .addService(vehicleService)

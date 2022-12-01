@@ -1,6 +1,6 @@
 package com.tecnico.lemon;
 
-import com.tecnico.lemon.contract.VehicleServiceOuterClass;
+import com.tecnico.lemon.contract.VehicleTableServiceOuterClass;
 import com.tecnico.lemon.database.DatabaseManager;
 import com.tecnico.lemon.database.DatabaseManagerImpl;
 import com.tecnico.lemon.database.Queries;

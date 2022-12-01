@@ -1,8 +1,5 @@
 package com.tecnico.lemon.models.vehicle;
 
-import lombok.Builder;
-
-
 public class Vehicle implements IVehicle{
     private int _id;
     private int _price;

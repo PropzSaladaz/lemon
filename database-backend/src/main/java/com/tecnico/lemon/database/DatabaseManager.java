@@ -1,11 +1,11 @@
 package com.tecnico.lemon.database;
 
-import com.tecnico.lemon.contract.VehicleServiceOuterClass;
+import com.tecnico.lemon.contract.VehicleTableServiceOuterClass;
 
 import java.sql.ResultSet;
 import java.util.List;
 
-import static com.tecnico.lemon.contract.VehicleServiceOuterClass.*;
+import static com.tecnico.lemon.contract.VehicleTableServiceOuterClass.*;
 
 public interface DatabaseManager {
     void buildSchema();

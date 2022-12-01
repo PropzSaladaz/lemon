@@ -3,6 +3,10 @@ package com.tecnico.lemon.services;
 import com.tecnico.lemon.contract.UserTableServiceGrpc;
 import com.tecnico.lemon.database.DatabaseManager;
 import com.tecnico.lemon.database.Queries;
+import io.grpc.stub.StreamObserver;
+
+
+import static com.tecnico.lemon.contract.UserTableServiceOuterClass.*;
 
 
 public class UserTableServiceImpl extends UserTableServiceGrpc.UserTableServiceImplBase {
