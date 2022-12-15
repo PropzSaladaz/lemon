@@ -8,7 +8,17 @@ import com.tecnico.lemon.contract.VehicleTableServiceGrpc;
 import com.tecnico.lemon.dtos.VehicleDto;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
+import io.grpc.Status;
+import io.grpc.StatusRuntimeException;
+import io.grpc.netty.GrpcSslContexts;
+import io.grpc.netty.NettyChannelBuilder;
+import io.grpc.stub.StreamObserver;
+import io.netty.handler.ssl.SslContext;
 
+import javax.net.ssl.SSLException;
+import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,9 +30,26 @@ public class VehicleTableServiceFrontend {
     private final ManagedChannel channel;
     private final VehicleTableServiceGrpc.VehicleTableServiceBlockingStub stub;
 
+    public SslContext loadTLSCredentials() throws SSLException {
+        File serverCACertFile = new File("");
+        File clientCertFile = new File("");
+        File clientKeyFile = new File("");
+
+        return GrpcSslContexts.forClient()
+                .keyManager(clientCertFile, clientKeyFile)
+                .trustManager(serverCACertFile)
+                .build();
+    }
+
     public VehicleTableServiceFrontend() {
-        channel = ManagedChannelBuilder.forTarget(target).usePlaintext().build();
-        stub =  VehicleTableServiceGrpc.newBlockingStub(channel);
+        SslContext context = null;
+        try {
+            context = loadTLSCredentials();
+        } catch (Exception e) {
+            System.err.println("Error Loading Credentials");
+        }
+        channel = NettyChannelBuilder.forTarget(target).sslContext(context).build();
+        stub = VehicleTableServiceGrpc.newBlockingStub(channel);
     }
 
     public List<VehicleDto> getVehicles() {

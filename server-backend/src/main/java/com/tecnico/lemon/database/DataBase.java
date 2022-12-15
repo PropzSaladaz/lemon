@@ -10,6 +10,7 @@ import com.tecnico.lemon.models.user.UserForm;
 import lombok.Builder;
 import lombok.Data;
 
+import javax.net.ssl.SSLException;
 import java.util.*;
 
 

@@ -20,6 +20,18 @@
             <version>5.8.2</version>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/io.grpc/grpc-netty -->
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-netty</artifactId>
+            <version>1.44.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/io.github.hakky54/sslcontext-kickstart-for-netty -->
+        <dependency>
+            <groupId>io.github.hakky54</groupId>
+            <artifactId>sslcontext-kickstart-for-netty</artifactId>
+            <version>7.4.6</version>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
