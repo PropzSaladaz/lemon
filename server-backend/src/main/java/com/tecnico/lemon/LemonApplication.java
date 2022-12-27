@@ -16,15 +16,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class LemonApplication {
 
 	public static void main(String[] args) {
-		try {
 			SpringApplication.run(LemonApplication.class, args);
-
-		}catch(Exception e){
-			System.out.println(e.getMessage());
-			throw new RuntimeException(e.getMessage());
-		}
 	}
-	@Bean
+	/*@Bean
 	public ServletWebServerFactory servletContainer() {
 		// Enable SSL Trafic
 		TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
@@ -44,11 +38,11 @@ public class LemonApplication {
 
 		return tomcat;
 	}
-	/*
+
        We need to redirect from HTTP to HTTPS. Without SSL, this application used
        port 8082. With SSL it will use port 8443. So, any request for 8082 needs to be
        redirected to HTTPS on 8443.
-        */
+
 	private Connector httpToHttpsRedirectConnector() {
 		Connector connector = new Connector(TomcatServletWebServerFactory.DEFAULT_PROTOCOL);
 		connector.setScheme("http");
@@ -57,5 +51,7 @@ public class LemonApplication {
 		connector.setRedirectPort(8443);
 		return connector;
 	}
+	*/
+
 
 }
