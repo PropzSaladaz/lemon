@@ -1,5 +1,4 @@
 package com.tecnico.lemon.database;
-
 import com.tecnico.lemon.contract.*;
 import com.tecnico.lemon.database.DataBase;
 import com.tecnico.lemon.dtos.UserInfoDto;
@@ -43,7 +42,7 @@ public class UserTableServiceFrontend {
     public UserTableServiceFrontend() {
         SslContext context = null;
         try {
-            context = loadTLSCredentials();
+            //context = loadTLSCredentials();
         } catch (Exception e) {
             System.err.println("Error Loading Credentials");
         }

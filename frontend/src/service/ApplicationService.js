@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const serverHostname = "http://localhost:8080/";
+const serverHostname = "https://localhost:8443";
 
 let user_id = 0;
 
@@ -46,8 +46,8 @@ const apiClient = axios.create({
     baseURL: serverHostname,
     withCredentials: false,
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+        Accept: "application/json",
+        "Content-Type": "application/json",
     },
 });
 
@@ -112,7 +112,7 @@ export default {
             })
         );
     },
-    
+
     isRegistered(_email) {
         return apiClient.get("/user/lookup/" + _email);
     },

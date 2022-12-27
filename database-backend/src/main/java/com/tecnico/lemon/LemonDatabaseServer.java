@@ -18,10 +18,6 @@ import javax.net.ssl.SSLException;
 import java.io.File;
 import java.io.IOException;
 
-import javax.net.ssl.SSLException;
-import java.io.File;
-import java.io.IOException;
-
 public class LemonDatabaseServer {
 
     private static final int port = 8082;
@@ -50,6 +46,7 @@ public class LemonDatabaseServer {
             .addService(vehicleService)
             //.addService(userService)
             .build();
+
 
         server.start();
 
