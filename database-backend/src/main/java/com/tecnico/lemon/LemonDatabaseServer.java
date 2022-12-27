@@ -26,9 +26,9 @@ public class LemonDatabaseServer {
 
     private static final int port = 8082;
     public static SslContext loadTLSCredentials() throws SSLException {
-        File serverCertFile = new File("server-certificate");
-        File serverKeyFile = new File("serverkey");
-        File clientCACertFile = new File("ca-certificate");
+        File serverCertFile = new File("");
+        File serverKeyFile = new File("");
+        File clientCACertFile = new File("");
 
         SslContextBuilder ctxBuilder = SslContextBuilder.forServer(serverCertFile, serverKeyFile)
                 .clientAuth(ClientAuth.REQUIRE)
@@ -43,12 +43,11 @@ public class LemonDatabaseServer {
         db.buildSchema();
         final BindableService vehicleService = new VehicleTableServiceImpl(db);
         final BindableService userService = new UserTableServiceImpl(db);
-        SslContext sslContext = loadTLSCredentials();
-
-        server = NettyServerBuilder.forPort(port).sslContext(sslContext)
+        //SslContext sslContext = loadTLSCredentials();
+        /*.sslContext(sslContext)*/
+        server = NettyServerBuilder.forPort(port)
                 .addService(vehicleService)
                 .build();
-
         server.start();
 
         Thread closeState = new Thread(db::close);

@@ -3,7 +3,6 @@ import com.tecnico.lemon.contract.*;
 import com.tecnico.lemon.database.DataBase;
 import com.tecnico.lemon.dtos.VehicleDto;
 import com.tecnico.lemon.models.vehicle.Vehicle;
-
 import com.tecnico.lemon.contract.VehicleTableServiceGrpc;
 import com.tecnico.lemon.dtos.VehicleDto;
 import io.grpc.ManagedChannel;
@@ -31,7 +30,8 @@ public class VehicleTableServiceFrontend {
     private final VehicleTableServiceGrpc.VehicleTableServiceBlockingStub stub;
 
     public SslContext loadTLSCredentials() throws SSLException {
-        File serverCACertFile = new File("");
+    File serverCACertFile =
+        new File("com/tecnico/lemon/ContractsAndKeys/ca/ca.crt");
         File clientCertFile = new File("");
         File clientKeyFile = new File("");
 
@@ -44,7 +44,7 @@ public class VehicleTableServiceFrontend {
     public VehicleTableServiceFrontend() {
         SslContext context = null;
         try {
-            context = loadTLSCredentials();
+            //context = loadTLSCredentials();
         } catch (Exception e) {
             System.err.println("Error Loading Credentials");
         }

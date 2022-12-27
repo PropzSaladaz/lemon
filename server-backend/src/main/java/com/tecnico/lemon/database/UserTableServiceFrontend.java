@@ -1,5 +1,4 @@
 package com.tecnico.lemon.database;
-
 import com.tecnico.lemon.contract.*;
 import com.tecnico.lemon.database.DataBase;
 import com.tecnico.lemon.dtos.UserInfoDto;
@@ -30,9 +29,9 @@ public class UserTableServiceFrontend {
     private final UserTableServiceGrpc.UserTableServiceBlockingStub stub;
 
     public SslContext loadTLSCredentials() throws SSLException {
-        File serverCACertFile = new File("ca-certificate");
-        File clientCertFile = new File("client-certificate");
-        File clientKeyFile = new File("clientKey");
+        File serverCACertFile = new File("");
+        File clientCertFile = new File("");
+        File clientKeyFile = new File("");
 
         return GrpcSslContexts.forClient()
                 .keyManager(clientCertFile, clientKeyFile)
@@ -43,7 +42,7 @@ public class UserTableServiceFrontend {
     public UserTableServiceFrontend() {
         SslContext context = null;
         try {
-            context = loadTLSCredentials();
+            //context = loadTLSCredentials();
         } catch (Exception e) {
             System.err.println("Error Loading Credentials");
         }
