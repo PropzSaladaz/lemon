@@ -26,15 +26,15 @@ public class LemonDatabaseServer {
 
     private static final int port = 8082;
     public static SslContext loadTLSCredentials() throws SSLException {
-        File serverCertFile = new File("server-certificate");
-        File serverKeyFile = new File("serverkey");
-        File clientCACertFile = new File("ca-certificate");
+        File serverCertificateFile = new File("src/main/credentials/server-cert.pem");
+        File privateKeyFile = new File("src/main/credentials/server-key.pem");
+        File clientCACertificateFile = new File("src/main/credentials/ca-cert.pem");
 
-        SslContextBuilder ctxBuilder = SslContextBuilder.forServer(serverCertFile, serverKeyFile)
+        SslContextBuilder contextBuilder = SslContextBuilder.forServer(serverCertificateFile, privateKeyFile)
                 .clientAuth(ClientAuth.REQUIRE)
-                .trustManager(clientCACertFile);
+                .trustManager(clientCACertificateFile);
 
-        return GrpcSslContexts.configure(ctxBuilder).build();
+        return GrpcSslContexts.configure(contextBuilder).build();
     }
     public static void main( String[] args ) throws InterruptedException, IOException {
         System.out.println( "Starting Lemon Database server..." );
@@ -45,9 +45,11 @@ public class LemonDatabaseServer {
         final BindableService userService = new UserTableServiceImpl(db);
         SslContext sslContext = loadTLSCredentials();
 
-        server = NettyServerBuilder.forPort(port).sslContext(sslContext)
-                .addService(vehicleService)
-                .build();
+        server = NettyServerBuilder.forPort(port)
+            .sslContext(sslContext)
+            .addService(vehicleService)
+            //.addService(userService)
+            .build();
 
         server.start();
 

@@ -30,9 +30,9 @@ public class UserTableServiceFrontend {
     private final UserTableServiceGrpc.UserTableServiceBlockingStub stub;
 
     public SslContext loadTLSCredentials() throws SSLException {
-        File serverCACertFile = new File("ca-certificate");
-        File clientCertFile = new File("client-certificate");
-        File clientKeyFile = new File("clientKey");
+        File serverCACertFile = new File("src/main/credentials/ca-cert.pem");
+        File clientCertFile = new File("src/main/credentials/client-cert.pem");
+        File clientKeyFile = new File("src/main/credentials/client-key.pem");
 
         return GrpcSslContexts.forClient()
                 .keyManager(clientCertFile, clientKeyFile)

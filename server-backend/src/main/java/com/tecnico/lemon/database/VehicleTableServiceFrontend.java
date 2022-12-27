@@ -31,9 +31,9 @@ public class VehicleTableServiceFrontend {
     private final VehicleTableServiceGrpc.VehicleTableServiceBlockingStub stub;
 
     public SslContext loadTLSCredentials() throws SSLException {
-        File serverCACertFile = new File("");
-        File clientCertFile = new File("");
-        File clientKeyFile = new File("");
+        File serverCACertFile = new File("src/main/credentials/ca-cert.pem");
+        File clientCertFile = new File("src/main/credentials/client-cert.pem");
+        File clientKeyFile = new File("src/main/credentials/client-key.pem");
 
         return GrpcSslContexts.forClient()
                 .keyManager(clientCertFile, clientKeyFile)
