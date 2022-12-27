@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const serverHostname = "http://127.0.0.1:8443/";
+const serverHostname = "https://localhost:8443";
 
 let user_id = 0;
 

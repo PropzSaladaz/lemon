@@ -1,2 +1,8 @@
 server:
-    port: 8080
+  port: 8443
+  ssl:
+    enabled: true
+    key-store: src/main/certificate.p12
+    key-store-password: password
+    key-alias: 1
+    key-store-type: PKCS12
