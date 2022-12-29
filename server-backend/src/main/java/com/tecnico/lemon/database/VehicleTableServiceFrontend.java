@@ -1,19 +1,10 @@
 package com.tecnico.lemon.database;
-import com.tecnico.lemon.contract.*;
-import com.tecnico.lemon.database.DataBase;
-import com.tecnico.lemon.dtos.VehicleDto;
-import com.tecnico.lemon.models.vehicle.Vehicle;
+
 import com.tecnico.lemon.contract.VehicleTableServiceGrpc;
 import com.tecnico.lemon.dtos.VehicleDto;
 import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
-import io.grpc.Status;
-import io.grpc.StatusRuntimeException;
 import io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.NettyChannelBuilder;
-import io.grpc.stub.StreamObserver;
 import io.netty.handler.ssl.SslContext;
 
 import javax.net.ssl.SSLException;
@@ -43,7 +34,7 @@ public class VehicleTableServiceFrontend {
     public VehicleTableServiceFrontend() {
         SslContext context = null;
         try {
-            //context = loadTLSCredentials();
+            context = loadTLSCredentials();
         } catch (Exception e) {
             System.err.println("Error Loading Credentials");
         }
