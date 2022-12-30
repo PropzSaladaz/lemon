@@ -1,0 +1,13 @@
+syntax = "proto3";
+package com.tecnico.lemon.contract;
+
+message PasswordRequest {
+}
+
+message PasswordResp {
+}
+
+service MobileService {
+  rpc signup(PasswordRequest) returns (PasswordResp);
+  rpc login(PasswordRequest) returns (PasswordResp);
+}

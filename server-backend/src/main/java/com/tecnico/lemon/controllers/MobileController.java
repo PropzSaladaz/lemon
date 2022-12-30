@@ -1,6 +1,5 @@
 package com.tecnico.lemon.controllers;
-
-import com.tecnico.lemon.ContractsAndKeys.Crypto;
+import com.tecnico.lemon.Crypto;
 import com.tecnico.lemon.services.SignUpRepository;
 import com.tecnico.lemon.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +29,4 @@ public class MobileController {
             return ResponseEntity.badRequest().body("Token Does Not Exist");
         }
     }
-
-
 }
