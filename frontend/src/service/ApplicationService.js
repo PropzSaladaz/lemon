@@ -52,41 +52,6 @@ const apiClient = axios.create({
 });
 
 export default {
-    emailExists(email) {
-        for (var user of users) {
-            if (user.email === email) return true;
-        }
-        return false;
-    },
-    validateLogin(email, password, employer) {
-        for (var user of users) {
-            console.log(employer)
-            if ((user.email == email) && (user.password == password) && (user.employer == employer)) {
-                console.log("here");
-                if (user.type == "Employer"){
-                    console.log(user.type);
-                    return "Employer" ;
-                }
-                else return "Customer"
-            }
-        }
-        return "";
-    },
-    isRegistered(email) {
-        for (var user of users) {
-            console.log(employer)
-            if (user.email == email) {
-                return false;
-            }
-        }
-        return true;
-    },
-    getUserType(email) {
-        for (var user of users) {
-            if (user.email === email) return user.type;
-        }
-    },
-
     getAvailableVehicles() {
         return apiClient.get("/vehicle");
     },
@@ -103,9 +68,7 @@ export default {
         return apiClient.post("/vehicle/unlock/" + id);
     },
 
-    signUp(_email) {
-        return apiClient.post("/signup/" +_email);
+    login(_email) {
+        return apiClient.post("/login/" + _email);
     },
-
-    
-}
+} 
