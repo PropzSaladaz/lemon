@@ -24,34 +24,44 @@ public class UserController {
 
 
     @PostMapping(value="/{email}")
-    public ResponseEntity<String> signupUser(@PathVariable("email") String email) throws InvalidKeySpecException, NoSuchAlgorithmException {
+    public ResponseEntity<String> loginUser(@PathVariable("email") String email) throws InvalidKeySpecException, NoSuchAlgorithmException {
         System.out.println(email);
-        if(!userService.lookupUser(email)){
+        String token = "NULL";
+
+        // Email does not exist -> Signup
+        if (!userService.lookupUser(email)){
             UserInfo info = new UserInfo(email);
-            String token = TokenGenerate.generateToken(8);
+            token = TokenGenerate.generateToken(8);
             info.set_secretKey(KeyGenerate.generateKey(token));
             repository.putMap(token,info);
             JavaMailUtil.sendEmail(token,email);
-            long startTime = System.currentTimeMillis();
-            long elapsedTime = 0;
-            long millis = 600000; // 10 minutes in milliseconds
-            while (elapsedTime < millis) {
-                elapsedTime = System.currentTimeMillis() - startTime;
-                if (repository.getInfo(token).get_publicKey() != null) {
-                    return new ResponseEntity<>("Signed Completed With Success", HttpStatus.OK);
-                }
-                System.out.println("Waiting 10 minutes...");
-                try {
-                    Thread.sleep(60000); // Sleep for 1 minute (60 seconds)
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+        }
+        // Email already exists -> Login
+        else {
+            // Prompt the password for the user with this email
+            // Send a session key encrypted with his public key (?)
+        }
+        long startTime = System.currentTimeMillis();
+        long elapsedTime = 0;
+        long millis = 600000; // 10 minutes in milliseconds
+        while (elapsedTime < millis) {
+            elapsedTime = System.currentTimeMillis() - startTime;
+            if (token != "NULL" && repository.getInfo(token).get_publicKey() != null) {
+                return new ResponseEntity<>("Signed up Successfuly", HttpStatus.OK);
             }
-            if (elapsedTime >= millis) {
-                repository.removeToken(token);
+            else if (true /* Condition for havin logged in */) {
+                // Code for login
+                return new ResponseEntity<>("Logged in Successfuly", HttpStatus.OK);
             }
-        }else{
-            return ResponseEntity.badRequest().body("Already Signed Up");
+            System.out.println("Waiting 10 minutes...");
+            try {
+                Thread.sleep(60000); // Sleep for 1 minute (60 seconds)
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        if (elapsedTime >= millis) {
+            repository.removeToken(token);
         }
         return ResponseEntity.badRequest().body("Already Signed Up");
     }

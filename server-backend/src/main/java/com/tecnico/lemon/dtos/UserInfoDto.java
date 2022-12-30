@@ -1,7 +1,5 @@
 package com.tecnico.lemon.dtos;
 
-import com.tecnico.lemon.models.user.UserForm;
-
 public class UserInfoDto {
     
     public int id;

@@ -60,9 +60,6 @@
       <div class="navbar-end" v-if="!loggedIn()">
         <div class="navbar-item">
           <div class="buttons">
-            <a class="button is-primary" @click="gotoSignup">
-              <strong>Sign up</strong>
-            </a>
             <a class="button is-light" @click="gotoLogin">
               Log in
             </a>
@@ -72,7 +69,7 @@
     </div>
   </nav>
 
-  <router-view @login="onLogin" @signup="onSignup" :invalidAccount="invalidAccount"/>
+  <router-view @login="onLogin" :invalidAccount="invalidAccount"/>
 
 </template>
 
@@ -97,43 +94,36 @@ export default {
     gotoLogin() {
       this.$router.push('/user/login');
     },
-    gotoSignup() {
-      this.$router.push('/user/signup');
-    },
-  
-
     onLogin(event) {
-      var result = ApplicationService.validateLogin(event.email, event.password, event.employer);
-      if ( result == "Employer") {
-        this.isEmployee = true;
-        this.isCustomer = false;
-        this.email = event.email;
-        this.$router.push('/user/localization')
-      }else if(result == "Customer"){
-        this.isCustomer = true;
-        this.isEmployee = false;
-        this.email = event.email;
-        this.$router.push('/user/reservation');
-      }
-      else {
-        console.log(event.email, event.password);
-        this.invalidAccount = true;
-        alert("Account doesn't exist");
-      }
-    },
-    async onSignup(event) {
-      ApplicationService.signUp(event.email)
-        .then(response => {
+      try {
+        var response = ApplicationService.login(event.email);
+        if (response = "Employer") {
+          this.isEmployee = true;
+          this.isCustomer = false;
+          this.email = event.email;
+          this.$router.push('/user/localization')
+        }
+        else if(result == "Customer"){
+          this.isCustomer = true;
+          this.isEmployee = false;
+          this.email = event.email;
           this.$router.push('/user/vehicles');
-        })
-        .catch(error => {
+        }
+        else {
+          console.log(event.email, event.password);
+          this.invalidAccount = true;
+          alert("Account doesn't exist");
+        }
+      }
+      catch(error) {
+          console.log(error);
           // handle the error when the request fails (HTTP status code other than 200)
-        });
+      }
     },
   },
   computed: {
     showWelcomePage(){ 
-      return !this.email && !this.loginFormVisible && !this.signUpFromVisible;
+      return !this.email && !this.loginFormVisible;
     },
     invalidAccount() {
       return this.invalidAccount;

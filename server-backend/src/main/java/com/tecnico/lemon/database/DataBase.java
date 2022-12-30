@@ -6,7 +6,6 @@ import com.tecnico.lemon.dtos.UserInfoDto;
 import com.tecnico.lemon.models.vehicle.Bike;
 import com.tecnico.lemon.models.vehicle.Scooter;
 import com.tecnico.lemon.models.vehicle.Vehicle;
-import com.tecnico.lemon.models.user.UserForm;
 
 import lombok.Builder;
 import lombok.Data;
