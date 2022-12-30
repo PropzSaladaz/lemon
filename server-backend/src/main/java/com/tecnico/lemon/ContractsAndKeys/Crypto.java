@@ -23,34 +23,17 @@ public class Crypto {
 
     }
 
-    public static MobileMessage decryptAES(String message,SecretKey key){
+    public static String decryptAES(String message,SecretKey key){
         try{
             byte[] decodedBytes = Base64.getDecoder().decode(message);
             final String CIPHER_ALGO = "AES/ECB/PKCS5Padding";
             Cipher cipher = Cipher.getInstance(CIPHER_ALGO);
             cipher.init(Cipher.DECRYPT_MODE, key);
             byte[] cipherBytes = cipher.doFinal(decodedBytes);
-            return convertToMessage(cipherBytes);
+            return String.valueOf(cipherBytes);
         }catch(Exception e){
             throw new RuntimeException("ERROR WHILE DECRYPTING");
         }
     }
 
-    public static MobileMessage convertToMessage(byte[] cyperBytes) throws IOException, ClassNotFoundException {
-        // Create the array of bytes to be decoded
-
-        // Create a ByteArrayInputStream from the array of bytes
-        ByteArrayInputStream bais = new ByteArrayInputStream(cyperBytes);
-
-        // Create an ObjectInputStream from the ByteArrayInputStream
-        ObjectInputStream ois = new ObjectInputStream(bais);
-
-        // Read the object from the ObjectInputStream and cast it to the desired class
-        MobileMessage obj = (MobileMessage) ois.readObject();
-
-        // Close the streams
-        ois.close();
-        bais.close();
-        return obj;
-    }
 }

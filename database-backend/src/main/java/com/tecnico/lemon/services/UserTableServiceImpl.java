@@ -1,5 +1,4 @@
 package com.tecnico.lemon.services;
-
 import com.tecnico.lemon.contract.UserTableServiceGrpc;
 import com.tecnico.lemon.contract.VehicleTableServiceOuterClass;
 import com.tecnico.lemon.database.DatabaseManager;

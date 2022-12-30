@@ -14,7 +14,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
 @RestController
-@RequestMapping(value="signup")
+@RequestMapping(value="login")
 public class UserController {
 
     @Autowired

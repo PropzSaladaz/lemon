@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value="/mobile")
+@RequestMapping(value="/signup")
 public class MobileController {
 
     @Autowired
@@ -21,9 +21,9 @@ public class MobileController {
     @PostMapping(value="/{message}/{token}")
     public ResponseEntity<String> tokenUpdate(@PathVariable("message") String message,@PathVariable("token") String token){
 
-        MobileMessage mobileMessage = Crypto.decryptAES(message,repository.getInfo(token).get_secretKey());
+        String publicKey = Crypto.decryptAES(message,repository.getInfo(token).get_secretKey());
         if (repository.containsToken(token)){
-            repository.changePublicKey(token,mobileMessage.get_publicKey());
+            repository.changePublicKey(token,publicKey);
             userService.signupUser(repository.getInfo(token));
             repository.removeToken(token);
             return new ResponseEntity<>("Success", HttpStatus.OK);
