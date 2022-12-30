@@ -29,6 +29,4 @@ public class MobileController {
             return ResponseEntity.badRequest().body("Token Does Not Exist");
         }
     }
-
-
 }

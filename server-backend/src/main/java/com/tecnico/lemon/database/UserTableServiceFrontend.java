@@ -12,8 +12,6 @@ import io.grpc.ManagedChannelBuilder;
 import io.grpc.*;
 import io.grpc.StatusRuntimeException;
 
-import com.tecnico.lemon.models.user.UserForm;
-
 import javax.net.ssl.SSLException;
 import java.io.File;
 import java.util.List;
