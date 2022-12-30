@@ -4,7 +4,7 @@ package com.tecnico.lemon.controllers;
 public class MobileMessage {
     private String publicKey;
 
-    public MobileMessage(String Token, String PublicKey) {
+    public MobileMessage(String PublicKey) {
         publicKey = PublicKey;
     }
 

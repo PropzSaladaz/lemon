@@ -67,7 +67,6 @@ export default {
     cancelReservation(id){
         return apiClient.post("/vehicle/unlock/" + id);
     },
-
     login(_email) {
         return apiClient.post("/login/" + _email);
     },
