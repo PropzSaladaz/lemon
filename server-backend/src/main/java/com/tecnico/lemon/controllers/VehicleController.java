@@ -1,7 +1,12 @@
 package com.tecnico.lemon.controllers;
 
+import com.tecnico.lemon.contract.MobileServiceGrpc;
+import com.tecnico.lemon.contract.MobileServiceOuterClass;
 import com.tecnico.lemon.dtos.VehicleDto;
 import com.tecnico.lemon.services.VehicleService;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
+import io.grpc.netty.NettyChannelBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +26,10 @@ public class VehicleController {
 
     @GetMapping(value="/locked")
     public List<VehicleDto> getLockedVehicles() {
+//        ManagedChannel channel = ManagedChannelBuilder.forTarget("localhost:8080").build(); TODO test mobile
+//        MobileServiceGrpc.MobileServiceBlockingStub stub = MobileServiceGrpc.newBlockingStub(channel);
+//        stub.requestPassword(MobileServiceOuterClass.PasswordRequest.newBuilder().build());
+
         return vehicleService.getLockedVehicles();
     }
 

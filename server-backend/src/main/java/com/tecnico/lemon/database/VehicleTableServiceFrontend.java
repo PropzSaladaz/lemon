@@ -1,5 +1,6 @@
 package com.tecnico.lemon.database;
 
+import com.tecnico.lemon.SSLContext;
 import com.tecnico.lemon.contract.VehicleTableServiceGrpc;
 import com.tecnico.lemon.dtos.VehicleDto;
 import io.grpc.ManagedChannel;
@@ -20,21 +21,13 @@ public class VehicleTableServiceFrontend {
     private final ManagedChannel channel;
     private final VehicleTableServiceGrpc.VehicleTableServiceBlockingStub stub;
 
-    public SslContext loadTLSCredentials() throws SSLException {
-        File serverCACertFile = new File("src/main/credentials/ca-cert.pem");
-        File clientCertFile = new File("src/main/credentials/client-cert.pem");
-        File clientKeyFile = new File("src/main/credentials/client-key.pem");
-
-        return GrpcSslContexts.forClient()
-                .keyManager(clientCertFile, clientKeyFile)
-                .trustManager(serverCACertFile)
-                .build();
-    }
-
     public VehicleTableServiceFrontend() {
         SslContext context = null;
         try {
-            context = loadTLSCredentials();
+            String clientCertFile = "src/main/credentials/client-cert.pem";
+            String privateKeyFile = "src/main/credentials/client-key.pem";
+            String caCert         = "src/main/credentials/ca-cert.pem";
+            context = SSLContext.forClient(clientCertFile, privateKeyFile, caCert);
         } catch (Exception e) {
             System.err.println("Error Loading Credentials");
         }

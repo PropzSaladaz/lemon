@@ -9,9 +9,6 @@ Customers can look for and unlock these vehicles through a mobile app or a websi
 Lemon's employees also have an internal app to pick up wrongly parked vehicles, which has access to their location through GPS and suggests the best course with Google Maps integration.
 
 
-Skeleton: https://github.com/akmolina28/mvc5-vuejs-template
-
-
 # Build commands
 
 ### Launch Database server
@@ -28,4 +25,9 @@ mvn spring-boot:run
 ```
 npm install
 npm run serve
+```
+
+### Launch Mobile App
+```
+mvn exec:java -Dexec.mainClass="com.tecnico.lemon.MobileApp" -Dexec.args=""
 ```
