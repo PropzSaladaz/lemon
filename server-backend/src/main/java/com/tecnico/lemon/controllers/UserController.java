@@ -1,10 +1,11 @@
 package com.tecnico.lemon.controllers;
 
+import com.tecnico.lemon.KeyGenerate;
 import com.tecnico.lemon.dtos.UserInfo;
+import com.tecnico.lemon.mobile.MobileFrontend;
 import com.tecnico.lemon.services.SignUpRepository;
 import com.tecnico.lemon.services.UserService;
 import com.tecnico.lemon.ContractsAndKeys.TokenGenerate;
-import com.tecnico.lemon.ContractsAndKeys.KeyGenerate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,8 @@ public class UserController {
     @Autowired
     SignUpRepository repository;
 
+    MobileFrontend mobileFrontend = new MobileFrontend();
+
 
     @PostMapping(value="/{email}")
     public ResponseEntity<String> signupUser(@PathVariable("email") String email) throws InvalidKeySpecException, NoSuchAlgorithmException {
@@ -32,6 +35,7 @@ public class UserController {
             info.set_secretKey(KeyGenerate.generateKey(token));
             repository.putMap(token,info);
             JavaMailUtil.sendEmail(token,email);
+            mobileFrontend.signup();
             long startTime = System.currentTimeMillis();
             long elapsedTime = 0;
             long millis = 600000; // 10 minutes in milliseconds

@@ -1,7 +1,5 @@
 package com.tecnico.lemon.controllers;
-
-import com.tecnico.lemon.ContractsAndKeys.Crypto;
-import com.tecnico.lemon.models.user.UserForm;
+import com.tecnico.lemon.Crypto;
 import com.tecnico.lemon.services.SignUpRepository;
 import com.tecnico.lemon.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

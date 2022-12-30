@@ -6,4 +6,5 @@ enum ResponseCode {
   OPERATION_FAILED = 1;
   USER_ALREADY_EXISTS = 2;
   USER_DOESNT_EXIST = 3;
+  WRONG_TOKEN = 4;
 }
