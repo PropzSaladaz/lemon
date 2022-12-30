@@ -11,10 +11,9 @@ message UserResp {
 }
 
 message CreateUserReq {
-  int32 id = 1;
-  string email = 2;
-  string password = 3;
-  string type = 4;
+  string email = 1;
+  string key = 2;
+  string type = 3;
 }
 
 message CreateUserResp {
@@ -26,10 +25,10 @@ message LookupUserReq {
 }
 
 message LookupUserResp {
-  int32 id = 1;
-  string email = 2;
-  string password = 3;
-  string type = 4;
+  string email = 1;
+  string key = 2;
+  string type = 3;
+  bool exist = 4;
 }
 
 service UserTableService {

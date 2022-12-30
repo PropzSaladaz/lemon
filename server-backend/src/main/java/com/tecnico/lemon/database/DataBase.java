@@ -1,6 +1,7 @@
 package com.tecnico.lemon.database;
 
 import com.tecnico.lemon.dtos.VehicleDto;
+import com.tecnico.lemon.dtos.UserInfo;
 import com.tecnico.lemon.dtos.UserInfoDto;
 import com.tecnico.lemon.models.vehicle.Bike;
 import com.tecnico.lemon.models.vehicle.Scooter;
@@ -27,12 +28,8 @@ public class DataBase {
         user_id = 0;
     }
 
-    public void createUser(UserForm userForm) {
-        usersFrontend.createUser(userForm, user_id++);
-    }
-
-    public UserInfoDto lookupUser(String email) {
-        return usersFrontend.lookupUser(email);
+    public boolean signUpUser(UserInfo userinfo) {
+       return usersFrontend.signUpUser(userinfo);
     }
 
     public List<VehicleDto> getAvailableVehicles() {
@@ -55,6 +52,10 @@ public class DataBase {
             }
         }
         return listFinal;
+    }
+
+    public boolean lookupUser(String email) {
+        return usersFrontend.lookupUser(email);
     }
 
     public void lockVehicle(int id){

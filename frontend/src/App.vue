@@ -121,15 +121,14 @@ export default {
         alert("Account doesn't exist");
       }
     },
-    onSignup(event) {
-      if ((ApplicationService.isRegistered(event.email).id != null) && event.password == event.passwordRep) {
-        alert(`Account already exists with email ${event.email}`);
-        this.invalidAccount = true;
-      }
-      else {
-        ApplicationService.createUser(event.email, event.password, event.employer);
-        // TODO: goto other page
-      }
+    async onSignup(event) {
+      ApplicationService.signUp(event.email)
+        .then(response => {
+          this.$router.push('/user/vehicles');
+        })
+        .catch(error => {
+          // handle the error when the request fails (HTTP status code other than 200)
+        });
     },
   },
   computed: {

@@ -103,17 +103,9 @@ export default {
         return apiClient.post("/vehicle/unlock/" + id);
     },
 
-    createUser(_email, _password, _type) {
-        apiClient.post("/user/signup/_signup",
-            JSON.stringify({
-                email: _email,
-                password: _password,
-                type: _type,
-            })
-        );
+    signUp(_email) {
+        return apiClient.post("/signup/" +_email);
     },
 
-    isRegistered(_email) {
-        return apiClient.get("/user/lookup/" + _email);
-    },
+    
 }

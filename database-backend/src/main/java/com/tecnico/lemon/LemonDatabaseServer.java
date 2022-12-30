@@ -44,7 +44,7 @@ public class LemonDatabaseServer {
         server = NettyServerBuilder.forPort(port)
             .sslContext(sslContext)
             .addService(vehicleService)
-            //.addService(userService)
+            .addService(userService)
             .build();
 
 

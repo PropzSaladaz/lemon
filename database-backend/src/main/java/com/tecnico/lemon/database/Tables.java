@@ -3,9 +3,8 @@ package com.tecnico.lemon.database;
 public class Tables {
     public class User {
         public static final String TABLE_NAME = "users";
-        public static final String ID = "id";
         public static final String EMAIL = "email";
-        public static final String PASSWORD = "password";
+        public static final String PUBLIC_KEY = "key";
         public static final String TYPE = "type";
     }
 

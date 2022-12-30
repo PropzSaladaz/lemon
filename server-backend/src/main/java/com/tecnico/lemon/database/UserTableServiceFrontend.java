@@ -2,7 +2,7 @@ package com.tecnico.lemon.database;
 import com.tecnico.lemon.contract.*;
 import com.tecnico.lemon.database.DataBase;
 import com.tecnico.lemon.dtos.UserInfoDto;
-
+import com.tecnico.lemon.dtos.UserInfo;
 import io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.NettyChannelBuilder;
 import io.netty.handler.ssl.SslContext;
@@ -42,7 +42,7 @@ public class UserTableServiceFrontend {
     public UserTableServiceFrontend() {
         SslContext context = null;
         try {
-            //context = loadTLSCredentials();
+            context = loadTLSCredentials();
         } catch (Exception e) {
             System.err.println("Error Loading Credentials");
         }
@@ -50,19 +50,22 @@ public class UserTableServiceFrontend {
         stub = UserTableServiceGrpc.newBlockingStub(channel);
     }
 
-    public void createUser(UserForm userForm, int id) {
-
-        CreateUserReq request = CreateUserReq.newBuilder()
-            .setId(id)
-            .setEmail(userForm.get_email())
-            .setPassword(userForm.get_password())
-            .setType(userForm.get_type())
-            .build();
-        CreateUserResp resp = stub.createUser(request);
+    public boolean signUpUser(UserInfo userinfo) {
+        if(!lookupUser(userinfo.get_email())){
+            CreateUserReq request = CreateUserReq.newBuilder()
+                    .setEmail(userinfo.get_email())
+                    .setKey(userinfo.get_publicKey())
+                    .setType(userinfo.get_type())
+                    .build();
+            stub.createUser(request);
+            return true;
+        }
+        return false;
     }
 
-    public UserInfoDto lookupUser(String email) {
+    public boolean lookupUser(String email) {
+        System.out.println(email);
         LookupUserResp resp = stub.lookupUser(LookupUserReq.newBuilder().setEmail(email).build());
-        return new UserInfoDto(resp.getId(), resp.getEmail(), resp.getPassword(), resp.getType());
+     return resp.getExist();
     }
 }
