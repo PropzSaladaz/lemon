@@ -27,11 +27,25 @@ public class MobileServiceImpl extends MobileServiceGrpc.MobileServiceImplBase {
     }
 
     @Override
-    public void requestPassword(PasswordRequest request, StreamObserver<PasswordResp> responseObserver) {
+    public void signup(PasswordRequest request, StreamObserver<PasswordResp> responseObserver) {
         // For test purposes we request password for every action needed
         try {
             requestPassword();
-            //sendToken();
+            sendToken();
+        }
+        catch(Exception ex) {
+            ex.printStackTrace();
+        }
+        responseObserver.onNext(PasswordResp.newBuilder().build());
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void login(PasswordRequest request, StreamObserver<PasswordResp> responseObserver) {
+        // For test purposes we request password for every action needed
+        try {
+            requestPassword();
+            sendPublicKey();
         }
         catch(Exception ex) {
             ex.printStackTrace();
@@ -67,29 +81,41 @@ public class MobileServiceImpl extends MobileServiceGrpc.MobileServiceImplBase {
 
         String token = scanner.nextLine();
         String publicKey = KeyConverter.publicKeyToString(this.keys.getPublic());
-        String signupRequest = createSignupJSON(token, publicKey);
-        HttpResponse<String> resp = sendSignupHTTP(signupRequest);
+        String encryptedPubKey = publicKey; // TODO encrypt key
+        HttpResponse<String> resp = sendHTTP("/signup/" + encryptedPubKey + "/" + token);
 
-        while (resp.statusCode() != 200) {
+        while (resp.statusCode() != 200) { // TODO change condition based on returned message
             System.out.println("Wrong token, please enter the Token received.");
             token = scanner.nextLine();
-            signupRequest = createSignupJSON(token, publicKey);
-            resp = sendSignupHTTP(signupRequest);
+            resp = sendHTTP("/signup/" + encryptedPubKey + "/" + token);
         }
         System.out.println("Signed up successfully");
     }
 
-    private HttpResponse<String> sendSignupHTTP(String body) throws Exception {
+    private void sendPublicKey() throws Exception {
+        String publicKey = KeyConverter.publicKeyToString(this.keys.getPublic());
+        String encryptedPubKey = publicKey; // TODO encrypt key
+        HttpResponse<String> resp = sendHTTP("/login/" + encryptedPubKey);
+
+        if (resp.statusCode() != 200) { // TODO change condition based on returned message
+            System.out.println("Could not login! The client key does not correspond to the stored in the server");
+        }
+        else {
+            System.out.println("Logged in successfully");
+        }
+    }
+
+    private HttpResponse<String> sendHTTP(String path) throws Exception {
         java.net.http.HttpRequest request = java.net.http.HttpRequest.newBuilder()
-                .uri(new URI("https://" + serverHostname + "/vehicle"))
+                .uri(new URI("https://" + serverHostname + path))
                 .headers("Content-Type", "text/plain;charset=UTF-8")
-                .POST(HttpRequest.BodyPublishers.ofString("Sample request body"))
+                .POST(HttpRequest.BodyPublishers.ofString("r i c k . . ."))
                 .build();
         HttpClient client = HttpClient.newHttpClient();
         return client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
-    private String createSignupJSON(String token, String publicKey) {
+    private String createSignupJSON(String token, String publicKey) { // TODO currently not used
         JSONObject signupRequest = new JSONObject();
         signupRequest.put("token", token);
         signupRequest.put("publicKey", publicKey);

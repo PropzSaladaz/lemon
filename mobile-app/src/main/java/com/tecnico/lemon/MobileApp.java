@@ -4,6 +4,7 @@ import com.tecnico.lemon.services.MobileServiceImpl;
 import io.grpc.BindableService;
 import io.grpc.Server;
 import io.grpc.netty.NettyServerBuilder;
+import io.netty.handler.ssl.SslContext;
 
 import java.io.FileInputStream;
 import java.util.Properties;
@@ -23,10 +24,12 @@ public class MobileApp {
 
         // Create Grpc Server
         final BindableService mobileService = new MobileServiceImpl(password, privKeyPath, pubKeyPath, serverHostname);
-
-        // SslContext sslContext = loadTLSCredentials();
+        String serverCertFile = "src/main/credentials/mobile-server-cert.pem";
+        String privateKeyFile = "src/main/credentials/mobile-server-key.pem";
+        String caCert         = "src/main/credentials/ca-cert.pem";
+        SslContext context = SSLContext.forServer(serverCertFile, privateKeyFile, caCert);
         server = NettyServerBuilder.forPort(clientPort)
-                // .sslContext(sslContext) // TODO no need to implement! Google servers would guarantee encryption!
+                .sslContext(context)
                 .addService(mobileService)
                 .build();
 

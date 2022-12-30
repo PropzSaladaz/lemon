@@ -11,23 +11,47 @@ Lemon's employees also have an internal app to pick up wrongly parked vehicles, 
 
 # Build commands
 
-### Launch Database server
+### Generate all certificates & keys
+Got to the credentials' directory (lemon/credentials) and run the generator script
+``` bash
+cd ./credentials
+bash gen.sh
 ```
+
+### Add Lemon certificate to java keystore
+Since the certificate is singed by an "CA", we need to add it to the java keystore:
+``` bash
+sudo keytool -trustcacerts -keystore "$JAVA_HOME/lib/security/cacerts" -storepass changeit -importcert -alias lemon -file <path-to-lemon>/lemon/server-backend/src/main/credentials/https-certificate.pem
+```
+
+### Launch Database server
+``` bash
 mvn exec:java -Dexec.mainClass="com.tecnico.lemon.LemonDatabaseServer" -Dexec.args=""
 ```
 
 ### Launch Backend server
-```
+``` bash
 mvn spring-boot:run
 ```
 
 ### Launch frontend
-```
+``` bash
 npm install
 npm run serve
 ```
 
 ### Launch Mobile App
-```
+``` bash
 mvn exec:java -Dexec.mainClass="com.tecnico.lemon.MobileApp" -Dexec.args=""
 ```
+
+
+---
+### Software versions
+|       | version  |
+|-------|----------|
+| node  | 16.5.0   |
+| maven | => 3.6.3 |
+|  JDK  | 17       |
+
+

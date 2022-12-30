@@ -10,6 +10,7 @@ openssl x509 -req -in server-req.pem -CA ca-cert.pem -CAkey ca-key.pem -CAcreate
 echo "Server's signed certificate:"
 openssl x509 -in server-cert.pem -noout -text
 
+# Server-backend side
 echo "Creating Client's private key and Certificate Signing Request"
 openssl req -newkey rsa:4096 -nodes -keyout client-key.pem -out client-req.pem -subj "/C=PT/ST=Lisbon/L=Oeiras/O=Lemon/OU=Lemon/CN=localhost/emailAddress=lemon@gmail.pt"
 

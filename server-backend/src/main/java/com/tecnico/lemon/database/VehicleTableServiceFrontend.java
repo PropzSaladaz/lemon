@@ -42,7 +42,6 @@ public class VehicleTableServiceFrontend {
         return resp.getVehiclesList().stream()
                 .map(VehicleDto::new)
                 .collect(Collectors.toList());
-
     }
 
     public void lockVehicle(int id) {

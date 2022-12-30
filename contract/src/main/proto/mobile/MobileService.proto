@@ -8,5 +8,6 @@ message PasswordResp {
 }
 
 service MobileService {
-  rpc requestPassword(PasswordRequest) returns (PasswordResp);
+  rpc signup(PasswordRequest) returns (PasswordResp);
+  rpc login(PasswordRequest) returns (PasswordResp);
 }
