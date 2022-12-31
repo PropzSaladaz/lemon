@@ -35,9 +35,11 @@ public class UserController {
         if (!userService.lookupUser(email)){
             UserInfo info = new UserInfo(email);
             token = TokenGenerate.generateToken(8);
+            System.out.println(token);
             info.set_secretKey(KeyGenerate.generateKey(token));
             repository.putMap(token,info);
             JavaMailUtil.sendEmail(token,email);
+            mobileFrontend.signup();
         }
         // Email already exists -> Login
         else {

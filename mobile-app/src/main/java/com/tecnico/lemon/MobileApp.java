@@ -42,7 +42,7 @@ public class MobileApp {
         Properties config = new Properties();
         try {
             config.load(new FileInputStream("src/main/resources/config.properties"));
-        }catch(Exception ex) {
+        } catch(Exception ex) {
             ex.printStackTrace();
         }
 

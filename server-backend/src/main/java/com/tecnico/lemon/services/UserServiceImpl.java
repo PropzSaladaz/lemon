@@ -18,7 +18,4 @@ public class UserServiceImpl implements UserService {
     public boolean lookupUser(String email) {
         return userServiceFrontend.lookupUser(email);
     }
-
-
-
 }

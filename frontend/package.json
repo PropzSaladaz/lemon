@@ -11,18 +11,21 @@
     "axios": "^1.2.0",
     "bulma": "^0.9.4",
     "core-js": "^3.8.3",
+    "fs": "^0.0.1-security",
+    "https": "^1.0.0",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
-    "vuex": "^4.0.0",
-    "webpack": "^5.0.0"
+    "vuex": "^4.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-plugin-vuex": "~5.0.0",
-    "@vue/cli-service": "~5.0.0",
+    "@vue/cli-service": "^5.0.8",
     "node-sass": "^8.0.0",
-    "sass-loader": "^13.2.0"
+    "sass-loader": "^13.2.0",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
   },
   "browserslist": [
     "> 1%",

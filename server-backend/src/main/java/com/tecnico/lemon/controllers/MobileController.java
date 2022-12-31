@@ -17,15 +17,15 @@ public class MobileController {
     SignUpRepository repository;
 
     @PostMapping(value="/{message}/{token}")
-    public ResponseEntity<String> tokenUpdate(@PathVariable("message") String message,@PathVariable("token") String token){
+    public ResponseEntity<String> tokenUpdate(@PathVariable("message") String message, @PathVariable("token") String token){
 
-        String publicKey = Crypto.decryptAES(message,repository.getInfo(token).get_secretKey());
-        if (repository.containsToken(token)){
-            repository.changePublicKey(token,publicKey);
+        String publicKey = Crypto.decryptAES(message, repository.getInfo(token).get_secretKey());
+        if (repository.containsToken(token)) {
+            repository.changePublicKey(token, publicKey);
             userService.signupUser(repository.getInfo(token));
             repository.removeToken(token);
             return new ResponseEntity<>("Success", HttpStatus.OK);
-        }else{
+        } else {
             return ResponseEntity.badRequest().body("Token Does Not Exist");
         }
     }

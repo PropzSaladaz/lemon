@@ -29,7 +29,7 @@ public class VehicleTableServiceImpl extends VehicleTableServiceGrpc.VehicleTabl
                             .setPrice(res.getInt(Tables.Vehicle.PRICE))
                             .setLocation(res.getString(Tables.Vehicle.LOCALIZATION))
                             .setLocked(res.getBoolean(Tables.Vehicle.LOCKED))
-                            .setId(res.getInt(Tables.Vehicle.ID))
+                            .setId(res.getInt(Tables.Vehicle.VEHICLE_ID))
                             .build();
                     resp.addVehicles(v);
 
@@ -57,8 +57,5 @@ public class VehicleTableServiceImpl extends VehicleTableServiceGrpc.VehicleTabl
         _db.executeQuery("update " + Tables.Vehicle.TABLE_NAME + " set locked = " + false + " where id= " + request.getId());
         responseObserver.onNext(resp.build());
         responseObserver.onCompleted();
-
-
     }
-
 }
