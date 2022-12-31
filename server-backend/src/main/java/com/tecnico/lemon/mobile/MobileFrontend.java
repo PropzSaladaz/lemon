@@ -33,6 +33,6 @@ public class MobileFrontend {
     }
 
     public void login() {
-        PasswordResp resp = stub.login(PasswordRequest.newBuilder().build());
+        LoginResp  resp = stub.login(LoginRequest.newBuilder().build());
     }
 }

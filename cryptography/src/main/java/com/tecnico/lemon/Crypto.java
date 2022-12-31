@@ -1,6 +1,8 @@
 package com.tecnico.lemon;
 
 import javax.crypto.*;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -34,6 +36,19 @@ public class Crypto {
         }catch(Exception e){
             throw new RuntimeException("ERROR WHILE DECRYPTING");
         }
+    }
+
+
+    public static String encryptRSA(String message){
+        // TO DO uses a SecretKey clientPublicKey and a SecretKey serverPrivateKey
+        return "";
+    }
+
+    public static SecretKey decryptRSA(String message) {
+        // TO DO uses a SecretKey clientPublicKey and a SecretKey serverPrivateKey
+        //TO DO RETURN A SECRET KEY
+        SecretKey SecretKey = null;
+        return SecretKey;
     }
 
 }

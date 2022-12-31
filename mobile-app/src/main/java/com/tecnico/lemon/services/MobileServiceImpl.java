@@ -5,11 +5,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tecnico.lemon.ContractsAndKeys.KeyGenerate;
 import com.tecnico.lemon.Crypto;
 import com.tecnico.lemon.contract.MobileServiceGrpc;
+import com.tecnico.lemon.contract.MobileServiceOuterClass;
 import com.tecnico.lemon.contract.MobileServiceOuterClass.PasswordRequest;
 import com.tecnico.lemon.contract.MobileServiceOuterClass.PasswordResp;
 import com.tecnico.lemon.KeyConverter;
 import com.tecnico.lemon.KeyReader;
 import io.grpc.stub.StreamObserver;
+import com.tecnico.lemon.contract.MobileServiceOuterClass.LoginResp;
+import com.tecnico.lemon.contract.MobileServiceOuterClass.LoginRequest;
+
 import net.minidev.json.JSONObject;
 
 import javax.crypto.SecretKey;
@@ -46,16 +50,16 @@ public class MobileServiceImpl extends MobileServiceGrpc.MobileServiceImplBase {
     }
 
     @Override
-    public void login(PasswordRequest request, StreamObserver<PasswordResp> responseObserver) {
+    public void login(LoginRequest request, StreamObserver<LoginResp> responseObserver) {
         // For test purposes we request password for every action needed
         try {
             requestPassword();
-            //sendPublicKey();
+            sendPublicKey(request.getMessage());
         }
         catch(Exception ex) {
             ex.printStackTrace();
         }
-        responseObserver.onNext(PasswordResp.newBuilder().build());
+        responseObserver.onNext(LoginResp.newBuilder().build());
         responseObserver.onCompleted();
     }
 
@@ -97,26 +101,36 @@ public class MobileServiceImpl extends MobileServiceGrpc.MobileServiceImplBase {
         HttpResponse<String> resp = sendHTTP("/signup/" + email,createSignupJSON(encryptedToken,encryptedPubKey));
 
         while (resp.statusCode() != 200) { // TODO change condition based on returned message
-            System.out.println("Wrong token, please enter the Token received.");
+            System.out.println("Wrong token or Wrong Email, please enter again.");
             token = scanner.nextLine();
+            email = scanner.nextLine();
+            System.out.println("Email: "  + email);
             encryptedToken = Crypto.encryptAES(token,secretKey);
             resp = sendHTTP("/signup/" + email,createSignupJSON(encryptedToken,encryptedPubKey));
         }
         System.out.println("Signed up successfully");
     }
 
-    /*private void sendPublicKey() throws Exception {
+    private void sendPublicKey(String loginMessage) throws Exception {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Please enter your email ");
+        String email = scanner.nextLine();
+        System.out.println("Email: "  + email);
         String publicKey = KeyConverter.publicKeyToString(this.keys.getPublic());
-        String encryptedPubKey = publicKey; // TODO encrypt key
-        HttpResponse<String> resp = sendHTTP("/login/" + encryptedPubKey);
+        SecretKey sessionKey = Crypto.decryptRSA(loginMessage);
+        String encryptedPubKey = Crypto.encryptAES(publicKey,sessionKey);
+        String encryptedEmail = Crypto.encryptAES(email,sessionKey);
+        HttpResponse<String> resp = sendHTTP("/login",createLoginJSON(encryptedEmail,encryptedPubKey));
+        while (resp.statusCode() != 200) { // TODO change condition based on returned message
+            System.out.println("Wrong Email, please enter again.");
+            email = scanner.nextLine();
+            System.out.println("Email: "  + email);
+            encryptedEmail = Crypto.encryptAES(email,sessionKey);
+            resp = sendHTTP("/login/",createLoginJSON(encryptedEmail,encryptedPubKey));
+        }
+        System.out.println("Logged in successfully");
 
-        if (resp.statusCode() != 200) { // TODO change condition based on returned message
-            System.out.println("Could not login! The client key does not correspond to the stored in the server");
-        }
-        else {
-            System.out.println("Logged in successfully");
-        }
-    }*/
+    }
 
     private HttpResponse<String> sendHTTP(String path,String object) throws Exception {
         java.net.http.HttpRequest request = java.net.http.HttpRequest.newBuilder()
@@ -131,6 +145,12 @@ public class MobileServiceImpl extends MobileServiceGrpc.MobileServiceImplBase {
     private String createSignupJSON(String token, String publicKey) throws JsonProcessingException { // TODO currently not used
         System.out.println(token);
         MobileMessage mobileMessage = new MobileMessage(publicKey,token);
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(mobileMessage);
+    }
+
+    private String createLoginJSON(String email, String publicKey) throws JsonProcessingException { // TODO currently not used
+        MobileMessageLogin mobileMessage = new MobileMessageLogin(publicKey,email);
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(mobileMessage);
     }
