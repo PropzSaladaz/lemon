@@ -126,7 +126,7 @@ public class MobileServiceImpl extends MobileServiceGrpc.MobileServiceImplBase {
             email = scanner.nextLine();
             System.out.println("Email: "  + email);
             encryptedEmail = Crypto.encryptAES(email,sessionKey);
-            resp = sendHTTP("/login/",createLoginJSON(encryptedEmail,encryptedPubKey));
+            resp = sendHTTP("/login",createLoginJSON(encryptedEmail,encryptedPubKey));
         }
         System.out.println("Logged in successfully");
 
