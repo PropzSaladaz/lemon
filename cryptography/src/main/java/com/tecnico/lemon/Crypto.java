@@ -1,27 +1,24 @@
 package com.tecnico.lemon;
 
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
+import javax.crypto.*;
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Base64;
 
 public class Crypto {
 
-    public static String encryptAES(String message, SecretKey key){
+    public static String encryptAES(String message,SecretKey key){
         try{
-            System.out.println("OLA");
-            System.out.println("OLAZAZA");
             byte[] plainBytes = message.getBytes();
             final String CIPHER_ALGO = "AES/ECB/PKCS5Padding";
             Cipher cipher = Cipher.getInstance(CIPHER_ALGO);
             cipher.init(Cipher.ENCRYPT_MODE, key);
-            System.out.println("OLA2");
             byte[] cipherBytes = cipher.doFinal(plainBytes);
-            System.out.println("OLA1");
             return Base64.getEncoder().encodeToString(cipherBytes);
         }catch(Exception e){
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException("ERROR WHILE ENCRYPTING");
         }
 
     }
@@ -33,7 +30,7 @@ public class Crypto {
             Cipher cipher = Cipher.getInstance(CIPHER_ALGO);
             cipher.init(Cipher.DECRYPT_MODE, key);
             byte[] cipherBytes = cipher.doFinal(decodedBytes);
-            return String.valueOf(cipherBytes);
+            return new String(cipherBytes, StandardCharsets.UTF_8);
         }catch(Exception e){
             throw new RuntimeException("ERROR WHILE DECRYPTING");
         }

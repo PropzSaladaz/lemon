@@ -1,7 +1,9 @@
 package com.tecnico.lemon.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tecnico.lemon.ContractsAndKeys.KeyGenerate;
 import com.tecnico.lemon.Crypto;
-import com.tecnico.lemon.KeyGenerate;
 import com.tecnico.lemon.contract.MobileServiceGrpc;
 import com.tecnico.lemon.contract.MobileServiceOuterClass.PasswordRequest;
 import com.tecnico.lemon.contract.MobileServiceOuterClass.PasswordResp;
@@ -48,7 +50,7 @@ public class MobileServiceImpl extends MobileServiceGrpc.MobileServiceImplBase {
         // For test purposes we request password for every action needed
         try {
             requestPassword();
-            sendPublicKey();
+            //sendPublicKey();
         }
         catch(Exception ex) {
             ex.printStackTrace();
@@ -81,23 +83,29 @@ public class MobileServiceImpl extends MobileServiceGrpc.MobileServiceImplBase {
     private void sendToken() throws Exception {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter the Token received ");
-
         String token = scanner.nextLine();
         System.out.println("Token: "  + token);
+        System.out.println("Please enter your email ");
+        String email = scanner.nextLine();
+        System.out.println("Email: "  + email);
         SecretKey secretKey = KeyGenerate.generateKey(token);
         String publicKey = KeyConverter.publicKeyToString(this.keys.getPublic());
+        System.out.println("KEY: " + secretKey);
         String encryptedPubKey = Crypto.encryptAES(publicKey,secretKey);
-        HttpResponse<String> resp = sendHTTP("/signup/" + encryptedPubKey + "/" + token);
+        String encryptedToken = Crypto.encryptAES(token,secretKey);
+        System.out.println("TokenPRE: " +encryptedToken);
+        HttpResponse<String> resp = sendHTTP("/signup/" + email,createSignupJSON(encryptedToken,encryptedPubKey));
 
         while (resp.statusCode() != 200) { // TODO change condition based on returned message
             System.out.println("Wrong token, please enter the Token received.");
             token = scanner.nextLine();
-            resp = sendHTTP("/signup/" + encryptedPubKey + "/" + token);
+            encryptedToken = Crypto.encryptAES(token,secretKey);
+            resp = sendHTTP("/signup/" + email,createSignupJSON(encryptedToken,encryptedPubKey));
         }
         System.out.println("Signed up successfully");
     }
 
-    private void sendPublicKey() throws Exception {
+    /*private void sendPublicKey() throws Exception {
         String publicKey = KeyConverter.publicKeyToString(this.keys.getPublic());
         String encryptedPubKey = publicKey; // TODO encrypt key
         HttpResponse<String> resp = sendHTTP("/login/" + encryptedPubKey);
@@ -108,21 +116,22 @@ public class MobileServiceImpl extends MobileServiceGrpc.MobileServiceImplBase {
         else {
             System.out.println("Logged in successfully");
         }
-    }
+    }*/
 
-    private HttpResponse<String> sendHTTP(String path) throws Exception {
+    private HttpResponse<String> sendHTTP(String path,String object) throws Exception {
         java.net.http.HttpRequest request = java.net.http.HttpRequest.newBuilder()
                 .uri(new URI("https://" + serverHostname + path))
-                .headers("Content-Type", "text/plain;charset=UTF-8")
+                .headers("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(object))
                 .build();
         HttpClient client = HttpClient.newHttpClient();
         return client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
-    private String createSignupJSON(String token, String publicKey) { // TODO currently not used
-        JSONObject signupRequest = new JSONObject();
-        signupRequest.put("token", token);
-        signupRequest.put("publicKey", publicKey);
-        return signupRequest.toJSONString();
+    private String createSignupJSON(String token, String publicKey) throws JsonProcessingException { // TODO currently not used
+        System.out.println(token);
+        MobileMessage mobileMessage = new MobileMessage(publicKey,token);
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(mobileMessage);
     }
 }

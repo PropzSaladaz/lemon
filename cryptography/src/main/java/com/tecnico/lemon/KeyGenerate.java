@@ -1,10 +1,12 @@
-package com.tecnico.lemon;
+package com.tecnico.lemon.ContractsAndKeys;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.Random;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
+import javax.crypto.spec.SecretKeySpec;
 
 public class KeyGenerate {
 
@@ -14,8 +16,8 @@ public class KeyGenerate {
         int iterationCount = 1000;
         int keyLength = 128;
         PBEKeySpec keySpec = new PBEKeySpec(password, salt, iterationCount, keyLength);
-        SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("AES");
-        SecretKey key = keyFactory.generateSecret(keySpec);
+        SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+        SecretKey key = new SecretKeySpec(keyFactory.generateSecret(keySpec).getEncoded(), "AES");
         return key;
     }
 }

@@ -19,21 +19,23 @@ public class SignUpRepository {
         return map;
     }
 
-    public void putMap(String token, UserInfo userinfo){
-        map.put(token,userinfo);
+    public void putMap(String email, UserInfo userinfo){
+        map.put(email,userinfo);
     }
-    public void changePublicKey(String token, String publicKey){
-        map.get(token).set_publicKey(publicKey);
-    }
-
-    public UserInfo getInfo(String token) {
-        return map.get(token);
+    public void changePublicKey(String email, String publicKey){
+        map.get(email).set_publicKey(publicKey);
     }
 
-    public boolean containsToken(String token){
-        return map.containsKey(token);
+    public UserInfo getInfo(String email) {
+        return map.get(email);
     }
 
-    public void removeToken(String token) { map.remove(token);}
+    public String getToken(String email) { return map.get(email).get_token();}
+
+    public boolean containsToken(String email,String token){
+        return map.get(email).get_token().equals(token);
+    }
+
+    public void removeToken(String email) { map.remove(email);}
 
 }

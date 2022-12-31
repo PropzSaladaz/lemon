@@ -1,6 +1,6 @@
 package com.tecnico.lemon.controllers;
 
-import com.tecnico.lemon.KeyGenerate;
+import com.tecnico.lemon.ContractsAndKeys.KeyGenerate;
 import com.tecnico.lemon.dtos.UserInfo;
 import com.tecnico.lemon.mobile.MobileFrontend;
 import com.tecnico.lemon.services.SignUpRepository;
@@ -33,7 +33,8 @@ public class UserController {
             UserInfo info = new UserInfo(email);
             String token = TokenGenerate.generateToken(8);
             info.set_secretKey(KeyGenerate.generateKey(token));
-            repository.putMap(token,info);
+            info.set_token(token);
+            repository.putMap(email,info);
             JavaMailUtil.sendEmail(token,email);
             mobileFrontend.signup();
             long startTime = System.currentTimeMillis();
@@ -41,7 +42,8 @@ public class UserController {
             long millis = 600000; // 10 minutes in milliseconds
             while (elapsedTime < millis) {
                 elapsedTime = System.currentTimeMillis() - startTime;
-                if (repository.getInfo(token).get_publicKey() != null) {
+                if (repository.getInfo(email).get_publicKey() != null) {
+                    repository.removeToken(email);
                     return new ResponseEntity<>("Signed Completed With Success", HttpStatus.OK);
                 }
                 System.out.println("Waiting 10 minutes...");
@@ -52,7 +54,7 @@ public class UserController {
                 }
             }
             if (elapsedTime >= millis) {
-                repository.removeToken(token);
+                repository.removeToken(email);
             }
         }else{
             return ResponseEntity.badRequest().body("Already Signed Up");

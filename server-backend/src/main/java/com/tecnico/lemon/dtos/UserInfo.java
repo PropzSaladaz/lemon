@@ -8,11 +8,13 @@ public class UserInfo {
     public String _publicKey;
     public String _type;
     public SecretKey _secretKey;
+    public String _token;
 
     public UserInfo(String email) {
         _email = email;
         _publicKey = null;
         _secretKey = null;
+        _token = null;
         _type = "Customer";
     }
 
@@ -32,12 +34,20 @@ public class UserInfo {
         return _secretKey;
     }
 
+    public String get_token() {
+        return _token;
+    }
+
     public void set_secretKey(SecretKey secretKey) {
         _secretKey = secretKey;
     }
 
     public void set_publicKey(String publicKey) {
         _publicKey = publicKey;
+    }
+
+    public void set_token(String token) {
+        _token = token;
     }
 }
 
