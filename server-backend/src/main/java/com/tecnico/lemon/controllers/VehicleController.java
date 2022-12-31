@@ -33,7 +33,6 @@ public class VehicleController {
 
     @PostMapping (value="/lock/{id}")
     public void lockVehicle(@PathVariable("id") int id) {
-        System.out.println(id);
         vehicleService.lockVehicle(id);
     }
 

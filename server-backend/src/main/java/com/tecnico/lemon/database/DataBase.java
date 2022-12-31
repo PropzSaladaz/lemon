@@ -1,21 +1,14 @@
 package com.tecnico.lemon.database;
 
-import com.tecnico.lemon.dtos.VehicleDto;
 import com.tecnico.lemon.dtos.UserInfo;
-import com.tecnico.lemon.dtos.UserInfoDto;
-import com.tecnico.lemon.models.vehicle.Bike;
-import com.tecnico.lemon.models.vehicle.Scooter;
-import com.tecnico.lemon.models.vehicle.Vehicle;
-import com.tecnico.lemon.models.user.UserForm;
+import com.tecnico.lemon.dtos.VehicleDto;
+import org.springframework.stereotype.Component;
 
-import lombok.Builder;
-import lombok.Data;
-
-import javax.net.ssl.SSLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
-
+@Component
 public class DataBase {
 
     VehicleTableServiceFrontend vehicleFrontend;
@@ -28,8 +21,8 @@ public class DataBase {
         user_id = 0;
     }
 
-    public boolean signUpUser(UserInfo userinfo) {
-       return usersFrontend.signUpUser(userinfo);
+    public boolean saveUser(UserInfo userinfo) {
+       return usersFrontend.saveUser(userinfo);
     }
 
     public List<VehicleDto> getAvailableVehicles() {

@@ -11,7 +11,6 @@ import javax.mail.internet.MimeMessage;
 
 public class JavaMailUtil {
         public static void sendEmail(String token,String email){
-            String to = email;
             String from = "lemonprovider@gmail.com";
             String password = "astvtxbfvbndfqlj";
             String host = "smtp.gmail.com";
@@ -32,7 +31,7 @@ public class JavaMailUtil {
             try {
                 MimeMessage message = new MimeMessage(session);
                 message.setFrom(new InternetAddress(from));
-                message.addRecipient(RecipientType.TO, new InternetAddress(to));
+                message.addRecipient(RecipientType.TO, new InternetAddress(email));
                 message.setSubject("LemonApp Code");
                 message.setText(token);
 
