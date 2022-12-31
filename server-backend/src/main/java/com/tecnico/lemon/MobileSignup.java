@@ -1,14 +1,14 @@
 package com.tecnico.lemon.services;
 
-public class MobileMessage {
+public class MobileSignup {
     public String publicKey;
     public String token;
 
-    public MobileMessage() {
+    public MobileSignup() {
         // Default constructor
     }
 
-    public MobileMessage(String publicKey, String token) {
+    public MobileSignup(String publicKey, String token) {
         this.publicKey = publicKey;
         this.token = token;
     }

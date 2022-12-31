@@ -1,14 +1,14 @@
 package com.tecnico.lemon;
 
-public class MobileMessageLogin {
+public class MobileLogin {
     public String publicKey;
     public String email;
 
-    public MobileMessageLogin() {
+    public MobileLogin() {
         // Default constructor
     }
 
-    public MobileMessageLogin(String publicKey, String Email) {
+    public MobileLogin(String publicKey, String Email) {
         this.publicKey = publicKey;
         this.email = Email;
     }
@@ -21,4 +21,5 @@ public class MobileMessageLogin {
         return email;
     }
 }
+
 
