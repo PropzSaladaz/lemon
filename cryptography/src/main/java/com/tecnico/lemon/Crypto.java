@@ -40,13 +40,12 @@ public class Crypto {
 
 
     public static String encryptRSA(String message){
-        // TO DO uses a SecretKey clientPublicKey and a SecretKey serverPrivateKey
+        // TODO uses a SecretKey clientPublicKey and a SecretKey serverPrivateKey
         return "";
     }
 
     public static SecretKey decryptRSA(String message) {
-        // TO DO uses a SecretKey clientPublicKey and a SecretKey serverPrivateKey
-        //TO DO RETURN A SECRET KEY
+        // TODO uses a SecretKey clientPublicKey and a SecretKey serverPrivateKey and RETURN A SECRET KEY
         SecretKey SecretKey = null;
         return SecretKey;
     }
