@@ -1,18 +1,10 @@
 package com.tecnico.lemon.controllers;
 
-import com.tecnico.lemon.ContractsAndKeys.KeyGenerate;
-import com.tecnico.lemon.TokenGenerator;
-import com.tecnico.lemon.dtos.UserInfo;
-import com.tecnico.lemon.mobile.MobileFrontend;
-import com.tecnico.lemon.services.SignUpRepository;
 import com.tecnico.lemon.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 
 @RestController
 @RequestMapping(value="login")
@@ -22,8 +14,17 @@ public class UserController {
     UserService userService;
 
     @PostMapping(value="/{email}")
-    public ResponseEntity<String> signupUser(@PathVariable("email") String email) throws Exception {
-        if(userService.signupUser(email)) return new ResponseEntity<>("Signed Completed With Success", HttpStatus.OK);
-        else return ResponseEntity.badRequest().body("Already Signed Up");
+    public ResponseEntity<String> loginSignup(@PathVariable("email") String email) throws Exception {
+        if (!userService.lookupUser(email)) {
+            System.out.println("when user doesnt exist");
+            if (userService.signupUser(email)){
+                System.out.println("signed");
+                return new ResponseEntity<>("Signed in Successfully", HttpStatus.OK);
+            }
+            else return new ResponseEntity<>("Token expired, try again!", HttpStatus.BAD_REQUEST);
+        } else{
+            userService.loginUser(email);
+            return new ResponseEntity<>("Logged in Successfully", HttpStatus.OK);
+        }
     }
 }

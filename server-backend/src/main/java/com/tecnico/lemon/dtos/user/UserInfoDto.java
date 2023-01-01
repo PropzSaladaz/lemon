@@ -1,4 +1,4 @@
-package com.tecnico.lemon.dtos;
+package com.tecnico.lemon.dtos.user;
 
 import com.tecnico.lemon.models.user.UserForm;
 

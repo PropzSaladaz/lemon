@@ -1,14 +1,14 @@
-package com.tecnico.lemon;
+package com.tecnico.lemon.dtos.mobile;
 
-public class MobileLogin {
+public class MobileLoginDto {
     public String publicKey;
     public String email;
 
-    public MobileLogin() {
+    public MobileLoginDto() {
         // Default constructor
     }
 
-    public MobileLogin(String publicKey, String Email) {
+    public MobileLoginDto(String publicKey, String Email) {
         this.publicKey = publicKey;
         this.email = Email;
     }

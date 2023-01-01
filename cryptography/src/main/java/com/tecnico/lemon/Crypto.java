@@ -1,12 +1,10 @@
 package com.tecnico.lemon;
 
-import javax.crypto.*;
-import javax.crypto.spec.PBEKeySpec;
-import javax.crypto.spec.SecretKeySpec;
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
+import java.security.Key;
+import java.security.PrivateKey;
 import java.util.Base64;
 
 public class Crypto {
@@ -39,15 +37,14 @@ public class Crypto {
     }
 
 
-    public static String encryptRSA(String message){
-        // TODO uses a SecretKey clientPublicKey and a SecretKey serverPrivateKey
-        return "";
+    public static byte[] encryptRSA(byte[] plainBytes, Key key){
+        RSACipherByteArray cipher = new RSACipherByteArray(Cipher.ENCRYPT_MODE, key);
+        return cipher.cipher(plainBytes);
     }
 
-    public static SecretKey decryptRSA(String message) {
-        // TODO uses a SecretKey clientPublicKey and a SecretKey serverPrivateKey and RETURN A SECRET KEY
-        SecretKey SecretKey = null;
-        return SecretKey;
+    public static byte[] RSADecryptBase64(byte[] plainBytes, Key key) {
+        RSACipherByteArray cipher = new RSACipherByteArray(Cipher.DECRYPT_MODE, key);
+        return cipher.cipher(plainBytes);
     }
 
 }

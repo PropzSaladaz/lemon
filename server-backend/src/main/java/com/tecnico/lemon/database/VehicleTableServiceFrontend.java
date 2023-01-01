@@ -2,7 +2,7 @@ package com.tecnico.lemon.database;
 
 import com.tecnico.lemon.SSLContext;
 import com.tecnico.lemon.contract.VehicleTableServiceGrpc;
-import com.tecnico.lemon.dtos.VehicleDto;
+import com.tecnico.lemon.dtos.vehicle.VehicleDto;
 import io.grpc.ManagedChannel;
 import io.grpc.netty.NettyChannelBuilder;
 import io.netty.handler.ssl.SslContext;

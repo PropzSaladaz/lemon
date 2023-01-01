@@ -1,13 +1,7 @@
 package com.tecnico.lemon.controllers;
 
-import com.tecnico.lemon.contract.MobileServiceGrpc;
-import com.tecnico.lemon.contract.MobileServiceOuterClass;
-import com.tecnico.lemon.dtos.VehicleDto;
-import com.tecnico.lemon.mobile.MobileFrontend;
+import com.tecnico.lemon.dtos.vehicle.VehicleDto;
 import com.tecnico.lemon.services.VehicleService;
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
-import io.grpc.netty.NettyChannelBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

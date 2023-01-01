@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     DataBase dBase;
     @Autowired
-    SignUpRepository signUpRepository;
+    SignUpWaitingQueue signUpWaitingQueue;
     @Autowired
     MobileFrontend mobileFrontend = new MobileFrontend();
 
@@ -30,33 +30,47 @@ public class UserServiceImpl implements UserService {
         return dBase.lookupUser(email);
     }
 
+    @Override
     public boolean signupUser(String email) throws Exception {
-        System.out.println(email);
-        if(!lookupUser(email)){
-            UserInfo user = new UserInfo(email);
-            String token = TokenGenerator.generateRandom(8);
-            user.setSecretKey(KeyGenerate.generateKey(token));
-            user.setToken(token);
-            signUpRepository.putMap(email,user);
-            JavaMailUtil.sendEmail(token,email);
-            mobileFrontend.signup();
-            long startTime = System.currentTimeMillis();
-            long elapsedTime = 0;
-            long millis = 600000; // 10 minutes in milliseconds
-            while (elapsedTime < millis) {
-                elapsedTime = System.currentTimeMillis() - startTime;
-                if (signUpRepository.getInfo(email).getPublicKey() != null) {
-                    signUpRepository.removeToken(email);
-                    return true;
-                }
-                System.out.println("Waiting 1 minute...");
-                try {
-                    Thread.sleep(60000); // Sleep for 1 minute (60 seconds)
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+        UserInfo user = new UserInfo(email);
+        String token = TokenGenerator.generateRandom(8);
+        user.setSecretKey(KeyGenerate.generateKey(token));
+        user.setToken(token);
+
+        signUpWaitingQueue.addUser(email,user);
+        JavaMailUtil.sendEmail(token,email);
+        mobileFrontend.signup();
+        if (waitOnUserKey(email)) {
+            saveUser(signUpWaitingQueue.getInfo(email));
+            signUpWaitingQueue.removeToken(email);
+            return true;
+        }
+        else {
+            signUpWaitingQueue.removeToken(email);
+            return false;
+        }
+    }
+
+    @Override
+    public void loginUser(String email) throws Exception {
+
+    }
+
+    private boolean waitOnUserKey(String email) {
+        long startTime = System.currentTimeMillis();
+        long elapsedTime = 0;
+        long millis = 600000; // 10 minutes in milliseconds
+        while (elapsedTime < millis) {
+            elapsedTime = System.currentTimeMillis() - startTime;
+            if (signUpWaitingQueue.userHasKey(email)) {
+                return true;
             }
-            signUpRepository.removeToken(email);
+            System.out.println("Waiting 1 minute...");
+            try {
+                Thread.sleep(60000); // Sleep for 1 minute (60 seconds)
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         return false;
     }

@@ -1,8 +1,7 @@
 package com.tecnico.lemon.services;
-import com.tecnico.lemon.contract.*;
 
 import com.tecnico.lemon.database.DataBase;
-import com.tecnico.lemon.dtos.VehicleDto;
+import com.tecnico.lemon.dtos.vehicle.VehicleDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

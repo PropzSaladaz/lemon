@@ -1,4 +1,4 @@
-package com.tecnico.lemon.dtos;
+package com.tecnico.lemon.dtos.vehicle;
 
 import com.tecnico.lemon.contract.VehicleTableServiceOuterClass;
 import com.tecnico.lemon.models.vehicle.Vehicle;

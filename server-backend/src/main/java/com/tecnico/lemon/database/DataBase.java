@@ -1,7 +1,7 @@
 package com.tecnico.lemon.database;
 
 import com.tecnico.lemon.dtos.UserInfo;
-import com.tecnico.lemon.dtos.VehicleDto;
+import com.tecnico.lemon.dtos.vehicle.VehicleDto;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

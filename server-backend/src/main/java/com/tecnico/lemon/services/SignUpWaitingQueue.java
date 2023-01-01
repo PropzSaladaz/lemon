@@ -1,6 +1,5 @@
 package com.tecnico.lemon.services;
 
-import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 import com.tecnico.lemon.dtos.UserInfo;
 
@@ -8,10 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class SignUpRepository {
+public class SignUpWaitingQueue {
     private Map<String, UserInfo> map;
 
-    public SignUpRepository() {
+    public SignUpWaitingQueue() {
         map = new HashMap<>();
     }
 
@@ -19,7 +18,7 @@ public class SignUpRepository {
         return map;
     }
 
-    public void putMap(String email, UserInfo userinfo){
+    public void addUser(String email, UserInfo userinfo){
         map.put(email,userinfo);
     }
     public void setUserPublicKey(String email, String publicKey){
@@ -37,5 +36,9 @@ public class SignUpRepository {
     }
 
     public void removeToken(String email) { map.remove(email);}
+
+    public boolean userHasKey(String email) {
+        return getInfo(email).getPublicKey() != null;
+    }
 
 }

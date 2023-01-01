@@ -3,7 +3,7 @@ package com.tecnico.lemon.services;
 import com.tecnico.lemon.ContractsAndKeys.KeyGenerate;
 import com.tecnico.lemon.Crypto;
 import com.tecnico.lemon.KeyConverter;
-import com.tecnico.lemon.KeyReader;
+import com.tecnico.lemon.RSAKeyReader;
 import com.tecnico.lemon.contract.MobileServiceGrpc;
 import com.tecnico.lemon.contract.MobileServiceOuterClass.LoginRequest;
 import com.tecnico.lemon.contract.MobileServiceOuterClass.LoginResp;
@@ -28,7 +28,7 @@ public class MobileServiceImpl extends MobileServiceGrpc.MobileServiceImplBase {
                              String serverHostname) throws Exception {
         this.password = password;
         this.serverHostname = serverHostname;
-        this.keys = KeyReader.read(publicKeyPath, privateKeyPath);
+        this.keys = RSAKeyReader.read(publicKeyPath, privateKeyPath);
     }
 
     @Override
@@ -106,7 +106,7 @@ public class MobileServiceImpl extends MobileServiceGrpc.MobileServiceImplBase {
 
         String email = requestEmail(scanner);
         String publicKey = KeyConverter.publicKeyToString(this.keys.getPublic());
-        SecretKey secret = Crypto.decryptRSA(loginMessage);
+        SecretKey secret = getSecretFromMessage(loginMessage);
         String loginReq = createEncryptedLoginJSON(email, publicKey, secret);
 
         HttpResponse<String> resp = sendHTTP("/mobile/login", loginReq);
@@ -157,5 +157,9 @@ public class MobileServiceImpl extends MobileServiceGrpc.MobileServiceImplBase {
     private String requestEmail(Scanner sc) {
         System.out.println("Please enter your e-mail: ");
         return sc.nextLine();
+    }
+
+    private SecretKey getSecretFromMessage(String message){ // TODO
+        return null;
     }
 }
