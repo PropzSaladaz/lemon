@@ -2,14 +2,11 @@ package com.tecnico.lemon.database;
 
 import com.tecnico.lemon.SSLContext;
 import com.tecnico.lemon.contract.VehicleTableServiceGrpc;
-import com.tecnico.lemon.dtos.VehicleDto;
+import com.tecnico.lemon.dtos.vehicle.VehicleDto;
 import io.grpc.ManagedChannel;
-import io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.NettyChannelBuilder;
 import io.netty.handler.ssl.SslContext;
 
-import javax.net.ssl.SSLException;
-import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
 

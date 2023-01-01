@@ -1,4 +1,4 @@
-ls# Transportation & Distribution: Lemon
+# Transportation & Distribution: Lemon
 
 Business Context
 
@@ -21,11 +21,10 @@ bash gen.sh
 ### Add Lemon certificate to java keystore
 Since the certificate is singed by an "CA", we need to add it to the java keystore:
 ``` bash
+# to delete certificate
+sudo keytool -delete -alias lemon -keystore "$JAVA_HOME/lib/security/cacerts" -storepass changeit
+# to add it
 sudo keytool -trustcacerts -keystore "$JAVA_HOME/lib/security/cacerts" -storepass changeit -importcert -alias lemon -file <path-to-lemon>/lemon/server-backend/src/main/credentials/https-certificate.pem
-
-#to delete certificate
-sudo keytool -delete -alias lemon -keystore "$JAVA_HOME/lib/security/cacerts" 
-
 ```
 
 ### Launch Database server

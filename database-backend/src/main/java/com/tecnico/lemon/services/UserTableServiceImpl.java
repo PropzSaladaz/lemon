@@ -24,12 +24,13 @@ public class UserTableServiceImpl extends UserTableServiceGrpc.UserTableServiceI
     @Override
     public void createUser(CreateUserReq request, StreamObserver<CreateUserResp> responseObserver) {
         _db.executeQuery(Queries.insertUser(request.getEmail(), request.getKey(), request.getType()));
+        responseObserver.onNext(CreateUserResp.newBuilder().build());
         responseObserver.onCompleted();
+
     }
 
     @Override 
     public void lookupUser(LookupUserReq request, StreamObserver<LookupUserResp> responseObserver){
-        System.out.println("OLAAAAAAAAAAAAAAAA");
         LookupUserResp.Builder resp = LookupUserResp.newBuilder();
         ResultSet res = _db.executeQuery(Queries.lookupUserByEmail(request.getEmail()));
         try{
