@@ -14,4 +14,6 @@ public interface DatabaseManager {
     void clean();
     void drop();
     void close();
+    void initDatabase();
+    String getB64EncodedSharedKey();
 }

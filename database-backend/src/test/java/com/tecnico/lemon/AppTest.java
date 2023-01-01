@@ -57,7 +57,7 @@ public class AppTest
             if (!crs.getBoolean(Tables.Vehicle.LOCKED)) {
                 String localization = crs.getString(Tables.Vehicle.LOCALIZATION);
                 String description  = crs.getString(Tables.Vehicle.DESCRIPTION);
-                int id = crs.getInt(Tables.Vehicle.ID);
+                int id = crs.getInt(Tables.Vehicle.VEHICLE_ID);
                 double price = crs.getDouble(Tables.Vehicle.PRICE);
                 boolean lock = crs.getBoolean(Tables.Vehicle.LOCKED);
                 boolean payed = crs.getBoolean(Tables.Vehicle.PAYED);

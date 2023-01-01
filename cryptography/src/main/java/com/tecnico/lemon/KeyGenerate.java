@@ -7,6 +7,9 @@ import javax.crypto.spec.PBEKeySpec;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
+import javax.crypto.KeyGenerator;
+import java.security.Key;
+
 public class KeyGenerate {
 
     public static SecretKey generateKey(String token) throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -19,4 +22,12 @@ public class KeyGenerate {
         SecretKey key = new SecretKeySpec(keyFactory.generateSecret(keySpec).getEncoded(), "AES");
         return key;
     }
+
+    public static byte[] generate_sharedKey() throws Exception {
+        KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
+        keyGenerator.init(256); // specify the key size
+        Key key = keyGenerator.generateKey();
+        return key.getEncoded();
+    }
+
 }

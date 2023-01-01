@@ -1,35 +1,34 @@
 package com.tecnico.lemon.services;
 import com.tecnico.lemon.contract.*;
 
-import com.tecnico.lemon.database.DataBase;
+import com.tecnico.lemon.database.VehicleTableServiceFrontend;
 import com.tecnico.lemon.dtos.VehicleDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class VehicleServiceImpl implements VehicleService{
 
-    private DataBase dBase = new DataBase();
+    private VehicleTableServiceFrontend vehicleServiceFrontend = new VehicleTableServiceFrontend();
 
     @Override
     public List<VehicleDto> getAvailableVehicles() {
-        return dBase.getAvailableVehicles();
-
-
+        return vehicleServiceFrontend.getVehicles().stream().filter(vehicle -> !vehicle.getLocked()).collect(Collectors.toList());
     }
+
     @Override
     public List<VehicleDto> getLockedVehicles() {
-        return dBase.getLockedVehicles();
-
+        return vehicleServiceFrontend.getVehicles().stream().filter(vehicle -> vehicle.getLocked()).collect(Collectors.toList());
     }
 
     @Override
     public void lockVehicle(int id){
-        dBase.lockVehicle(id);
+        vehicleServiceFrontend.lockVehicle(id);
     }
     @Override
     public void unlockVehicle(int id){
-        dBase.unlockVehicle(id);
+        vehicleServiceFrontend.unlockVehicle(id);
     }
 }

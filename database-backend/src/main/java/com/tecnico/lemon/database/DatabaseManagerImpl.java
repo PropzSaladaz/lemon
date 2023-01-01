@@ -1,10 +1,18 @@
 package com.tecnico.lemon.database;
 
+import com.tecnico.lemon.KeyGenerate;
+
 import org.postgresql.Driver;
 
 import java.sql.*;
 import java.util.Objects;
 import java.util.logging.Logger;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import javax.crypto.KeyGenerator;
+import java.security.Key;
+import java.util.Base64;
 
 public class DatabaseManagerImpl implements DatabaseManager {
   private static final String database_name = "sirsdb";
@@ -24,6 +32,39 @@ public class DatabaseManagerImpl implements DatabaseManager {
     } catch (Exception e) {
       System.err.println(e.getClass().getName() + ": " + e.getMessage());
       System.exit(0);
+    }
+  }
+
+  @Override
+  public void initDatabase() {
+    buildSchema();
+    try {
+      KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
+      keyGenerator.init(256); // specify the key size
+      Key key = keyGenerator.generateKey();
+      byte[] keyBytes = key.getEncoded();
+      FileOutputStream keyOut = new FileOutputStream("src/main/credentials/shared-key.bin");
+      keyOut.write(keyBytes);
+      keyOut.close();
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+      e.printStackTrace();
+    }
+
+  }
+
+  @Override 
+  public String getB64EncodedSharedKey() {
+    try {
+      FileInputStream keyIn = new FileInputStream("src/main/credentials/shared-key.bin");
+      byte[] keyBytes = new byte[keyIn.available()];
+      keyIn.read(keyBytes);
+      keyIn.close();
+      return Base64.getEncoder().encodeToString(keyBytes);
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+      e.printStackTrace();
+      return null;
     }
   }
 

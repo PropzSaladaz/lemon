@@ -1,12 +1,16 @@
 package com.tecnico.lemon;
 
 import java.io.FileInputStream;
+import java.security.Key;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import javax.crypto.spec.SecretKeySpec;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
 
 public class KeyReader {
     public static KeyPair read(String publicKeyPath, String privateKeyPath) throws Exception {
@@ -32,5 +36,16 @@ public class KeyReader {
 
         KeyPair keys = new KeyPair(pub, priv);
         return keys;
+    }
+
+    public static SecretKey readSharedKey(String keyPath) throws Exception {
+        FileInputStream keyIn = new FileInputStream(keyPath);
+        byte[] keyBytes = new byte[keyIn.available()];
+        keyIn.read(keyBytes);
+        keyIn.close();
+
+        SecretKeySpec keySpec = new SecretKeySpec(keyBytes, "AES");
+        SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("AES");
+        return new SecretKeySpec(keyFactory.generateSecret(keySpec).getEncoded(), "AES");
     }
 }

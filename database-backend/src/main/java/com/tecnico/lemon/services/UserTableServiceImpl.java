@@ -29,7 +29,6 @@ public class UserTableServiceImpl extends UserTableServiceGrpc.UserTableServiceI
 
     @Override 
     public void lookupUser(LookupUserReq request, StreamObserver<LookupUserResp> responseObserver){
-        System.out.println("OLAAAAAAAAAAAAAAAA");
         LookupUserResp.Builder resp = LookupUserResp.newBuilder();
         ResultSet res = _db.executeQuery(Queries.lookupUserByEmail(request.getEmail()));
         try{
