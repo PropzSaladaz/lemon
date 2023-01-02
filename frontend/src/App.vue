@@ -95,31 +95,32 @@ export default {
       this.$router.push('/user/login');
     },
     async onLogin(event) {
-      try {
-        var response = await ApplicationService.login(event.email);
-        console.log("here i am!", response);
-        if (response = "Employer") {
-          this.isEmployee = true;
-          this.isCustomer = false;
-          this.email = event.email;
-          this.$router.push('/user/localization')
-        }
-        else if(result == "Customer"){
-          this.isCustomer = true;
-          this.isEmployee = false;
-          this.email = event.email;
-          this.$router.push('/user/vehicles');
-        }
-        else {
-          console.log(event.email, event.password);
-          this.invalidAccount = true;
-          alert("Account doesn't exist");
-        }
-      }
-      catch(error) {
+      ApplicationService.login(event.email)
+        .then((response) => {
+          let customerType = response.data;
+          console.log(customerType);
+          if (customerType === "Employer") {
+            this.isEmployee = true;
+            this.isCustomer = false;
+            this.email = event.email;
+            this.$router.push('/user/localization')
+          }
+          else if(customerType === "Customer"){
+            console.log("customer here i am");
+            this.isCustomer = true;
+            this.isEmployee = false;
+            this.email = event.email;
+            this.$router.push('/user/vehicles');
+          }
+          else {
+            console.log(event.email, event.password);
+            this.invalidAccount = true;
+            alert("Account doesn't exist");
+          }
+        })
+        .catch((error) => {
           console.log(error);
-          // handle the error when the request fails (HTTP status code other than 200)
-      }
+        });
     },
   },
   computed: {
