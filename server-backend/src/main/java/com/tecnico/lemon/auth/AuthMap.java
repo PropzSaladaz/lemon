@@ -24,6 +24,7 @@ public class AuthMap<U, T extends Authenticatable> implements IAuthenticationQue
 
     @Override
     public void remove(U id) {
+        map.remove(id);
 
     }
 

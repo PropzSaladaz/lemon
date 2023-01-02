@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 @Scope("singleton")
 @Component
 public class SignupLoginQueue {
-    private final AuthMap<String, UserSignup> signup = new SignupQueue();
-    private final AuthMap<String , UserLogin> login = new LoginQueue();
+    private final AuthMap<String, UserSignup> signup = new AuthMap<>();
+    private final AuthMap<String , UserLogin> login = new AuthMap<>();
 
     public synchronized AuthMap<String, UserSignup> getSignupQueue(){
         return signup;
