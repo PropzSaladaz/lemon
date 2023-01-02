@@ -34,7 +34,7 @@ public class MobileFrontend {
         PasswordResp resp = stub.signup(PasswordRequest.newBuilder().build());
     }
 
-    public void login() {
-        LoginResp  resp = stub.login(LoginRequest.newBuilder().build());
+    public void login(LoginReq request) {
+        LoginResp  resp = stub.login(request);
     }
 }

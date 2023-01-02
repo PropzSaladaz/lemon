@@ -1,10 +1,10 @@
 package com.tecnico.lemon;
 
 import javax.crypto.Cipher;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
-import java.security.Key;
-import java.security.PrivateKey;
+import java.security.*;
 import java.util.Base64;
 
 public class Crypto {
@@ -37,14 +37,50 @@ public class Crypto {
     }
 
 
-    public static byte[] encryptRSA(byte[] plainBytes, Key key){
-        RSACipherByteArray cipher = new RSACipherByteArray(Cipher.ENCRYPT_MODE, key);
-        return cipher.cipher(plainBytes);
+    public static byte[] encryptRSAPublic(byte[] plainBytes, PublicKey key){
+        try {
+            Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+            return cipher.doFinal(plainBytes);
+        } catch (Exception e) {
+            throw new RuntimeException("ERROR WHILE ENCRYPTING RSA");
+        }
     }
 
-    public static byte[] RSADecryptBase64(byte[] plainBytes, Key key) {
-        RSACipherByteArray cipher = new RSACipherByteArray(Cipher.DECRYPT_MODE, key);
-        return cipher.cipher(plainBytes);
+    public static byte[] encryptRSAPrivate(byte[] plainBytes, PrivateKey key){
+        try {
+            Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+            return cipher.doFinal(plainBytes);
+        } catch (Exception e) {
+            throw new RuntimeException("ERROR WHILE ENCRYPTING RSA");
+        }
+    }
+
+    public static byte[] decryptRSAPrivate(byte[] plainBytes, PrivateKey key){
+        try {
+            Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            cipher.init(Cipher.DECRYPT_MODE, key);
+            return cipher.doFinal(plainBytes);
+        } catch (Exception e) {
+            throw new RuntimeException("ERROR WHILE DECRYPTING RSA");
+        }
+    }
+
+    public static byte[] decryptRSAPublic(byte[] plainBytes, PublicKey key){
+        try {
+            Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            cipher.init(Cipher.DECRYPT_MODE, key);
+            return cipher.doFinal(plainBytes);
+        } catch (Exception e) {
+            throw new RuntimeException("ERROR WHILE DECRYPTING RSA");
+        }
+    }
+
+
+    public static byte[] digest(byte[] message) throws NoSuchAlgorithmException {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        return digest.digest(message);
     }
 
 }

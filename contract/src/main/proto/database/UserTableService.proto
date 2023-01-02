@@ -28,7 +28,6 @@ message LookupUserResp {
   string email = 1;
   string key = 2;
   string type = 3;
-  bool exist = 4;
 }
 
 service UserTableService {

@@ -29,18 +29,18 @@ public class DatabaseManagerImpl implements DatabaseManager {
 
   @Override
   public void populate() {
-    executeQuery(Queries.insertUser("admin@gmail.com", "1234", "Employer"));
-    executeQuery(Queries.insertUser("cust@gmail.com","1234", "Customer"));
+    executeQuery(Queries.insertUser("lala", "admin@gmail.com", "Employer"));
+    executeQuery(Queries.insertUser("lolo","cust@gmail.com", "Customer"));
     executeQuery(Queries.insertVehicle(1, 200, "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12448.046022212302!2d-9.3042988!3d38.7404982!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x92000ad2cef547fa!2sTaguspark!5e0!3m2!1spt-PT!2spt!4v1669853654934!5m2!1spt-PT!2spt", "Scooter"));
     executeQuery(Queries.insertVehicle(2, 15, "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12448.687282539375!2d-9.138705!3d38.7368192!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x880c7c731a54423!2sInstituto%20Superior%20T%C3%A9cnico!5e0!3m2!1spt-PT!2spt!4v1669853788927!5m2!1spt-PT!2spt", "Bike"));
 
   }
   @Override
   public void buildSchema(){
-    drop();
+    drop(); // TODO use only for debug
     executeQuery(Queries.CREATE_TABLE_USERS);
     executeQuery(Queries.CREATE_TABLE_VEHICLES);
-    populate();
+    populate(); // TODO use only for debug
   }
 
   @Override

@@ -18,5 +18,7 @@ bash https-backend.sh
 bash mobile.sh
 # Server-Mobile keys & certificates for grpc communication
 bash backend-mobile.sh
+# Server-backend private & public keys
+bash backend.sh
 
 clean

@@ -5,12 +5,13 @@ import com.tecnico.lemon.KeyConverter;
 import com.tecnico.lemon.KeyGenerate;
 import com.tecnico.lemon.RSAKeyReader;
 import com.tecnico.lemon.contract.MobileServiceGrpc;
-import com.tecnico.lemon.contract.MobileServiceOuterClass.LoginRequest;
+import com.tecnico.lemon.contract.MobileServiceOuterClass;
 import com.tecnico.lemon.contract.MobileServiceOuterClass.LoginResp;
 import com.tecnico.lemon.contract.MobileServiceOuterClass.PasswordRequest;
 import com.tecnico.lemon.contract.MobileServiceOuterClass.PasswordResp;
 import io.grpc.stub.StreamObserver;
 import net.minidev.json.JSONObject;
+import org.apache.commons.codec.digest.Crypt;
 
 import javax.crypto.SecretKey;
 import java.net.URI;
@@ -18,10 +19,16 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.security.KeyPair;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.util.Arrays;
 import java.util.Scanner;
+
+import static com.tecnico.lemon.contract.MobileServiceOuterClass.*;
 
 public class MobileServiceImpl extends MobileServiceGrpc.MobileServiceImplBase {
     private final String password;
+    private String email;
     private final String serverHostname;
     private final KeyPair keys;
     public MobileServiceImpl(String password, String privateKeyPath, String publicKeyPath,
@@ -46,11 +53,12 @@ public class MobileServiceImpl extends MobileServiceGrpc.MobileServiceImplBase {
     }
 
     @Override
-    public void login(LoginRequest request, StreamObserver<LoginResp> responseObserver) {
+    public void login(LoginReq request, StreamObserver<LoginResp> responseObserver) {
         // For test purposes we request password for every action needed
         try {
             requestPassword();
-            login(request.getMessage());
+            SecretKey key = getSymmetricKey(request);
+            login(key);
         }
         catch(Exception ex) {
             ex.printStackTrace();
@@ -84,9 +92,9 @@ public class MobileServiceImpl extends MobileServiceGrpc.MobileServiceImplBase {
         Scanner scanner = new Scanner(System.in);
 
         String token = requestToken(scanner);
-        String email = requestEmail(scanner);
+        email = requestEmail(scanner);
         SecretKey secret = KeyGenerate.generateKey(token);
-        String publicKey = KeyConverter.publicKeyToString(this.keys.getPublic());
+        String publicKey = KeyConverter.keyToString(this.keys.getPublic());
         String signupReq = createEncryptedSignupJSON(email, token, publicKey, secret);
 
         HttpResponse<String> resp = sendHTTP("/mobile/signup", signupReq);
@@ -101,12 +109,10 @@ public class MobileServiceImpl extends MobileServiceGrpc.MobileServiceImplBase {
         System.out.println("Signed up successfully");
     }
 
-    private void login(String loginMessage) throws Exception {
+    private void login(SecretKey secret) throws Exception {
         Scanner scanner = new Scanner(System.in);
 
-        String email = requestEmail(scanner);
-        String publicKey = KeyConverter.publicKeyToString(this.keys.getPublic());
-        SecretKey secret = getSecretFromMessage(loginMessage);
+        String publicKey = KeyConverter.keyToString(this.keys.getPublic());
         String loginReq = createEncryptedLoginJSON(email, publicKey, secret);
 
         HttpResponse<String> resp = sendHTTP("/mobile/login", loginReq);
@@ -143,9 +149,8 @@ public class MobileServiceImpl extends MobileServiceGrpc.MobileServiceImplBase {
     private String createEncryptedLoginJSON(String email, String publicKey, SecretKey secret) {
         JSONObject signupRequest = new JSONObject();
         String encryptedPubKey = Crypto.encryptAES(publicKey, secret);
-        String encryptedEmail = Crypto.encryptAES(email, secret);
+        signupRequest.put("email", email);
         signupRequest.put("publicKey", encryptedPubKey);
-        signupRequest.put("email", encryptedEmail);
         return signupRequest.toJSONString();
     }
 
@@ -159,7 +164,22 @@ public class MobileServiceImpl extends MobileServiceGrpc.MobileServiceImplBase {
         return sc.nextLine();
     }
 
-    private SecretKey getSecretFromMessage(String message){ // TODO
-        return null;
+    private SecretKey getSymmetricKey(LoginReq request) throws Exception {
+        // Get message fields
+        byte[] encryptedKey = request.getEncryptedKey().toByteArray();
+        byte[] receivedDigest = request.getDigest().toByteArray();
+        // decrypt message
+        PrivateKey key = keys.getPrivate();
+        PublicKey serverKey = RSAKeyReader.readPublic("src/main/credentials/backend-public.der");
+        byte[] decryptedKey = Crypto.decryptRSAPrivate(encryptedKey, key);
+        byte[] decryptedDigest = Crypto.decryptRSAPublic(receivedDigest, serverKey);
+        // check for integrity
+        byte[] digest = Crypto.digest(encryptedKey);
+        if (Arrays.equals(digest, decryptedDigest)) {
+            return KeyConverter.bytesToSecretKey(decryptedKey);
+        } else {
+            throw new Exception("Login message was tampered or corrupted.");
+        }
+
     }
 }

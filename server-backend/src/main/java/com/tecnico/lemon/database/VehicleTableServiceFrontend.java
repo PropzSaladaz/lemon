@@ -6,12 +6,14 @@ import com.tecnico.lemon.dtos.vehicle.VehicleDto;
 import io.grpc.ManagedChannel;
 import io.grpc.netty.NettyChannelBuilder;
 import io.netty.handler.ssl.SslContext;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.tecnico.lemon.contract.VehicleTableServiceOuterClass.*;
 
+@Component
 public class VehicleTableServiceFrontend {
 
     private final String target = "localhost:8082";

@@ -1,14 +1,14 @@
 package com.tecnico.lemon.services;
 
+import com.tecnico.lemon.models.user.User;
 import org.springframework.stereotype.Service;
-import com.tecnico.lemon.dtos.UserInfo;
 
 @Service
 public interface UserService {
-    boolean saveUser(UserInfo userinfo);
-    boolean lookupUser(String email);
+    boolean saveUser(User user);
+    User lookupUser(String email);
 
     boolean signupUser(String email) throws  Exception;
 
-    void loginUser(String email) throws  Exception;
+    boolean loginUser(String email) throws  Exception;
 }
