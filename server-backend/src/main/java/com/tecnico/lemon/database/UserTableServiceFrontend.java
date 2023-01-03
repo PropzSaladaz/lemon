@@ -1,6 +1,7 @@
 package com.tecnico.lemon.database;
 
-import com.tecnico.lemon.SSLContext;
+import com.tecnico.lemon.contract.*;
+import com.tecnico.lemon.dtos.UserInfoDto;
 import com.tecnico.lemon.contract.UserTableServiceGrpc;
 import com.tecnico.lemon.models.user.User;
 import io.grpc.ManagedChannel;

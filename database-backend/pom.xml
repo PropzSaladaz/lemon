@@ -54,12 +54,12 @@
       <version>1.0</version>
       <scope>compile</scope>
     </dependency>
-    <dependency>
-      <groupId>com.tecnico.lemon</groupId>
-      <artifactId>cryptography</artifactId>
-      <version>1.0</version>
-      <scope>compile</scope>
-    </dependency>
+		<dependency>
+			<groupId>com.tecnico.lemon</groupId>
+			<artifactId>cryptography</artifactId>
+			<version>1.0</version>
+			<scope>compile</scope>
+		</dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
