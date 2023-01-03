@@ -4,7 +4,6 @@ import com.tecnico.lemon.dtos.UserInfo;
 import com.tecnico.lemon.mobile.MobileFrontend;
 import com.tecnico.lemon.services.SignUpRepository;
 import com.tecnico.lemon.services.UserService;
-import com.tecnico.lemon.ContractsAndKeys.TokenGenerate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,16 +20,11 @@ import java.util.Base64;
 import java.nio.charset.StandardCharsets;
 
 @RestController
-@RequestMapping(value="login")
+@RequestMapping(value="/login")
 public class UserController {
 
     @Autowired
     UserService userService;
-    @Autowired
-    SignUpRepository repository;
-
-    MobileFrontend mobileFrontend = new MobileFrontend();
-
 
     @PostMapping(value="/{email}")
     public ResponseEntity<String> loginUser(@PathVariable("email") String email) throws InvalidKeySpecException, NoSuchAlgorithmException {

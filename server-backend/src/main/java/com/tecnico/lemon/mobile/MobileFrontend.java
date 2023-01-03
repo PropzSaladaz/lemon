@@ -6,9 +6,11 @@ import com.tecnico.lemon.contract.MobileServiceOuterClass;
 import io.grpc.ManagedChannel;
 import io.grpc.netty.NettyChannelBuilder;
 import io.netty.handler.ssl.SslContext;
+import org.springframework.stereotype.Component;
 
 import static com.tecnico.lemon.contract.MobileServiceOuterClass.*;
 
+@Component
 public class MobileFrontend {
     private final String target = "localhost:8080";
     private final ManagedChannel channel;
@@ -33,6 +35,6 @@ public class MobileFrontend {
     }
 
     public void login() {
-        PasswordResp resp = stub.login(PasswordRequest.newBuilder().build());
+        LoginResp  resp = stub.login(LoginRequest.newBuilder().build());
     }
 }

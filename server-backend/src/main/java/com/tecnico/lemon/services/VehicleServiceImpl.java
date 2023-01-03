@@ -1,5 +1,4 @@
 package com.tecnico.lemon.services;
-import com.tecnico.lemon.contract.*;
 
 import com.tecnico.lemon.database.VehicleTableServiceFrontend;
 import com.tecnico.lemon.dtos.VehicleDto;

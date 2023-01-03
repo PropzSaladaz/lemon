@@ -7,7 +7,14 @@ message PasswordRequest {
 message PasswordResp {
 }
 
+message LoginRequest {
+  string message = 1;
+}
+
+message LoginResp {
+}
+
 service MobileService {
   rpc signup(PasswordRequest) returns (PasswordResp);
-  rpc login(PasswordRequest) returns (PasswordResp);
+  rpc login(LoginRequest) returns (LoginResp);
 }

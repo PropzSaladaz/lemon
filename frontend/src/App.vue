@@ -94,9 +94,10 @@ export default {
     gotoLogin() {
       this.$router.push('/user/login');
     },
-    onLogin(event) {
+    async onLogin(event) {
       try {
-        var response = ApplicationService.login(event.email);
+        var response = await ApplicationService.login(event.email);
+        console.log("here i am!", response);
         if (response = "Employer") {
           this.isEmployee = true;
           this.isCustomer = false;

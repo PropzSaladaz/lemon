@@ -1,7 +1,6 @@
 package com.tecnico.lemon;
 
 import java.io.FileInputStream;
-import java.security.Key;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.PrivateKey;
@@ -12,19 +11,14 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 
-public class KeyReader {
+public class RSAKeyReader {
     public static KeyPair read(String publicKeyPath, String privateKeyPath) throws Exception {
-        System.out.println("Reading public key from file " + publicKeyPath + " ...");
-        FileInputStream pubFis = new FileInputStream(publicKeyPath);
-        byte[] pubEncoded = new byte[pubFis.available()];
-        pubFis.read(pubEncoded);
-        pubFis.close();
+        PublicKey pub = readPublic(publicKeyPath);
+        PrivateKey priv = readPrivate(privateKeyPath);
+        return new KeyPair(pub, priv);
+    }
 
-        X509EncodedKeySpec pubSpec = new X509EncodedKeySpec(pubEncoded);
-        KeyFactory keyFacPub = KeyFactory.getInstance("RSA");
-        PublicKey pub = keyFacPub.generatePublic(pubSpec);
-
-        System.out.println("Reading private key from file " + privateKeyPath + " ...");
+    public static PrivateKey readPrivate(String privateKeyPath) throws Exception {
         FileInputStream privFis = new FileInputStream(privateKeyPath);
         byte[] privEncoded = new byte[privFis.available()];
         privFis.read(privEncoded);
@@ -32,10 +26,18 @@ public class KeyReader {
 
         PKCS8EncodedKeySpec privSpec = new PKCS8EncodedKeySpec(privEncoded);
         KeyFactory keyFacPriv = KeyFactory.getInstance("RSA");
-        PrivateKey priv = keyFacPriv.generatePrivate(privSpec);
+        return keyFacPriv.generatePrivate(privSpec);
+    }
 
-        KeyPair keys = new KeyPair(pub, priv);
-        return keys;
+    public static PublicKey readPublic(String publicKeyPath) throws Exception{
+        FileInputStream pubFis = new FileInputStream(publicKeyPath);
+        byte[] pubEncoded = new byte[pubFis.available()];
+        pubFis.read(pubEncoded);
+        pubFis.close();
+
+        X509EncodedKeySpec pubSpec = new X509EncodedKeySpec(pubEncoded);
+        KeyFactory keyFacPub = KeyFactory.getInstance("RSA");
+        return keyFacPub.generatePublic(pubSpec);
     }
 
     public static SecretKey readSharedKey(String keyPath) throws Exception {

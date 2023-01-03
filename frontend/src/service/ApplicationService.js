@@ -4,44 +4,6 @@ const serverHostname = "https://localhost:8443";
 
 let user_id = 0;
 
-const users = [
-    {
-        id: 0,
-        email: "admin@gmail.com",
-        password: "1234",
-        type: "Employer",
-    },
-    {
-        id: 1,
-        email: "cust@gmail.com",
-        password: "1234",
-        type: "Customer",
-    },
-]
-
-const vehicles = [
-    {
-        id: 1,
-        type: "Scooter",
-        price: 10,
-    },
-    {
-        id: 2,
-        type: "Scooter",
-        price: 10,
-    },
-    {
-        id: 3,
-        type: "Bycicle",
-        price: 5,
-    },
-]
-
-const DataBase = {
-    users: users,
-    vehicles: vehicles
-}
-
 const apiClient = axios.create({
     baseURL: serverHostname,
     withCredentials: false,

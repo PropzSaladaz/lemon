@@ -4,40 +4,50 @@ import javax.crypto.SecretKey;
 
 public class UserInfo {
 
-    public String _email;
-    public String _publicKey;
-    public String _type;
-    public SecretKey _secretKey;
+    public String email;
+    public String publicKey;
+    public String type;
+    public SecretKey secretKey;
+    public String token;
 
     public UserInfo(String email) {
-        _email = email;
-        _publicKey = null;
-        _secretKey = null;
-        _type = "Customer";
+        this.email = email;
+        publicKey = null;
+        secretKey = null;
+        token = null;
+        type = "Customer";
     }
 
-    public String get_email() {
-        return _email;
+    public String getEmail() {
+        return email;
     }
 
-    public String get_publicKey() {
-        return _publicKey;
+    public String getPublicKey() {
+        return publicKey;
     }
 
-    public String get_type() {
-        return _type;
+    public String getType() {
+        return type;
     }
 
-    public SecretKey get_secretKey() {
-        return _secretKey;
+    public SecretKey getSecretKey() {
+        return secretKey;
     }
 
-    public void set_secretKey(SecretKey secretKey) {
-        _secretKey = secretKey;
+    public String getToken() {
+        return token;
     }
 
-    public void set_publicKey(String publicKey) {
-        _publicKey = publicKey;
+    public void setSecretKey(SecretKey secretKey) {
+        this.secretKey = secretKey;
+    }
+
+    public void setPublicKey(String publicKey) {
+        this.publicKey = publicKey;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
 

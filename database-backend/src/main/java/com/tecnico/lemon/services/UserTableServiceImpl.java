@@ -24,7 +24,9 @@ public class UserTableServiceImpl extends UserTableServiceGrpc.UserTableServiceI
     @Override
     public void createUser(CreateUserReq request, StreamObserver<CreateUserResp> responseObserver) {
         _db.executeQuery(Queries.insertUser(request.getEmail(), request.getKey(), request.getType()));
+        responseObserver.onNext(CreateUserResp.newBuilder().build());
         responseObserver.onCompleted();
+
     }
 
     @Override 
