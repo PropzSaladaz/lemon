@@ -3,7 +3,6 @@ package com.tecnico.lemon.services;
 import com.google.protobuf.ByteString;
 import com.tecnico.lemon.*;
 import com.tecnico.lemon.controllers.JavaMailUtil;
-import com.tecnico.lemon.database.DataBase;
 import com.tecnico.lemon.database.UserTableServiceFrontend;
 import com.tecnico.lemon.models.user.User;
 import com.tecnico.lemon.models.user.UserLogin;
@@ -23,8 +22,6 @@ import static com.tecnico.lemon.contract.MobileServiceOuterClass.*;
 public class UserServiceImpl implements UserService {
 
 
-    @Autowired
-    DataBase dBase;
     @Autowired
     UserTableServiceFrontend userRepo;
     @Autowired

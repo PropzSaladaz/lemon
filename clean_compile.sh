@@ -1,5 +1,7 @@
 mvn clean install;
-cd server-backend;
+cd contract;
+mvn clean compile;
+cd ../server-backend;
 mvn clean compile;
 cd ../database-backend;
 mvn clean compile;

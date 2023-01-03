@@ -20,5 +20,6 @@ bash mobile.sh
 bash backend-mobile.sh
 # Server-backend private & public keys
 bash backend.sh
-
+# Add Lemon certificate to java keystore
+bash cert-to-keystore.sh
 clean

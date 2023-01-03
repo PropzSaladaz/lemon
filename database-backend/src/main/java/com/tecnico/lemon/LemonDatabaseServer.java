@@ -5,6 +5,7 @@ import com.tecnico.lemon.database.DatabaseManager;
 import com.tecnico.lemon.database.DatabaseManagerImpl;
 import com.tecnico.lemon.services.UserTableServiceImpl;
 import com.tecnico.lemon.services.VehicleTableServiceImpl;
+import com.tecnico.lemon.services.KeysServiceImpl;
 import io.grpc.BindableService;
 import io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.NettyServerBuilder;
@@ -30,6 +31,7 @@ public class LemonDatabaseServer {
         DatabaseManager db = new DatabaseManagerImpl();
         final BindableService vehicleService = new VehicleTableServiceImpl(db);
         final BindableService userService = new UserTableServiceImpl(db);
+        final BindableService keysService = new KeysServiceImpl(db);
 
         String serverCert = "src/main/credentials/server-cert.pem";
         String privateKeyFile = "src/main/credentials/server-key.pem";
@@ -40,6 +42,7 @@ public class LemonDatabaseServer {
             .sslContext(sslContext)
             .addService(vehicleService)
             .addService(userService)
+            .addService(keysService)
             .build();
 
 

@@ -1,12 +1,12 @@
 package com.tecnico.lemon.database;
 
 import com.tecnico.lemon.contract.*;
-import com.tecnico.lemon.dtos.UserInfoDto;
 import com.tecnico.lemon.contract.UserTableServiceGrpc;
 import com.tecnico.lemon.models.user.User;
 import io.grpc.ManagedChannel;
 import io.grpc.netty.NettyChannelBuilder;
 import io.netty.handler.ssl.SslContext;
+import com.tecnico.lemon.SSLContext;
 import org.springframework.stereotype.Component;
 
 import static com.tecnico.lemon.contract.UserTableServiceOuterClass.*;
@@ -35,7 +35,7 @@ public class UserTableServiceFrontend {
     public boolean saveUser(User user) {
         System.out.println("UserFrontend: save user");
         User lookupUser = lookupUser(user.getEmail());
-        if(lookupUser == null){
+        if (lookupUser == null){
             CreateUserReq request = CreateUserReq.newBuilder()
                     .setEmail(user.getEmail())
                     .setKey(user.getPublicKey())
