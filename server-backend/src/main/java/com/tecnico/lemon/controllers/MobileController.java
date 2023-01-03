@@ -3,12 +3,17 @@ package com.tecnico.lemon.controllers;
 import com.tecnico.lemon.Crypto;
 import com.tecnico.lemon.dtos.mobile.MobileLoginDto;
 import com.tecnico.lemon.dtos.mobile.MobileSignupDto;
-import com.tecnico.lemon.services.SignUpWaitingQueue;
-import com.tecnico.lemon.services.UserService;
+import com.tecnico.lemon.models.user.User;
+import com.tecnico.lemon.models.user.UserSignup;
+import com.tecnico.lemon.auth.SignupLoginQueue;
+import com.tecnico.lemon.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.crypto.SecretKey;
 
@@ -17,34 +22,39 @@ import javax.crypto.SecretKey;
 public class MobileController {
 
     @Autowired
-    UserService userService;
+    UserServiceImpl userService;
     @Autowired
-    SignUpWaitingQueue signupRepository;
+    SignupLoginQueue queue;
 
     @PostMapping(value="/signup")
-    public ResponseEntity<String> signup(@RequestBody MobileSignupDto mobileSignup) {
+    public ResponseEntity<String> signup(@RequestBody MobileSignupDto mobileSignup) { // TODO should be done in a mobile service
         String userEmail = mobileSignup.getEmail();
-        SecretKey userKey = signupRepository.getInfo(userEmail).getSecretKey();
-        String publicKey = Crypto.decryptAES(mobileSignup.getPublicKey(), userKey);
-        String token = Crypto.decryptAES(mobileSignup.getToken(), userKey);
 
-        if (signupRepository.userHasToken(userEmail, token)){
-            signupRepository.setUserPublicKey(userEmail, publicKey);
+        UserSignup signupUser = queue.getSignupQueue().get(userEmail);
+        SecretKey userKey = signupUser.getSymmetricKey();
+        String publicKey = Crypto.decryptAES(mobileSignup.getPublicKey(), userKey);
+        String receivedToken = Crypto.decryptAES(mobileSignup.getToken(), userKey);
+
+        if (signupUser.getToken().equals(receivedToken)) {
+            signupUser.setPublicKey(publicKey);
+            queue.getSignupQueue().add(userEmail, signupUser); // update user
+            queue.getSignupQueue().authenticateUser(userEmail);
             return new ResponseEntity<>("Success", HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>("Wrong token!", HttpStatus.BAD_REQUEST);
         }
+        return new ResponseEntity<>("Wrong token!", HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping(value="/login")
-    public ResponseEntity<String> login(@RequestBody MobileLoginDto mobileLogin) {
-        String sessionKey = "lololo"; // TODO generate a sessionKey for each user trying to log in
+    public ResponseEntity<String> login(@RequestBody MobileLoginDto mobileLogin) { // TODO should be done in a mobile service
         String userEmail = mobileLogin.getEmail();
-        SecretKey userKey = signupRepository.getInfo(userEmail).getSecretKey();
-        String publicKey = Crypto.decryptAES(mobileLogin.getPublicKey(), userKey);
-        // TODO login condition
-        return null;
+        SecretKey symmetricKey = queue.getLoginQueue().get(userEmail).getSymmetricKey();
+        String userKeyString = Crypto.decryptAES(mobileLogin.getPublicKey(), symmetricKey);
+        User user = userService.lookupUser(userEmail);
+
+        if (user.getPublicKey().equals(userKeyString)) {
+            queue.getLoginQueue().authenticateUser(userEmail);
+            return new ResponseEntity<>("Success", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Wrong key!", HttpStatus.BAD_REQUEST);
     }
-
-
 }

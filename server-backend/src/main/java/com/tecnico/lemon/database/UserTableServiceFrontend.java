@@ -3,14 +3,15 @@ package com.tecnico.lemon.database;
 import com.tecnico.lemon.contract.*;
 import com.tecnico.lemon.dtos.UserInfoDto;
 import com.tecnico.lemon.contract.UserTableServiceGrpc;
-import com.tecnico.lemon.dtos.UserInfo;
+import com.tecnico.lemon.models.user.User;
 import io.grpc.ManagedChannel;
 import io.grpc.netty.NettyChannelBuilder;
 import io.netty.handler.ssl.SslContext;
+import org.springframework.stereotype.Component;
 
 import static com.tecnico.lemon.contract.UserTableServiceOuterClass.*;
 
-
+@Component
 public class UserTableServiceFrontend {
 
     private final String target = "localhost:8082";
@@ -31,22 +32,26 @@ public class UserTableServiceFrontend {
         stub = UserTableServiceGrpc.newBlockingStub(channel);
     }
 
-    public boolean signUpUser(UserInfo userinfo) {
-        if (!lookupUser(userinfo.get_email())) {
+    public boolean saveUser(User user) {
+        System.out.println("UserFrontend: save user");
+        User lookupUser = lookupUser(user.getEmail());
+        if(lookupUser == null){
             CreateUserReq request = CreateUserReq.newBuilder()
-                    .setEmail(userinfo.getEmail())
-                    .setKey(userinfo.getPublicKey())
-                    .setType(userinfo.getType())
+                    .setEmail(user.getEmail())
+                    .setKey(user.getPublicKey())
+                    .setType(user.getType())
                     .build();
             stub.createUser(request);
+            System.out.println("UserFrontend: req sent!");
             return true;
         }
         return false;
     }
 
-    public boolean lookupUser(String email) {
-        System.out.println(email);
+    public User lookupUser(String email) {
         LookupUserResp resp = stub.lookupUser(LookupUserReq.newBuilder().setEmail(email).build());
-     return resp.getExist();
+        if (!resp.getEmail().equals(""))
+            return new User(resp.getEmail(), resp.getKey(), resp.getType());
+        return null;
     }
 }

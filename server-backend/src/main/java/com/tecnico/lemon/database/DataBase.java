@@ -1,6 +1,6 @@
 package com.tecnico.lemon.database;
 
-import com.tecnico.lemon.dtos.UserInfo;
+import com.tecnico.lemon.models.user.User;
 import com.tecnico.lemon.dtos.vehicle.VehicleDto;
 import org.springframework.stereotype.Component;
 
@@ -21,8 +21,8 @@ public class DataBase {
         user_id = 0;
     }
 
-    public boolean saveUser(UserInfo userinfo) {
-       return usersFrontend.saveUser(userinfo);
+    public boolean saveUser(User user) {
+       return usersFrontend.saveUser(user);
     }
 
     public List<VehicleDto> getAvailableVehicles() {
@@ -47,7 +47,7 @@ public class DataBase {
         return listFinal;
     }
 
-    public boolean lookupUser(String email) {
+    public User lookupUser(String email) {
         return usersFrontend.lookupUser(email);
     }
 

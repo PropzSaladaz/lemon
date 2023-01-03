@@ -7,8 +7,9 @@ message PasswordRequest {
 message PasswordResp {
 }
 
-message LoginRequest {
-  string message = 1;
+message LoginReq {
+  bytes encryptedKey = 1;
+  bytes digest = 2;
 }
 
 message LoginResp {
@@ -16,5 +17,5 @@ message LoginResp {
 
 service MobileService {
   rpc signup(PasswordRequest) returns (PasswordResp);
-  rpc login(LoginRequest) returns (LoginResp);
+  rpc login(LoginReq) returns (LoginResp);
 }

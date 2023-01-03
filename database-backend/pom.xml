@@ -6,7 +6,7 @@
 
   <groupId>com.tecnico.lemon</groupId>
   <artifactId>database</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
 
   <name>database</name>
 

@@ -76,6 +76,12 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
+			<groupId>com.tecnico.lemon</groupId>
+			<artifactId>database</artifactId>
+			<version>1.0</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
 			<groupId>io.grpc</groupId>
 			<artifactId>grpc-netty</artifactId>
 			<version>1.44.1</version>

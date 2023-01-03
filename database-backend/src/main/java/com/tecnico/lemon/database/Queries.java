@@ -74,8 +74,8 @@ public class Queries {
     public static final String SELECT_ALL_FROM_RESERVATION = "select * from " + Tables.Reservation.TABLE_NAME;
 
 
-    public static String insertUser(String email,String publicKey,String type) {
-        return String.format("insert into %s values ('%s', '%s', '%s')", Tables.User.TABLE_NAME,email, publicKey, type);
+    public static String insertUser(String publicKey, String email, String type) {
+        return String.format("insert into %s values ('%s', '%s', '%s')", Tables.User.TABLE_NAME, publicKey, email, type);
     }
 
     public static String lookupUserByEmail(String email) {

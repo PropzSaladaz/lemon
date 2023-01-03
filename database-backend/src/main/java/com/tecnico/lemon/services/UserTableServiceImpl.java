@@ -23,10 +23,9 @@ public class UserTableServiceImpl extends UserTableServiceGrpc.UserTableServiceI
 
     @Override
     public void createUser(CreateUserReq request, StreamObserver<CreateUserResp> responseObserver) {
-        _db.executeQuery(Queries.insertUser(request.getEmail(), request.getKey(), request.getType()));
+        _db.executeQuery(Queries.insertUser(request.getKey(), request.getEmail(), request.getType()));
         responseObserver.onNext(CreateUserResp.newBuilder().build());
         responseObserver.onCompleted();
-
     }
 
     @Override 
@@ -35,19 +34,13 @@ public class UserTableServiceImpl extends UserTableServiceGrpc.UserTableServiceI
         ResultSet res = _db.executeQuery(Queries.lookupUserByEmail(request.getEmail()));
         try{
             while(res.next()) {
-                if (res != null) {
-                    resp.setEmail(res.getString(Tables.User.EMAIL));
-                    resp.setKey(res.getString(Tables.User.PUBLIC_KEY));
-                    resp.setType(res.getString(Tables.User.TYPE));
-                    resp.setExist(true);
-                }else{
-                    resp.setExist(false);
-                }
+                resp.setEmail(res.getString(Tables.User.EMAIL));
+                resp.setKey(res.getString(Tables.User.PUBLIC_KEY));
+                resp.setType(res.getString(Tables.User.TYPE));
             }
         } catch(SQLException ex) {
             ex.printStackTrace();
         }
-
         responseObserver.onNext(resp.build());
         responseObserver.onCompleted();
     }
