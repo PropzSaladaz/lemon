@@ -18,13 +18,13 @@ public class Tables {
         public static final String LOCKED = "locked";
     }
 
-    public class UserReservation {
-        public static final String TABLE_NAME = "user_reservation";
+    public class UserReservations {
+        public static final String TABLE_NAME = "user_reservations";
         public static final String PUBLIC_KEY = "public_key";
         public static final String RESERVATION_ID = "reservation_id";
     }
 
-    public class Reservation {
+    public class Reservations {
         public static final String TABLE_NAME = "reservation";
         public static final String RESERVATION_ID = "reservation_id";
         public static final String VEHICLE_ID = "id";

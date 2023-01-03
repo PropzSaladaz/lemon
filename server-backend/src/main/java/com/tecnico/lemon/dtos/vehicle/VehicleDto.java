@@ -6,27 +6,27 @@ import com.tecnico.lemon.models.vehicle.Vehicle;
 public class VehicleDto {
     public int id;
     public String location;
-    public String title;
+    public String description;
     public int price;
-    public Boolean locked;
+    public Boolean reserved;
 
     public VehicleDto(Vehicle vehicle) {
         id = vehicle.getId();
         location = vehicle.getLocation();
-        title = vehicle.getTitle();
+        description = vehicle.getDescription();
         price = vehicle.getPrice();
-        locked = vehicle.getLocked();
+        reserved = vehicle.isReserved();
     }
 
     public VehicleDto(VehicleTableServiceOuterClass.Vehicle vehicle) {
-        id = vehicle.getId();
+        id = vehicle.getVehicleId();
         location = vehicle.getLocation();
-        title = vehicle.getDescription();
+        description = vehicle.getDescription();
         price = vehicle.getPrice();
-        locked = vehicle.getLocked();
+        reserved = vehicle.getReserved();
     }
 
-    public Boolean getLocked(){
-        return locked;
+    public Boolean isReserved(){
+        return reserved;
     }
 }

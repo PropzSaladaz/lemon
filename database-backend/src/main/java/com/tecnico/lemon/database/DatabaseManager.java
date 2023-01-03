@@ -17,4 +17,5 @@ public interface DatabaseManager {
     void initDatabase();
     String encrypt(String plaintext);
     String getB64EncodedSharedKey();
+    void newVehicleReservation(int vehicle_id);
 }

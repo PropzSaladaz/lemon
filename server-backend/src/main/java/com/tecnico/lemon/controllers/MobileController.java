@@ -48,10 +48,10 @@ public class MobileController {
     public ResponseEntity<String> login(@RequestBody MobileLoginDto mobileLogin) { // TODO should be done in a mobile service
         String userEmail = mobileLogin.getEmail();
         SecretKey symmetricKey = queue.getLoginQueue().get(userEmail).getSymmetricKey();
-        String userKeyString = Crypto.decryptAES(mobileLogin.getPublicKey(), symmetricKey);
+        String userPublicKey = Crypto.decryptAES(mobileLogin.getPublicKey(), symmetricKey);
         User user = userService.lookupUser(userEmail);
 
-        if (user.getPublicKey().equals(userKeyString)) {
+        if (user.getPublicKey().equals(userPublicKey)) {
             queue.getLoginQueue().authenticateUser(userEmail);
             return new ResponseEntity<>("Success", HttpStatus.OK);
         }

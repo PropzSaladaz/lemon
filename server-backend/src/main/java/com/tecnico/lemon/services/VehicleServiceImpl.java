@@ -14,17 +14,17 @@ public class VehicleServiceImpl implements VehicleService{
 
     @Override
     public List<VehicleDto> getAvailableVehicles() {
-        return vehicleServiceFrontend.getVehicles().stream().filter(vehicle -> !vehicle.getLocked()).collect(Collectors.toList());
+        return vehicleServiceFrontend.getVehicles().stream().filter(vehicle -> !vehicle.isReserved()).collect(Collectors.toList());
     }
 
     @Override
-    public List<VehicleDto> getLockedVehicles() {
-        return vehicleServiceFrontend.getVehicles().stream().filter(vehicle -> vehicle.getLocked()).collect(Collectors.toList());
+    public List<VehicleDto> getReservedVehicles() {
+        return vehicleServiceFrontend.getVehicles().stream().filter(vehicle -> vehicle.isReserved()).collect(Collectors.toList());
     }
 
     @Override
-    public void lockVehicle(int id){
-        vehicleServiceFrontend.lockVehicle(id);
+    public void reserveVehicle(int id){
+        vehicleServiceFrontend.reserveVehicle(id);
     }
     @Override
     public void unlockVehicle(int id){

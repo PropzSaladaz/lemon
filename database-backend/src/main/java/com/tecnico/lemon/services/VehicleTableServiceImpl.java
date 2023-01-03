@@ -25,11 +25,11 @@ public class VehicleTableServiceImpl extends VehicleTableServiceGrpc.VehicleTabl
             ResultSet res = _db.executeQuery(Queries.SELECT_ALL_FROM_VEHICLES);
             while(res.next()) {
                     Vehicle v = Vehicle.newBuilder()
-                            .setDescription(res.getString(Tables.Vehicle.DESCRIPTION))
+                            .setVehicleId(res.getInt(Tables.Vehicle.VEHICLE_ID))
                             .setPrice(res.getInt(Tables.Vehicle.PRICE))
                             .setLocation(res.getString(Tables.Vehicle.LOCALIZATION))
-                            .setLocked(res.getBoolean(Tables.Vehicle.LOCKED))
-                            .setId(res.getInt(Tables.Vehicle.VEHICLE_ID))
+                            .setReserved(res.getBoolean(Tables.Vehicle.LOCKED))
+                            .setDescription(res.getString(Tables.Vehicle.DESCRIPTION))
                             .build();
                     resp.addVehicles(v);
 
@@ -42,10 +42,10 @@ public class VehicleTableServiceImpl extends VehicleTableServiceGrpc.VehicleTabl
     }
 
     @Override
-    public void lockVehicle(LockVehicleReq request, StreamObserver<LockVehicleResp> responseObserver) {
+    public void reserveVehicle(ReserveVehicleReq request, StreamObserver<ReserveVehicleResp> responseObserver) {
 
-        LockVehicleResp.Builder resp = LockVehicleResp.newBuilder();
-        _db.executeQuery("update " + Tables.Vehicle.TABLE_NAME + " set locked = " + true + " where id= " + request.getId());
+        ReserveVehicleResp.Builder resp = ReserveVehicleResp.newBuilder();
+        _db.newVehicleReservation(request.getVehicleId());
         responseObserver.onNext(resp.build());
         responseObserver.onCompleted();
     }
@@ -54,7 +54,7 @@ public class VehicleTableServiceImpl extends VehicleTableServiceGrpc.VehicleTabl
     public void unlockVehicle(UnlockVehicleReq request, StreamObserver<UnlockVehicleResp> responseObserver) {
 
         UnlockVehicleResp.Builder resp = UnlockVehicleResp.newBuilder();
-        _db.executeQuery("update " + Tables.Vehicle.TABLE_NAME + " set locked = " + false + " where id= " + request.getId());
+        _db.executeQuery("update " + Tables.Vehicle.TABLE_NAME + " set locked = " + false + " where id= " + request.getVehicleId());
         responseObserver.onNext(resp.build());
         responseObserver.onCompleted();
     }

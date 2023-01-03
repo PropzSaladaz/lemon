@@ -55,6 +55,7 @@ public class LemonDatabaseServer {
         Boolean exit = false;
         while (!exit) {
             // Wait for the user to enter a command
+            System.out.println("Waiting for new command: ");
             String command = scanner.nextLine();
 
             switch (command) {

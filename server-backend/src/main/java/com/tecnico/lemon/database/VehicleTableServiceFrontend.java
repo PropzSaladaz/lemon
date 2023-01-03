@@ -43,14 +43,14 @@ public class VehicleTableServiceFrontend {
                 .collect(Collectors.toList());
     }
 
-    public void lockVehicle(int id) {
-        LockVehicleReq request = LockVehicleReq.newBuilder().setId(id).build();
-        LockVehicleResp resp = stub.lockVehicle(request);
+    public void reserveVehicle(int id) {
+        ReserveVehicleReq request = ReserveVehicleReq.newBuilder().setVehicleId(id).build();
+        ReserveVehicleResp resp = stub.reserveVehicle(request);
     }
 
 
     public void unlockVehicle(int id) {
-        UnlockVehicleReq request = UnlockVehicleReq.newBuilder().setId(id).build();
+        UnlockVehicleReq request = UnlockVehicleReq.newBuilder().setVehicleId(id).build();
         UnlockVehicleResp resp =  stub.unlockVehicle(request);
     }
 }

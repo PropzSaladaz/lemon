@@ -2,20 +2,19 @@ package com.tecnico.lemon.models.vehicle;
 
 public class Vehicle implements IVehicle{
     private int _id;
-    private int _price;
     private String _location;
-    private  boolean _payed;
-    public boolean _locked;
+    private int _price;
+    private boolean _paid;
+    public boolean _reserved;
+    private String _description;
 
-    private String _title;
-
-    public Vehicle(int id,String location,String title, int price){
+    public Vehicle(int id, String location, int price, boolean reserved, String description){
         _id = id;
-        _location = location ;
-        _title = title;
-        _locked = false;
-        _payed = false;
+        _location = location;
         _price = price;
+        _reserved = reserved;
+        _description = description;
+        _paid = false;
     }
 
 
@@ -26,39 +25,33 @@ public class Vehicle implements IVehicle{
         return _location;
     }
 
-    public boolean isFree() {
-        return !_locked;
-    }
-
     public int getPrice(){
         return _price;
     }
 
-    public String getTitle(){
-        return _title;
+    public String getDescription(){
+        return _description;
     }
 
-    public Boolean getLocked(){
-        return _locked;
+    public Boolean isReserved(){
+        return _reserved;
     }
 
-    public void unlockVehicle()
-    {
-        if (_locked) _locked = false;
+    public void unlockVehicle() {
+        if (_reserved) _reserved = false;
 
     }
 
-    public void lockVehicle()
-    {
-        if (!_locked) _locked = true;
+    public void reserveVehicle() {
+        if (!_reserved) _reserved = true;
 
     }
 
     public String payVehicle()
     {
-        if (_payed) return "Already payed";
+        if (_paid) return "Already payed";
         else {
-            _payed = true;
+            _paid = true;
             return "Payment Realized";
         }
 

@@ -20,14 +20,14 @@ public class VehicleController {
     }
 
     @GetMapping(value="/locked")
-    public List<VehicleDto> getLockedVehicles() {
-        return vehicleService.getLockedVehicles();
+    public List<VehicleDto> getReservedVehicles() {
+        return vehicleService.getReservedVehicles();
     }
 
 
-    @PostMapping (value="/lock/{id}")
-    public void lockVehicle(@PathVariable("id") int id) {
-        vehicleService.lockVehicle(id);
+    @PostMapping (value="/reserve/{id}")
+    public void reserveVehicle(@PathVariable("id") int id) {
+        vehicleService.reserveVehicle(id);
     }
 
     @PostMapping (value="/unlock/{id}")

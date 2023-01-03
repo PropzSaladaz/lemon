@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import javax.crypto.KeyGenerator;
-import com.tecnico.lemon.KeyGenerate;
 import java.security.Key;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -21,6 +20,8 @@ import java.nio.charset.StandardCharsets;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+
+import java.util.UUID;
 
 public class DatabaseManagerImpl implements DatabaseManager {
   private static final String database_name = "sirsdb";
@@ -60,7 +61,7 @@ public class DatabaseManagerImpl implements DatabaseManager {
     }
 
   }
-  
+
   @Override 
   public String getB64EncodedSharedKey() {
     try {
@@ -95,8 +96,8 @@ public class DatabaseManagerImpl implements DatabaseManager {
 
   @Override
   public void populate() {
-    executeQuery(Queries.insertUser("lala", "admin@gmail.com", "Employer"));
-    executeQuery(Queries.insertUser("lolo","cust@gmail.com", "Customer"));
+    //executeQuery(Queries.insertUser("lala", "admin@gmail.com", "Employer"));
+    //executeQuery(Queries.insertUser("lolo","cust@gmail.com", "Customer"));
     executeQuery(Queries.insertVehicle(1, 200, "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12448.046022212302!2d-9.3042988!3d38.7404982!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x92000ad2cef547fa!2sTaguspark!5e0!3m2!1spt-PT!2spt!4v1669853654934!5m2!1spt-PT!2spt", "Scooter"));
     executeQuery(Queries.insertVehicle(2, 15, "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12448.687282539375!2d-9.138705!3d38.7368192!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x880c7c731a54423!2sInstituto%20Superior%20T%C3%A9cnico!5e0!3m2!1spt-PT!2spt!4v1669853788927!5m2!1spt-PT!2spt", "Bike"));
 
@@ -106,6 +107,8 @@ public class DatabaseManagerImpl implements DatabaseManager {
     drop(); // TODO use only for debug
     executeQuery(Queries.CREATE_TABLE_USERS);
     executeQuery(Queries.CREATE_TABLE_VEHICLES);
+    executeQuery(Queries.CREATE_TABLE_USER_RESERVATIONS);
+    executeQuery(Queries.CREATE_TABLE_RESERVATIONS);
     populate(); // TODO use only for debug
   }
 
@@ -122,16 +125,51 @@ public class DatabaseManagerImpl implements DatabaseManager {
     return null;
   }
 
+  
+  @Override
+  public void newVehicleReservation(int vehicle_id) {
+    try {
+      // Get vehicle object given id if it exists
+      ResultSet res = executeQuery(Queries.lookupVehicle(vehicle_id));
+
+      // Generate a new reservation_id 
+      String reservation_id = UUID.randomUUID().toString();
+      System.out.printf("New reservation id:('%s') for vehicle id:('%s') %n", reservation_id, vehicle_id);
+
+      // Add vehicle to reservations table
+      executeQuery(Queries.insertReservation(
+        reservation_id,
+        vehicle_id, 
+        res.getString(Tables.Vehicle.LOCALIZATION), 
+        res.getInt(Tables.Vehicle.PRICE),
+        res.getString(Tables.Vehicle.DESCRIPTION)
+      ));
+      // Update vehicles reserved status in vehicle table
+      executeQuery("update " + Tables.Vehicle.TABLE_NAME + " set reserved = " + true + " where id= " + vehicle_id);
+
+      // Get user primary_key from users table
+
+      // Add reservation->user to user_reservations table
+      //executeQuery(Queries.insertUserReservation());
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
   @Override
   public void clean() {
     executeQuery(Queries.DELETE_ALL_USERS);
     executeQuery(Queries.DELETE_ALL_VEHICLES);
+    executeQuery(Queries.DELETE_ALL_RESERVATIONS);
+    executeQuery(Queries.DELETE_ALL_USER_RESERVATIONS);
   }
 
   @Override
   public void drop() {
     executeQuery(Queries.DROP_TABLE_USERS);
     executeQuery(Queries.DROP_TABLE_VEHICLES);
+    executeQuery(Queries.DROP_TABLE_RESERVATIONS);
+    executeQuery(Queries.DROP_TABLE_USER_RESERVATIONS);
   }
 
   @Override
