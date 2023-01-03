@@ -4,6 +4,8 @@ import com.tecnico.lemon.database.DatabaseManager;
 
 import io.grpc.stub.StreamObserver;
 
+import com.tecnico.lemon.AESKeyReader;
+
 import com.tecnico.lemon.contract.KeysServiceGrpc;
 import static com.tecnico.lemon.contract.KeysServiceOuterClass.*;
 

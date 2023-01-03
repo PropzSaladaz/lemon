@@ -1,6 +1,7 @@
 package com.tecnico.lemon.database;
 
 import com.tecnico.lemon.KeyGenerate;
+import com.tecnico.lemon.AESKeyReader;
 
 import org.postgresql.Driver;
 
@@ -11,8 +12,15 @@ import java.util.logging.Logger;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import javax.crypto.KeyGenerator;
+import com.tecnico.lemon.KeyGenerate;
 import java.security.Key;
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
 import java.util.Base64;
+import java.nio.charset.StandardCharsets;
+
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 public class DatabaseManagerImpl implements DatabaseManager {
   private static final String database_name = "sirsdb";
@@ -52,7 +60,7 @@ public class DatabaseManagerImpl implements DatabaseManager {
     }
 
   }
-
+  
   @Override 
   public String getB64EncodedSharedKey() {
     try {
@@ -61,6 +69,23 @@ public class DatabaseManagerImpl implements DatabaseManager {
       keyIn.read(keyBytes);
       keyIn.close();
       return Base64.getEncoder().encodeToString(keyBytes);
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  @Override 
+  public String encrypt(String plaintext) {
+    try {
+      SecretKey key = AESKeyReader.readSharedKey("src/main/credentials/shared-key.bin");
+      Cipher cipher = Cipher.getInstance("AES");
+      cipher.init(Cipher.ENCRYPT_MODE, key);
+      String ciphertext = Base64.getEncoder().encodeToString(cipher.doFinal(plaintext.getBytes(StandardCharsets.UTF_8)));
+      System.out.println("Encrypted text: " + ciphertext);
+      return ciphertext;
+
     } catch (Exception e) {
       System.out.println(e.getMessage());
       e.printStackTrace();

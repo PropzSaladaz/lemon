@@ -15,5 +15,6 @@ public interface DatabaseManager {
     void drop();
     void close();
     void initDatabase();
+    String encrypt(String plaintext);
     String getB64EncodedSharedKey();
 }
