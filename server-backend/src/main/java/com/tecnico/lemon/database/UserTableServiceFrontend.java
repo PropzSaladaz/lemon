@@ -1,6 +1,7 @@
 package com.tecnico.lemon.database;
 
-import com.tecnico.lemon.SSLContext;
+import com.tecnico.lemon.contract.*;
+import com.tecnico.lemon.dtos.UserInfoDto;
 import com.tecnico.lemon.contract.UserTableServiceGrpc;
 import com.tecnico.lemon.dtos.UserInfo;
 import io.grpc.ManagedChannel;
@@ -30,8 +31,8 @@ public class UserTableServiceFrontend {
         stub = UserTableServiceGrpc.newBlockingStub(channel);
     }
 
-    public boolean saveUser(UserInfo userinfo) {
-        if(!lookupUser(userinfo.getEmail())){
+    public boolean signUpUser(UserInfo userinfo) {
+        if (!lookupUser(userinfo.get_email())) {
             CreateUserReq request = CreateUserReq.newBuilder()
                     .setEmail(userinfo.getEmail())
                     .setKey(userinfo.getPublicKey())

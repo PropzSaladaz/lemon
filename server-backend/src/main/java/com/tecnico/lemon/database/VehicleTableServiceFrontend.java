@@ -42,16 +42,13 @@ public class VehicleTableServiceFrontend {
     }
 
     public void lockVehicle(int id) {
-
         LockVehicleReq request = LockVehicleReq.newBuilder().setId(id).build();
-        LockVehicleResp resp =  stub.lockVehicle(request);
+        LockVehicleResp resp = stub.lockVehicle(request);
     }
 
 
     public void unlockVehicle(int id) {
-
         UnlockVehicleReq request = UnlockVehicleReq.newBuilder().setId(id).build();
         UnlockVehicleResp resp =  stub.unlockVehicle(request);
-
     }
 }

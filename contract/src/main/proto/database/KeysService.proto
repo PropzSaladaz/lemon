@@ -1,0 +1,15 @@
+syntax = "proto3";
+package com.tecnico.lemon.contract;
+import "ResponseCode.proto";
+
+message RequestSharedKeyReq {
+
+}
+
+message RequestSharedKeyResp {
+    string sharedKey = 1;
+}
+
+service KeysService {
+    rpc requestSharedKey(RequestSharedKeyReq) returns (RequestSharedKeyResp);
+}
