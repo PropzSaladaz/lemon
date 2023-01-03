@@ -149,7 +149,7 @@ public class DatabaseManagerImpl implements DatabaseManager {
       executeQuery("update " + Tables.Vehicle.TABLE_NAME + " set reserved = " + true + " where id= " + vehicle_id);
 
       // Add reservation->user to user_reservations table
-      executeQuery(Queries.insertUserReservation(reservation_id, user_id));
+      executeQuery(Queries.insertUserReservation(encrypt(reservation_id), user_id));
     } catch (Exception e) {
       e.printStackTrace();
     }
