@@ -2,7 +2,7 @@ import axios from "axios";
 
 const serverHostname = "https://localhost:8443";
 
-let user_id = 0;
+let user_public_key = 0;
 
 const apiClient = axios.create({
     baseURL: serverHostname,
@@ -19,11 +19,11 @@ export default {
     },
 
     getLockedVehicles() {
-        return apiClient.get("/vehicle/locked");
+        return apiClient.get("/vehicle/reserved");
     },
 
     requestReservation(id){
-        return apiClient.post("/vehicle/lock/" + id);
+        return apiClient.post("/vehicle/reserve/" + id, {key: user_public_key});
     },
 
     cancelReservation(id){

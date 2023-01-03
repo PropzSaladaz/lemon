@@ -13,7 +13,7 @@ public interface VehicleService {
 
     List<VehicleDto> getReservedVehicles();
 
-    void reserveVehicle(int id);
+    void reserveVehicle(int id, String publicKey);
     void unlockVehicle(int id);
 
     //VehicleDto getVehicle(int id);

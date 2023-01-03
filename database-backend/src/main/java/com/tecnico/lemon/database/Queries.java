@@ -102,8 +102,8 @@ public class Queries {
     }
 
 
-    public static String insertUserReservation(int public_key, int encrypted_reservation_id) {
+    public static String insertUserReservation(String reservation_id, String user_id) {
         return String.format("insert into %s values ('%s', '%s')",
-                Tables.UserReservations.TABLE_NAME, public_key, encrypted_reservation_id);
+                Tables.UserReservations.TABLE_NAME, reservation_id, user_id);
     }
 }

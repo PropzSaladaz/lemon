@@ -10,6 +10,7 @@ message VehiclesResp {
 
 message ReserveVehicleReq {
   int32 vehicle_id = 1;
+  string user_id = 2;
 }
 
 message ReserveVehicleResp {

@@ -127,14 +127,14 @@ public class DatabaseManagerImpl implements DatabaseManager {
 
   
   @Override
-  public void newVehicleReservation(int vehicle_id) {
+  public void newVehicleReservation(int vehicle_id, String user_id) {
     try {
       // Get vehicle object given id if it exists
       ResultSet res = executeQuery(Queries.lookupVehicle(vehicle_id));
 
       // Generate a new reservation_id 
       String reservation_id = UUID.randomUUID().toString();
-      System.out.printf("New reservation id:('%s') for vehicle id:('%s') %n", reservation_id, vehicle_id);
+      System.out.printf("New reservation id:('%s') for vehicle id:('%s') from user id:('%s')%n", reservation_id, vehicle_id, user_id);
 
       // Add vehicle to reservations table
       executeQuery(Queries.insertReservation(
@@ -144,13 +144,12 @@ public class DatabaseManagerImpl implements DatabaseManager {
         res.getInt(Tables.Vehicle.PRICE),
         res.getString(Tables.Vehicle.DESCRIPTION)
       ));
+
       // Update vehicles reserved status in vehicle table
       executeQuery("update " + Tables.Vehicle.TABLE_NAME + " set reserved = " + true + " where id= " + vehicle_id);
 
-      // Get user primary_key from users table
-
       // Add reservation->user to user_reservations table
-      //executeQuery(Queries.insertUserReservation());
+      executeQuery(Queries.insertUserReservation(reservation_id, user_id));
     } catch (Exception e) {
       e.printStackTrace();
     }

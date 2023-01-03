@@ -10,7 +10,7 @@ public class Tables {
 
     public class Vehicle {
         public static final String TABLE_NAME = "vehicles";
-        public static final String VEHICLE_ID = "id";
+        public static final String VEHICLE_ID = "vehicle_id";
         public static final String PRICE = "price";
         public static final String DESCRIPTION = "description";
         public static final String LOCALIZATION = "localization";
@@ -27,7 +27,7 @@ public class Tables {
     public class Reservations {
         public static final String TABLE_NAME = "reservation";
         public static final String RESERVATION_ID = "reservation_id";
-        public static final String VEHICLE_ID = "id";
+        public static final String VEHICLE_ID = "vehicle_id";
         public static final String LOCALIZATION = "localization";
         public static final String PRICE = "price";
         public static final String DESCRIPTION = "description";

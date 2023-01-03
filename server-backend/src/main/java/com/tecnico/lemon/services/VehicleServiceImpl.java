@@ -23,8 +23,8 @@ public class VehicleServiceImpl implements VehicleService{
     }
 
     @Override
-    public void reserveVehicle(int id){
-        vehicleServiceFrontend.reserveVehicle(id);
+    public void reserveVehicle(int id, String publicKey){
+        vehicleServiceFrontend.reserveVehicle(id, publicKey);
     }
     @Override
     public void unlockVehicle(int id){

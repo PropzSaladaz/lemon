@@ -43,8 +43,8 @@ public class VehicleTableServiceFrontend {
                 .collect(Collectors.toList());
     }
 
-    public void reserveVehicle(int id) {
-        ReserveVehicleReq request = ReserveVehicleReq.newBuilder().setVehicleId(id).build();
+    public void reserveVehicle(int id, String publicKey) {
+        ReserveVehicleReq request = ReserveVehicleReq.newBuilder().setVehicleId(id).setUserId(publicKey).build();
         ReserveVehicleResp resp = stub.reserveVehicle(request);
     }
 

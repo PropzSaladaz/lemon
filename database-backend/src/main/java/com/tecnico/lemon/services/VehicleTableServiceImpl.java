@@ -45,7 +45,7 @@ public class VehicleTableServiceImpl extends VehicleTableServiceGrpc.VehicleTabl
     public void reserveVehicle(ReserveVehicleReq request, StreamObserver<ReserveVehicleResp> responseObserver) {
 
         ReserveVehicleResp.Builder resp = ReserveVehicleResp.newBuilder();
-        _db.newVehicleReservation(request.getVehicleId());
+        _db.newVehicleReservation(request.getVehicleId(), request.getUserId());
         responseObserver.onNext(resp.build());
         responseObserver.onCompleted();
     }

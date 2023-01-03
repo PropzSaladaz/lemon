@@ -19,15 +19,15 @@ public class VehicleController {
         return vehicleService.getAvailableVehicles();
     }
 
-    @GetMapping(value="/locked")
+    @GetMapping(value="/reserved")
     public List<VehicleDto> getReservedVehicles() {
         return vehicleService.getReservedVehicles();
     }
 
 
     @PostMapping (value="/reserve/{id}")
-    public void reserveVehicle(@PathVariable("id") int id) {
-        vehicleService.reserveVehicle(id);
+    public void reserveVehicle(@PathVariable("id") int id, @RequestBody KeyRequest request) {
+        vehicleService.reserveVehicle(id, request.getKey());
     }
 
     @PostMapping (value="/unlock/{id}")
@@ -35,6 +35,11 @@ public class VehicleController {
         vehicleService.unlockVehicle(id);
     }
 
+    public class KeyRequest {
+        private String key;
+        public String getKey() { return key; }
+        public void setKey(String key) { this.key = key; }
+    }
 }
     /*@GetMapping(value="/get/{id}")
     public VehicleDto getVehicle(@PathVariable("id") int id) {
