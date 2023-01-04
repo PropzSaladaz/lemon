@@ -19,9 +19,9 @@ public class Queries {
                     "%s varchar(3000), " +
                     "primary key (%s))",
                     Tables.UserReservations.TABLE_NAME,
-                    Tables.UserReservations.PUBLIC_KEY,
                     Tables.UserReservations.RESERVATION_ID /*Encrypted*/,
-                    Tables.UserReservations.PUBLIC_KEY);
+                    Tables.UserReservations.PUBLIC_KEY,
+                    Tables.UserReservations.RESERVATION_ID);
 
     public static final String CREATE_TABLE_RESERVATIONS = 
             String.format("create table %s (" +
@@ -87,7 +87,7 @@ public class Queries {
 
 
     public static String insertVehicle(int id, int price, String localization, String description) {
-        return String.format("insert into %s values ('%s', '%s', '%s', '%s', false, false)",
+        return String.format("insert into %s values ('%s', '%s', '%s', '%s', false, 'NULL')",
                 Tables.Vehicle.TABLE_NAME, id, price, localization, description);
     }
 
@@ -96,9 +96,14 @@ public class Queries {
                 Tables.Vehicle.TABLE_NAME, id);
     }
 
+    public static String updateVehicleReservationId(String reservation_id, int vehicle_id) {
+        return String.format("update %s set %s = '%s' where %s = '%s';", 
+                Tables.Vehicle.TABLE_NAME, Tables.Vehicle.RESERVATION_ID, reservation_id, Tables.Vehicle.VEHICLE_ID, vehicle_id);
+    }
+
 
     public static String insertReservation(String id, int vehicle_id, String loc, int price, String description) {
-        return String.format("insert into %s values ('%s', '%s', '%s', '%s', '%s', '%s')",
+        return String.format("insert into %s values ('%s', '%s', '%s', '%s', '%s')",
                 Tables.Reservations.TABLE_NAME, id, vehicle_id, loc, price, description);
     }
 
@@ -109,12 +114,12 @@ public class Queries {
 
 
     public static String insertUserReservation(String reservation_id, String user_id) {
-        return String.format("insert into '%s' values ('%s', '%s')",
+        return String.format("insert into %s values ('%s', '%s')",
                 Tables.UserReservations.TABLE_NAME, reservation_id, user_id);
     }
 
     public static String deleteUserReservation(String reservation_id) {
-        return String.format("delete from '%s' where reservation_id='%s'",
+        return String.format("delete from %s where reservation_id='%s'",
                 Tables.UserReservations.TABLE_NAME, reservation_id);
     }
 }

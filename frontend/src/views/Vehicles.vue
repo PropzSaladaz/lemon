@@ -10,7 +10,7 @@
             </thead>
             <tbody>
                 <tr v-for="vehicle in vehicles" key="vehicle.id">
-                    <th class="normal-text"> {{ vehicle.title }} </th>
+                    <th class="normal-text"> {{ vehicle.description }} </th>
                     <th class="normal-text"> {{ vehicle.price }} </th>
                     <th class="button-column flex" > <button class="button is-primary is-outlined" @click="requestReservation(vehicle.id)">Make Reservation</button> </th>
                 </tr>

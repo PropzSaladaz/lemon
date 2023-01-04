@@ -5,6 +5,8 @@ import com.tecnico.lemon.services.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.util.List;
 
 @RestController
@@ -27,7 +29,7 @@ public class VehicleController {
 
     @PostMapping (value="/reserve/{id}")
     public void reserveVehicle(@PathVariable("id") int id, @RequestBody KeyRequest request) {
-        vehicleService.reserveVehicle(id, request.getPublicKey());
+        vehicleService.reserveVehicle(id, request.getKey());
     }
 
     @PostMapping (value="/unlock/{id}")
@@ -35,10 +37,14 @@ public class VehicleController {
         vehicleService.unlockVehicle(id);
     }
 
-    public class KeyRequest {
+    public static class KeyRequest {
         private String key;
-        public String getPublicKey() { return key; }
-        public void setKey(String key) { this.key = key; }
+        @JsonCreator
+        public KeyRequest() { } // Default constructor
+        @JsonCreator
+        public KeyRequest(String _key) {this.key = _key;}
+        public String getKey() { return key; }
+        public void setKey(String _key) { this.key = _key; }
     }
 }
     /*@GetMapping(value="/get/{id}")

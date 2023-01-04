@@ -23,17 +23,19 @@ export default {
     },
 
     requestReservation(id){
+        console.log(`Sending Reservation request with user public key: ${user_public_key}`);
         return apiClient.post("/vehicle/reserve/" + id, {key: user_public_key});
     },
 
     cancelReservation(id){
-        return apiClient.post("/vehicle/unlock/" + id, {key: user_public_key});
+        return apiClient.post("/vehicle/unlock/" + id);
     },
 
     async login(_email) {
         return await apiClient.post("/login/" + _email)
             .then(response => {
                 user_public_key = response.data.publicKey;
+                console.log(`Successfuly logged in -> New user public key: ${user_public_key}`);
                 return response.data;
             })
             .catch(error => {

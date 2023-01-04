@@ -28,7 +28,7 @@ public class VehicleTableServiceImpl extends VehicleTableServiceGrpc.VehicleTabl
                             .setVehicleId(res.getInt(Tables.Vehicle.VEHICLE_ID))
                             .setPrice(res.getInt(Tables.Vehicle.PRICE))
                             .setLocation(res.getString(Tables.Vehicle.LOCALIZATION))
-                            .setReserved(res.getString(Tables.Vehicle.RESERVATION_ID) != "NULL")
+                            .setReserved(!res.getString(Tables.Vehicle.RESERVATION_ID).equals("NULL"))
                             .setDescription(res.getString(Tables.Vehicle.DESCRIPTION))
                             .build();
                     resp.addVehicles(v);

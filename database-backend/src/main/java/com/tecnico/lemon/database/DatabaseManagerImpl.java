@@ -59,7 +59,6 @@ public class DatabaseManagerImpl implements DatabaseManager {
       System.out.println(e.getMessage());
       e.printStackTrace();
     }
-
   }
 
   @Override 
@@ -131,7 +130,8 @@ public class DatabaseManagerImpl implements DatabaseManager {
     try {
       // Get vehicle object given id if it exists
       ResultSet res = executeQuery(Queries.lookupVehicle(vehicle_id));
-      if (res.getString(Tables.Vehicle.RESERVATION_ID) != "NULL") {
+      res.next();
+      if (!res.getString(Tables.Vehicle.RESERVATION_ID).equals("NULL")){
         throw new Exception("Trying to reserve an already reserved vehicle with reservation_id: " + res.getString(Tables.Vehicle.RESERVATION_ID));
       }
 
@@ -149,7 +149,7 @@ public class DatabaseManagerImpl implements DatabaseManager {
       ));
 
       // Update vehicles reserved status in vehicle table
-      executeQuery("update " + Tables.Vehicle.TABLE_NAME + " set reservation_id= " + reservation_id + " where vehicle_id= " + vehicle_id);
+      executeQuery(Queries.updateVehicleReservationId(reservation_id, vehicle_id));
 
       // Add reservation->user to user_reservations table
       executeQuery(Queries.insertUserReservation(encrypt(reservation_id), user_id));
@@ -163,8 +163,9 @@ public class DatabaseManagerImpl implements DatabaseManager {
     try {
       // Remove entry from reservations table
       ResultSet res = executeQuery(Queries.lookupVehicle(vehicle_id));
+      res.next();
       String reservation_id = res.getString(Tables.Vehicle.RESERVATION_ID);
-      if (reservation_id == "NULL") {
+      if (reservation_id.equals("NULL")) {
         throw new Exception("Trying to unlock an already unlocked vehicle with reservation_id: " + reservation_id);
       }
   
@@ -174,7 +175,7 @@ public class DatabaseManagerImpl implements DatabaseManager {
       executeQuery(Queries.deleteUserReservation(encrypt(reservation_id)));
   
       // Update vehicles reserved status in vehicle table
-      executeQuery("update " + Tables.Vehicle.TABLE_NAME + " set reservation_id= " + "NULL" + " where vehicle_id= " + vehicle_id);
+      executeQuery(Queries.updateVehicleReservationId("NULL", vehicle_id));
     } catch (Exception e) {
       e.printStackTrace();
     }

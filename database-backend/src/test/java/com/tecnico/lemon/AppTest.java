@@ -54,18 +54,17 @@ public class AppTest
         CachedRowSet crs = factory.createCachedRowSet();
         crs.populate(rs);
         while(crs.next()) {
-            if (!crs.getBoolean(Tables.Vehicle.LOCKED)) {
+            boolean locked = crs.getString(Tables.Vehicle.RESERVATION_ID) != "NULL";
+            if (!locked) {
                 String localization = crs.getString(Tables.Vehicle.LOCALIZATION);
                 String description  = crs.getString(Tables.Vehicle.DESCRIPTION);
                 int id = crs.getInt(Tables.Vehicle.VEHICLE_ID);
                 double price = crs.getDouble(Tables.Vehicle.PRICE);
-                boolean lock = crs.getBoolean(Tables.Vehicle.LOCKED);
                 boolean payed = crs.getBoolean(Tables.Vehicle.PAYED);
                 assertEquals(3, id);
                 assertEquals(100, price, 0.5);
                 assertEquals("ali", localization);
                 assertEquals("Scooter", description);
-                assertFalse(lock);
                 assertFalse(payed);
             }
         }
