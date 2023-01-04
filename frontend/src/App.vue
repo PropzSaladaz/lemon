@@ -95,9 +95,9 @@ export default {
       this.$router.push('/user/login');
     },
     async onLogin(event) {
-      ApplicationService.login(event.email)
-        .then((response) => {
-          let customerType = response.data;
+      await ApplicationService.login(event.email)
+        .then((data) => {
+          let customerType = data.customerType;
           console.log(customerType);
           if (customerType === "Employer") {
             this.isEmployee = true;

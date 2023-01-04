@@ -2,7 +2,7 @@ import axios from "axios";
 
 const serverHostname = "https://localhost:8443";
 
-let user_public_key = 0;
+let user_public_key = "NOPUBLICKEYSET";
 
 const apiClient = axios.create({
     baseURL: serverHostname,
@@ -29,7 +29,15 @@ export default {
     cancelReservation(id){
         return apiClient.post("/vehicle/unlock/" + id);
     },
-    login(_email) {
-        return apiClient.post("/login/" + _email);
+
+    async login(_email) {
+        return await apiClient.post("/login/" + _email)
+            .then(response => {
+                user_public_key = response.data.publicKey;
+                return response.data;
+            })
+            .catch(error => {
+                console.log(error)
+            });
     },
 } 

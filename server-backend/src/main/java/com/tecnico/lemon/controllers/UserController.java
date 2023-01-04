@@ -16,22 +16,45 @@ import java.security.spec.InvalidKeySpecException;
 @RequestMapping(value="/login")
 public class UserController {
 
+    public class SigninResponse {
+        private String _publicKey;
+        private String _customerType;
+
+        public SigninResponse(String publicKey, String customerType) {
+            _publicKey = publicKey;
+            _customerType = customerType;
+        }
+
+        public String getPublicKey() {
+            return _publicKey;
+        }
+        
+        public String getCustomerType() {
+            return _customerType;
+        }
+    }
+
     @Autowired
     UserService userService;
 
     @PostMapping(value="/{email}")
-    public ResponseEntity<String> loginSignup(@PathVariable("email") String email) throws Exception {
+    public ResponseEntity<SigninResponse> loginSignup(@PathVariable("email") String email) throws Exception {
         User user = userService.lookupUser(email);
         if (user == null) {
             System.out.println("user doesnt exist");
-            if (userService.signupUser(email)){
-                return new ResponseEntity<>(UserTypes.CUSTOMER, HttpStatus.OK);
+            String userPublicKey = userService.signupUser(email);
+            if (!userPublicKey.equals("ERROR")){
+                return new ResponseEntity<SigninResponse>(new SigninResponse(userPublicKey, UserTypes.CUSTOMER), HttpStatus.OK);
             }
-            else return new ResponseEntity<>("Token expired, try again!", HttpStatus.BAD_REQUEST);
-        } else {
+            return new ResponseEntity<SigninResponse>(new SigninResponse("", ""), HttpStatus.BAD_REQUEST);
+        }
+        else {
             System.out.println("user exists");
-            userService.loginUser(email);
-            return new ResponseEntity<>(UserTypes.CUSTOMER, HttpStatus.OK);
+            String userPublicKey = userService.loginUser(email);
+            if (!userPublicKey.equals("ERROR")) {
+                return new ResponseEntity<SigninResponse>(new SigninResponse(userPublicKey, UserTypes.CUSTOMER), HttpStatus.OK);
+            }
+            return new ResponseEntity<SigninResponse>(new SigninResponse("", ""), HttpStatus.BAD_REQUEST);
         }
     }
 }

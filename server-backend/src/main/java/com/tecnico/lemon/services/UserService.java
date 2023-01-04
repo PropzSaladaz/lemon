@@ -8,7 +8,7 @@ public interface UserService {
     boolean saveUser(User user);
     User lookupUser(String email);
 
-    boolean signupUser(String email) throws  Exception;
+    String signupUser(String email) throws  Exception;
 
-    boolean loginUser(String email) throws  Exception;
+    String loginUser(String email) throws  Exception;
 }

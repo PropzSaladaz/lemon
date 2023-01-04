@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean signupUser(String email) throws Exception {
+    public String signupUser(String email) throws Exception {
         String token = TokenGenerator.generateRandom(8);
         // Create signup user
         UserSignup signupUser = new UserSignup(email, KeyGenerate.generateKey(token), token);
@@ -53,14 +53,14 @@ public class UserServiceImpl implements UserService {
             User user = new User(queue.getSignupQueue().get(email));
             saveUser(user);
             queue.getSignupQueue().remove(email);
-            return true;
+            return user.getPublicKey();
         }
         queue.getSignupQueue().remove(email);
-        return false;
+        return "ERROR";
     }
 
     @Override
-    public boolean loginUser(String email) throws Exception {
+    public String loginUser(String email) throws Exception {
         User user = lookupUser(email);
         SecretKey sessionKey = KeyGenerate.generateKey(TokenGenerator.generateRandom(8));
         UserLogin userLogin = new UserLogin(sessionKey);
@@ -71,10 +71,10 @@ public class UserServiceImpl implements UserService {
 
         if (queue.getLoginQueue().waitForAuthentication(email, 60)) {
             queue.getLoginQueue().remove(email);
-            return true;
+            return user.getPublicKey();
         }
         queue.getLoginQueue().remove(email);
-        return false;
+        return "ERROR";
     }
 
     private LoginReq buildEncryptedLoginReq(User user, SecretKey sessionKey) throws Exception {
