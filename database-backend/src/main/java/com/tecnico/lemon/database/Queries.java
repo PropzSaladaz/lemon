@@ -46,7 +46,7 @@ public class Queries {
                     "%s text," +
                     "%s varchar(255)," +
                     "%s boolean," +
-                    "%s boolean," +
+                    "%s varchar(255)," +
                     "primary key (%s))",
                     Tables.Vehicle.TABLE_NAME,
                     Tables.Vehicle.VEHICLE_ID,
@@ -54,7 +54,7 @@ public class Queries {
                     Tables.Vehicle.LOCALIZATION,
                     Tables.Vehicle.DESCRIPTION,
                     Tables.Vehicle.PAYED,
-                    Tables.Vehicle.LOCKED,
+                    Tables.Vehicle.RESERVATION_ID,
                     Tables.Vehicle.VEHICLE_ID);
     
 

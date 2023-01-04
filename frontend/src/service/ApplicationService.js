@@ -27,7 +27,7 @@ export default {
     },
 
     cancelReservation(id){
-        return apiClient.post("/vehicle/unlock/" + id);
+        return apiClient.post("/vehicle/unlock/" + id, {key: user_public_key});
     },
 
     async login(_email) {

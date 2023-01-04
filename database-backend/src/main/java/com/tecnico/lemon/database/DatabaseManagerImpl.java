@@ -131,10 +131,13 @@ public class DatabaseManagerImpl implements DatabaseManager {
     try {
       // Get vehicle object given id if it exists
       ResultSet res = executeQuery(Queries.lookupVehicle(vehicle_id));
+      if (res.getString(Tables.Vehicle.RESERVATION_ID) != "NULL") {
+        throw new Exception("Trying to reserve an already reserved vehicle with reservation_id: " + res.getString(Tables.Vehicle.RESERVATION_ID));
+      }
 
       // Generate a new reservation_id 
       String reservation_id = UUID.randomUUID().toString();
-      System.out.printf("New reservation id:('%s') for vehicle id:('%s') from user id:('%s')%n", reservation_id, vehicle_id, user_id);
+      System.out.printf("New reservation_id:'%s' for vehicle_id:('%s') from user_id:('%s')%n", reservation_id, vehicle_id, user_id);
 
       // Add vehicle to reservations table
       executeQuery(Queries.insertReservation(
@@ -146,10 +149,32 @@ public class DatabaseManagerImpl implements DatabaseManager {
       ));
 
       // Update vehicles reserved status in vehicle table
-      executeQuery("update " + Tables.Vehicle.TABLE_NAME + " set reserved = " + true + " where id= " + vehicle_id);
+      executeQuery("update " + Tables.Vehicle.TABLE_NAME + " set reservation_id= " + reservation_id + " where vehicle_id= " + vehicle_id);
 
       // Add reservation->user to user_reservations table
       executeQuery(Queries.insertUserReservation(encrypt(reservation_id), user_id));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void deleteVehicleReservation(int vehicle_id) {
+    try {
+      // Remove entry from reservations table
+      ResultSet res = executeQuery(Queries.lookupVehicle(vehicle_id));
+      String reservation_id = res.getString(Tables.Vehicle.RESERVATION_ID);
+      if (reservation_id == "NULL") {
+        throw new Exception("Trying to unlock an already unlocked vehicle with reservation_id: " + reservation_id);
+      }
+  
+      executeQuery(Queries.deleteReservation(reservation_id));
+  
+      // Remove entry from user-reservations table
+      executeQuery(Queries.deleteUserReservation(encrypt(reservation_id)));
+  
+      // Update vehicles reserved status in vehicle table
+      executeQuery("update " + Tables.Vehicle.TABLE_NAME + " set reservation_id= " + "NULL" + " where vehicle_id= " + vehicle_id);
     } catch (Exception e) {
       e.printStackTrace();
     }

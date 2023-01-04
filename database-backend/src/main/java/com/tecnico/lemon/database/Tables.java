@@ -15,7 +15,7 @@ public class Tables {
         public static final String DESCRIPTION = "description";
         public static final String LOCALIZATION = "localization";
         public static final String PAYED = "payed";
-        public static final String LOCKED = "locked";
+        public static final String RESERVATION_ID = "reservation_id";
     }
 
     public class UserReservations {

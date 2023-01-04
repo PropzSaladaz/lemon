@@ -28,7 +28,7 @@ public class VehicleTableServiceImpl extends VehicleTableServiceGrpc.VehicleTabl
                             .setVehicleId(res.getInt(Tables.Vehicle.VEHICLE_ID))
                             .setPrice(res.getInt(Tables.Vehicle.PRICE))
                             .setLocation(res.getString(Tables.Vehicle.LOCALIZATION))
-                            .setReserved(res.getBoolean(Tables.Vehicle.LOCKED))
+                            .setReserved(res.getString(Tables.Vehicle.RESERVATION_ID) != "NULL")
                             .setDescription(res.getString(Tables.Vehicle.DESCRIPTION))
                             .build();
                     resp.addVehicles(v);
@@ -54,7 +54,7 @@ public class VehicleTableServiceImpl extends VehicleTableServiceGrpc.VehicleTabl
     public void unlockVehicle(UnlockVehicleReq request, StreamObserver<UnlockVehicleResp> responseObserver) {
 
         UnlockVehicleResp.Builder resp = UnlockVehicleResp.newBuilder();
-        _db.executeQuery("update " + Tables.Vehicle.TABLE_NAME + " set locked = " + false + " where id= " + request.getVehicleId());
+        _db.deleteVehicleReservation(request.getVehicleId());
         responseObserver.onNext(resp.build());
         responseObserver.onCompleted();
     }

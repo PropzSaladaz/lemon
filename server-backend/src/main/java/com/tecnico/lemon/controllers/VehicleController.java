@@ -27,7 +27,7 @@ public class VehicleController {
 
     @PostMapping (value="/reserve/{id}")
     public void reserveVehicle(@PathVariable("id") int id, @RequestBody KeyRequest request) {
-        vehicleService.reserveVehicle(id, request.getKey());
+        vehicleService.reserveVehicle(id, request.getPublicKey());
     }
 
     @PostMapping (value="/unlock/{id}")
@@ -37,7 +37,7 @@ public class VehicleController {
 
     public class KeyRequest {
         private String key;
-        public String getKey() { return key; }
+        public String getPublicKey() { return key; }
         public void setKey(String key) { this.key = key; }
     }
 }
