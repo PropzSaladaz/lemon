@@ -34,7 +34,6 @@ These instructions will get you a copy of the project up and running on your loc
 | maven | => 3.6.3 |
 |  JDK  | 17       |
 | psql  | 14       |
-|-------|----------|
 
 The software was tested only on devices running Linux.
 
@@ -123,6 +122,15 @@ bash gen.sh
 ``` bash
 mvn exec:java -Dexec.mainClass="com.tecnico.lemon.LemonDatabaseServer" -Dexec.args=""
 ```
+
+Upon launching, the database server will be waiting for commands. The commands accepted are:
+| command | description |
+|---------|-------------|
+|    init | drops and creates the required tables |
+| exit    | closes de database server |
+
+If it is the first time running the database server, the 'init' command should be provided.
+The 'init' command can be ran to restart the database at any moment.
 
 ### Launch Backend server
 ``` bash
