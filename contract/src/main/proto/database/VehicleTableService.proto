@@ -25,6 +25,14 @@ message UnlockVehicleResp {
 
 }
 
+message UserReservedVehiclesReq {
+  string user_id = 1;
+}
+
+message UserReservedVehiclesResp {
+  repeated Vehicle vehicles = 1;
+}
+
 
 message Vehicle {
   int32 vehicle_id = 1;
@@ -38,4 +46,5 @@ service VehicleTableService {
   rpc getVehicles(VehiclesReq) returns (VehiclesResp);
   rpc reserveVehicle(ReserveVehicleReq) returns (ReserveVehicleResp);
   rpc unlockVehicle(UnlockVehicleReq) returns (UnlockVehicleResp);
+  rpc getUserReservedVehicles(UserReservedVehiclesReq) returns (UserReservedVehiclesResp);
 }

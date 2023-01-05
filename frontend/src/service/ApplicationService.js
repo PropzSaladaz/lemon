@@ -21,8 +21,8 @@ export default {
         return apiClient.get("/vehicle");
     },
 
-    getLockedVehicles() {
-        return apiClient.get("/vehicle/reserved");
+    getReservedVehicles() {
+        return apiClient.post("/vehicle/reserved", {key: user_public_key});
     },
 
     requestReservation(id){

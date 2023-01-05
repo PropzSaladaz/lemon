@@ -25,7 +25,7 @@ import ApplicationService from '@/service/ApplicationService.js'
 export default {
     name: 'HomeView',
     created(){
-       this.getVehicles();
+       this.getReservedVehicles();
     },
     data() {
         return {
@@ -37,16 +37,15 @@ export default {
             console.log("aqui");
             ApplicationService.cancelReservation(id)
             .then(() => {
-
-                this.getVehicles();
+                this.getReservedVehicles();
             })
             .catch((error) => {
                 console.log(error);
             });
         },
 
-        getVehicles() {
-            ApplicationService.getLockedVehicles()
+        getReservedVehicles() {
+            ApplicationService.getReservedVehicles()
             .then((response) => {
                 this.vehicles = response.data;
             })

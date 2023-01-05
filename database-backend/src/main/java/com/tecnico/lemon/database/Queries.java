@@ -91,7 +91,7 @@ public class Queries {
                 Tables.Vehicle.TABLE_NAME, id, price, localization, description);
     }
 
-    public static String lookupVehicle(int id) {
+    public static String lookupVehicleById(int id) {
         return String.format("select * from %s where vehicle_id='%s'",
                 Tables.Vehicle.TABLE_NAME, id);
     }
@@ -111,7 +111,11 @@ public class Queries {
         return String.format("delete from %s where reservation_id='%s'",
                 Tables.Reservations.TABLE_NAME, id);
     }
-
+    
+    public static String lookupReservationVehicleId(String reservation_id) {
+        return String.format("select %s from %s where %s = '%s';",
+               Tables.Reservations.VEHICLE_ID , Tables.Reservations.TABLE_NAME, Tables.Reservations.RESERVATION_ID, reservation_id);
+    }
 
     public static String insertUserReservation(String reservation_id, String user_id) {
         return String.format("insert into %s values ('%s', '%s')",
@@ -121,5 +125,10 @@ public class Queries {
     public static String deleteUserReservation(String reservation_id) {
         return String.format("delete from %s where reservation_id='%s'",
                 Tables.UserReservations.TABLE_NAME, reservation_id);
+    }
+
+    public static String lookupUserReservations(String user_id) {
+        return String.format("select %s from %s where %s = '%s';",
+                Tables.UserReservations.RESERVATION_ID, Tables.UserReservations.TABLE_NAME, Tables.UserReservations.PUBLIC_KEY, user_id);
     }
 }
