@@ -35,13 +35,11 @@ These instructions will get you a copy of the project up and running on your loc
 |  JDK  | 17       |
 | psql  | 14       |
 The software was tested only on devices running Linux.
-In this section also include detailed instructions for installing additiona software the application is dependent upon (such as PostgreSQL database, for example).
 
-```
-Give installation command examples
-```
 
 ## Installing and configurating VMs
+
+In this section we include detailed instructions for configuring fresh VMs and installing the required software the application is dependent upon.
 
 ### Lemon Database Server VM configuration:
 Download Seed VM: https://seedsecuritylabs.org/labsetup.html
