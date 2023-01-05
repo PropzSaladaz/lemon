@@ -34,16 +34,20 @@ These instructions will get you a copy of the project up and running on your loc
 | maven | => 3.6.3 |
 |  JDK  | 17       |
 | psql  | 14       |
-The software was tested only on devices running Linux.
+|-------|----------|
 
+The software was tested only on devices running Linux.
 
 ## Installing and configurating VMs
 
 In this section we include detailed instructions for configuring fresh VMs and installing the required software the application is dependent upon.
 
 ### Lemon Database Server VM configuration:
+```
 Download Seed VM: https://seedsecuritylabs.org/labsetup.html
 Setup Seed VM: https://github.com/seed-labs/seed-labs/blob/master/manuals/vm/seedvm-manual.md
+```
+
 
 ```bash
 # Boot VM and install postgresql-14:
