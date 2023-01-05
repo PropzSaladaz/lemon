@@ -59,7 +59,7 @@ public class LemonDatabaseServer {
             String command = scanner.nextLine();
 
             switch (command) {
-                case "init database":
+                case "init":
                     db.initDatabase();
                     break;
                 case "exit":

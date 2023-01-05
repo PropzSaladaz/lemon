@@ -8,7 +8,7 @@ import java.util.List;
 @Service
 public interface VehicleService {
 
-
+    List<VehicleDto> getAllVehicles();
     List<VehicleDto> getAvailableVehicles();
 
     List<VehicleDto> getReservedVehicles();

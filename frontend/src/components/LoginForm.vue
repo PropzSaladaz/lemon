@@ -1,5 +1,12 @@
 <template>
     <div class="form-container">
+        <div v-if="failure" class="notification is-danger">
+            Signup failed. Either the accoutn already exists or there was an internal error.
+            Please try again later.
+        </div>
+        <div v-if="success" class="notification is-primary">
+            Signup successful. Please login.
+        </div>
         <div class="form-input">
             <div class="field">
                 <label class="label">Email</label>
@@ -25,7 +32,7 @@
 <script>
 export default {
     name: 'LoginForm',
-    props: ['invalidAccount'],
+    props: ['invalidAccount', 'success', 'failure'],
     data() {
         return {
             email: '',

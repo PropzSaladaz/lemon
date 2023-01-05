@@ -32,6 +32,7 @@ public class UserTableServiceImpl extends UserTableServiceGrpc.UserTableServiceI
     public void lookupUser(LookupUserReq request, StreamObserver<LookupUserResp> responseObserver){
         LookupUserResp.Builder resp = LookupUserResp.newBuilder();
         ResultSet res = _db.executeQuery(Queries.lookupUserByEmail(_db.encrypt(request.getEmail())));
+        System.out.println("email: " + request.getEmail());
         try {
             while(res.next()) {
                 resp.setEmail(res.getString(Tables.User.EMAIL));

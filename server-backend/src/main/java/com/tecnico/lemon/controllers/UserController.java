@@ -20,9 +20,12 @@ public class UserController {
         private String _publicKey;
         private String _customerType;
 
-        public SigninResponse(String publicKey, String customerType) {
+        private boolean _signup;
+
+        public SigninResponse(String publicKey, String customerType, boolean signup) {
             _publicKey = publicKey;
             _customerType = customerType;
+            _signup = signup;
         }
 
         public String getPublicKey() {
@@ -31,6 +34,10 @@ public class UserController {
         
         public String getCustomerType() {
             return _customerType;
+        }
+
+        public boolean getSignup() {
+            return _signup;
         }
     }
 
@@ -44,17 +51,17 @@ public class UserController {
             System.out.println("user doesnt exist");
             String userPublicKey = userService.signupUser(email);
             if (!userPublicKey.equals("ERROR")){
-                return new ResponseEntity<SigninResponse>(new SigninResponse(userPublicKey, UserTypes.CUSTOMER), HttpStatus.OK);
+                return new ResponseEntity<SigninResponse>(new SigninResponse(userPublicKey, UserTypes.CUSTOMER, true), HttpStatus.OK);
             }
-            return new ResponseEntity<SigninResponse>(new SigninResponse("", ""), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<SigninResponse>(new SigninResponse("", "", true), HttpStatus.BAD_REQUEST);
         }
         else {
             System.out.println("user exists");
             String userPublicKey = userService.loginUser(email);
             if (!userPublicKey.equals("ERROR")) {
-                return new ResponseEntity<SigninResponse>(new SigninResponse(userPublicKey, UserTypes.CUSTOMER), HttpStatus.OK);
+                return new ResponseEntity<SigninResponse>(new SigninResponse(userPublicKey, user.getType(), false), HttpStatus.OK);
             }
-            return new ResponseEntity<SigninResponse>(new SigninResponse("", ""), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<SigninResponse>(new SigninResponse("", "", false), HttpStatus.BAD_REQUEST);
         }
     }
 }

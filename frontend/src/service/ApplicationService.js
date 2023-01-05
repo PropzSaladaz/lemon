@@ -14,6 +14,9 @@ const apiClient = axios.create({
 });
 
 export default {
+    getAllVehicles() {
+        return apiClient.get("/vehicle/all");
+    },
     getAvailableVehicles() {
         return apiClient.get("/vehicle");
     },

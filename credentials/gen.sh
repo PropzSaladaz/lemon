@@ -16,6 +16,8 @@ bash backend-database.sh
 bash https-backend.sh
 # Mobile private & public keys
 bash mobile.sh
+# Employer private & public keys
+bash employer.sh
 # Server-Mobile keys & certificates for grpc communication
 bash backend-mobile.sh
 # Server-backend private & public keys
