@@ -49,7 +49,7 @@ export default {
         },
 
         getVehicles() {
-            ApplicationService.getLockedVehicles()
+            ApplicationService.getReservedVehicles()
             .then((response) => {
                 this.vehicles = response.data;
                 console.log(this.vehicles);

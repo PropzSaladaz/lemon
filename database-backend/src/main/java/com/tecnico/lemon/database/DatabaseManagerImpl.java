@@ -22,6 +22,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
 import java.util.UUID;
+import java.util.List;
+import java.util.ArrayList;
 
 public class DatabaseManagerImpl implements DatabaseManager {
   private static final String database_name = "sirsdb";
@@ -94,6 +96,23 @@ public class DatabaseManagerImpl implements DatabaseManager {
   }
 
   @Override
+  public String decrypt(String ciphertext) {
+    try {
+      SecretKey key = AESKeyReader.readSharedKey("src/main/credentials/shared-key.bin");
+      Cipher cipher = Cipher.getInstance("AES");
+      cipher.init(Cipher.DECRYPT_MODE, key);
+      String plaintext = new String(cipher.doFinal(Base64.getDecoder().decode(ciphertext)), "UTF-8");
+      System.out.println("Encrypted text: " + plaintext);
+      return plaintext;
+
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  @Override
   public void populate() {
     //executeQuery(Queries.insertUser("lala", "admin@gmail.com", "Employer"));
     //executeQuery(Queries.insertUser("lolo","cust@gmail.com", "Customer"));
@@ -129,7 +148,7 @@ public class DatabaseManagerImpl implements DatabaseManager {
   public void newVehicleReservation(int vehicle_id, String user_id) {
     try {
       // Get vehicle object given id if it exists
-      ResultSet res = executeQuery(Queries.lookupVehicle(vehicle_id));
+      ResultSet res = executeQuery(Queries.lookupVehicleById(vehicle_id));
       res.next();
       if (!res.getString(Tables.Vehicle.RESERVATION_ID).equals("NULL")){
         throw new Exception("Trying to reserve an already reserved vehicle with reservation_id: " + res.getString(Tables.Vehicle.RESERVATION_ID));
@@ -162,7 +181,7 @@ public class DatabaseManagerImpl implements DatabaseManager {
   public void deleteVehicleReservation(int vehicle_id) {
     try {
       // Remove entry from reservations table
-      ResultSet res = executeQuery(Queries.lookupVehicle(vehicle_id));
+      ResultSet res = executeQuery(Queries.lookupVehicleById(vehicle_id));
       res.next();
       String reservation_id = res.getString(Tables.Vehicle.RESERVATION_ID);
       if (reservation_id.equals("NULL")) {
@@ -180,6 +199,26 @@ public class DatabaseManagerImpl implements DatabaseManager {
       e.printStackTrace();
     }
   }
+
+  @Override
+  public List<Integer> getUserReservedVehicles (String user_id) {
+    List<Integer> userReservedVehicleIds = new ArrayList<Integer>();
+    try {
+      ResultSet res = executeQuery(Queries.lookupUserReservations(user_id));
+      while (res.next()) {
+        String reservation_id = decrypt(res.getString(Tables.UserReservations.RESERVATION_ID));
+        ResultSet _res = executeQuery(Queries.lookupReservationVehicleId(reservation_id));
+        _res.next();
+        userReservedVehicleIds.add(_res.getInt(Tables.Reservations.VEHICLE_ID));
+      }
+      return userReservedVehicleIds;
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return userReservedVehicleIds;
+    }
+  }
+
 
   @Override
   public void clean() {

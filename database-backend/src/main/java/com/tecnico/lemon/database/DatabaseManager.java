@@ -16,7 +16,9 @@ public interface DatabaseManager {
     void close();
     void initDatabase();
     String encrypt(String plaintext);
+    String decrypt(String ciphertext);
     String getB64EncodedSharedKey();
     void newVehicleReservation(int vehicle_id, String userId);
     void deleteVehicleReservation(int vehicle_id);
+    List<Integer> getUserReservedVehicles(String user_id);
 }

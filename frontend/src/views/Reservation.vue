@@ -10,7 +10,7 @@
             </thead>
             <tbody>
                 <tr v-for="vehicle in vehicles" key="vehicle.id">
-                    <th class="normal-text"> {{ vehicle.title }} </th>
+                    <th class="normal-text"> {{ vehicle.description }} </th>
                     <th class="normal-text"> {{ vehicle.price }} </th>
                     <th class="button-column flex" > <button class="button is-primary is-outlined" @click="cancelReservation(vehicle.id)">Cancel Reservation</button> </th>
                 </tr>
@@ -25,7 +25,7 @@ import ApplicationService from '@/service/ApplicationService.js'
 export default {
     name: 'HomeView',
     created(){
-       this.getVehicles();
+       this.getReservedVehicles();
     },
     data() {
         return {
@@ -37,16 +37,15 @@ export default {
             console.log("aqui");
             ApplicationService.cancelReservation(id)
             .then(() => {
-
-                this.getVehicles();
+                this.getReservedVehicles();
             })
             .catch((error) => {
                 console.log(error);
             });
         },
 
-        getVehicles() {
-            ApplicationService.getLockedVehicles()
+        getReservedVehicles() {
+            ApplicationService.getReservedVehicles()
             .then((response) => {
                 this.vehicles = response.data;
             })

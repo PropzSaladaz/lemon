@@ -21,9 +21,9 @@ public class VehicleController {
         return vehicleService.getAvailableVehicles();
     }
 
-    @GetMapping(value="/reserved")
-    public List<VehicleDto> getReservedVehicles() {
-        return vehicleService.getReservedVehicles();
+    @PostMapping(value="/reserved")
+    public List<VehicleDto> getReservedVehicles(@RequestBody KeyRequest request) {
+        return vehicleService.getUserReservedVehicles(request.getKey());
     }
 
 

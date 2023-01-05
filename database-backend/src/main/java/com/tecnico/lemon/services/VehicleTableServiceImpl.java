@@ -9,6 +9,8 @@ import io.grpc.stub.StreamObserver;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import java.util.List;
+
 import static com.tecnico.lemon.contract.VehicleTableServiceOuterClass.*;
 
 public class VehicleTableServiceImpl extends VehicleTableServiceGrpc.VehicleTableServiceImplBase {
@@ -18,26 +20,50 @@ public class VehicleTableServiceImpl extends VehicleTableServiceGrpc.VehicleTabl
         _db = dbInterface;
     }
 
+    public Vehicle buildVehicle(ResultSet res) {
+        try {
+            return Vehicle.newBuilder()
+                .setVehicleId(res.getInt(Tables.Vehicle.VEHICLE_ID))
+                .setPrice(res.getInt(Tables.Vehicle.PRICE))
+                .setLocation(res.getString(Tables.Vehicle.LOCALIZATION))
+                .setReserved(!res.getString(Tables.Vehicle.RESERVATION_ID).equals("NULL"))
+                .setDescription(res.getString(Tables.Vehicle.DESCRIPTION))
+                .build();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return Vehicle.newBuilder().build();
+        }
+    }
+
     @Override
     public void getVehicles(VehiclesReq request, StreamObserver<VehiclesResp> responseObserver) {
-        VehiclesResp.Builder resp = VehiclesResp.newBuilder();
+        VehiclesResp.Builder respBuilder = VehiclesResp.newBuilder();
         try{
             ResultSet res = _db.executeQuery(Queries.SELECT_ALL_FROM_VEHICLES);
             while(res.next()) {
-                    Vehicle v = Vehicle.newBuilder()
-                            .setVehicleId(res.getInt(Tables.Vehicle.VEHICLE_ID))
-                            .setPrice(res.getInt(Tables.Vehicle.PRICE))
-                            .setLocation(res.getString(Tables.Vehicle.LOCALIZATION))
-                            .setReserved(!res.getString(Tables.Vehicle.RESERVATION_ID).equals("NULL"))
-                            .setDescription(res.getString(Tables.Vehicle.DESCRIPTION))
-                            .build();
-                    resp.addVehicles(v);
-
+                respBuilder.addVehicles(buildVehicle(res));
             }
         }catch(SQLException ex) {
             ex.printStackTrace();
         }
-        responseObserver.onNext(resp.build());
+        responseObserver.onNext(respBuilder.build());
+        responseObserver.onCompleted();
+    }
+
+    @Override 
+    public void getUserReservedVehicles(UserReservedVehiclesReq request, StreamObserver<UserReservedVehiclesResp> responseObserver) {
+        UserReservedVehiclesResp.Builder respBuilder = UserReservedVehiclesResp.newBuilder(); 
+        try {
+            List<Integer> userReservedVehicleIds = _db.getUserReservedVehicles(request.getUserId());
+            for (Integer vehicle_id: userReservedVehicleIds) {
+                ResultSet res = _db.executeQuery(Queries.lookupVehicleById(vehicle_id));
+                res.next();
+                respBuilder.addVehicles(buildVehicle(res));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        responseObserver.onNext(respBuilder.build());
         responseObserver.onCompleted();
     }
 

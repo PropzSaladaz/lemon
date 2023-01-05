@@ -35,7 +35,6 @@ public class VehicleTableServiceFrontend {
     }
 
     public List<VehicleDto> getVehicles() {
-
         VehiclesReq request = VehiclesReq.newBuilder().build();
         VehiclesResp resp = stub.getVehicles(request);
         return resp.getVehiclesList().stream()
@@ -52,5 +51,11 @@ public class VehicleTableServiceFrontend {
     public void unlockVehicle(int id) {
         UnlockVehicleReq request = UnlockVehicleReq.newBuilder().setVehicleId(id).build();
         UnlockVehicleResp resp =  stub.unlockVehicle(request);
+    }
+
+    public List<VehicleDto> getUserReservedVehicles(String user_id) {
+        UserReservedVehiclesReq request = UserReservedVehiclesReq.newBuilder().setUserId(user_id).build();
+        UserReservedVehiclesResp resp = stub.getUserReservedVehicles(request);
+        return resp.getVehiclesList().stream().map(VehicleDto::new).collect(Collectors.toList());
     }
 }

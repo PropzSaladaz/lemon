@@ -11,9 +11,9 @@ public interface VehicleService {
 
     List<VehicleDto> getAvailableVehicles();
 
-    List<VehicleDto> getReservedVehicles();
+    List<VehicleDto> getUserReservedVehicles(String user_id);
 
-    void reserveVehicle(int id, String publicKey);
+    void reserveVehicle(int id, String user_id);
     void unlockVehicle(int id);
 
     //VehicleDto getVehicle(int id);
