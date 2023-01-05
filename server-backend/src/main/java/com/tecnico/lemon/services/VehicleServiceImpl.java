@@ -13,6 +13,10 @@ public class VehicleServiceImpl implements VehicleService{
     private VehicleTableServiceFrontend vehicleServiceFrontend = new VehicleTableServiceFrontend();
 
     @Override
+    public List<VehicleDto> getAllVehicles() {
+        return vehicleServiceFrontend.getVehicles();
+    }
+    @Override
     public List<VehicleDto> getAvailableVehicles() {
         return vehicleServiceFrontend.getVehicles().stream().filter(vehicle -> !vehicle.isReserved()).collect(Collectors.toList());
     }

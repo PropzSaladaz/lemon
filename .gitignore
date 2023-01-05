@@ -1,3 +1,6 @@
+database-backend/src/main/credentials/shared-key.bin
+server-backend/src/main/credentials/shared-key.bin
+
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar

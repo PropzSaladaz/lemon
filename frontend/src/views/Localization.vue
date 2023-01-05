@@ -10,7 +10,7 @@
             
         
                 <tr v-for="vehicle in vehicles" key="vehicle.id">
-                    <td>  {{ vehicle.title }} </td>
+                    <td>  {{ vehicle.description }} </td>
                     <td>  {{ vehicle.price }} </td>
                     <td><p>
                         <iframe :src="vehicle.location"
@@ -37,19 +37,8 @@ export default {
         }
     },
     methods: {
-        requestReservation(id) {
-            console.log("aqui");
-            ApplicationService.requestReservation(id)
-            .then((response) => {
-                this.getVehicles();
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-        },
-
         getVehicles() {
-            ApplicationService.getReservedVehicles()
+            ApplicationService.getAllVehicles()
             .then((response) => {
                 this.vehicles = response.data;
                 console.log(this.vehicles);

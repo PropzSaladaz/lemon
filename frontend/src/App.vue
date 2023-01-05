@@ -69,7 +69,7 @@
     </div>
   </nav>
 
-  <router-view @login="onLogin" :invalidAccount="invalidAccount"/>
+  <router-view @login="onLogin" :invalidAccount="invalidAccount" :success="showMessageSuccess" :failure="showMessageFailure"/>
 
 </template>
 
@@ -84,10 +84,20 @@ export default {
       invalidAccount: false,
       isEmployee: false,
       isCustomer:false,
+      showMessageSuccess: false,
+      showMessageFailure: false,
 
     }
   },
   methods: {
+    showNotification(type) {
+      if (type === "success") this.showMessageSuccess = true;
+      else this.showMessageFailure = true;
+      setTimeout(()=> {
+        this.showMessageSuccess = false;
+        this.showMessageFailure = false;
+      }, 3000)
+    },
     loggedIn(){
       return this.email != '';
     },
@@ -97,26 +107,42 @@ export default {
     async onLogin(event) {
       await ApplicationService.login(event.email)
         .then((data) => {
+          console.log(data);
+          console.log("here", data.signup);
           let customerType = data.customerType;
-          console.log(customerType);
-          if (customerType === "Employer") {
-            this.isEmployee = true;
-            this.isCustomer = false;
-            this.email = event.email;
-            this.$router.push('/user/localization')
+          if (data.signup) {
+            if (customerType === ""){
+              console.log("failure");
+              this.showNotification("failure");
+            }
+            else {
+              console.log("success");
+              this.showNotification("success");
+            }
           }
-          else if(customerType === "Customer"){
-            console.log("customer here i am");
-            this.isCustomer = true;
-            this.isEmployee = false;
-            this.email = event.email;
-            this.$router.push('/user/vehicles');
+          else{
+            
+            console.log(customerType);
+            if (customerType === "Employer") {
+              this.isEmployee = true;
+              this.isCustomer = false;
+              this.email = event.email;
+              this.$router.push('/user/localization')
+            }
+            else if(customerType === "Customer"){
+              console.log("customer here i am");
+              this.isCustomer = true;
+              this.isEmployee = false;
+              this.email = event.email;
+              this.$router.push('/user/vehicles');
+            }
+            else {
+              console.log(event.email, event.password);
+              this.invalidAccount = true;
+              alert("Account doesn't exist");
+            }
           }
-          else {
-            console.log(event.email, event.password);
-            this.invalidAccount = true;
-            alert("Account doesn't exist");
-          }
+
         })
         .catch((error) => {
           console.log(error);

@@ -28,7 +28,7 @@ import static com.tecnico.lemon.contract.MobileServiceOuterClass.*;
 
 public class MobileServiceImpl extends MobileServiceGrpc.MobileServiceImplBase {
     private final String password;
-    private String email;
+    private String email = "admin@gmail.com";
     private final String serverHostname;
     private final KeyPair keys;
     public MobileServiceImpl(String password, String privateKeyPath, String publicKeyPath,

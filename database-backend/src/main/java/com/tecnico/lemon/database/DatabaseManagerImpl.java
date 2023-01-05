@@ -1,10 +1,10 @@
 package com.tecnico.lemon.database;
 
-import com.tecnico.lemon.KeyGenerate;
-import com.tecnico.lemon.AESKeyReader;
+import com.tecnico.lemon.*;
 
 import org.postgresql.Driver;
 
+import java.security.PublicKey;
 import java.sql.*;
 import java.util.Objects;
 import java.util.logging.Logger;
@@ -48,7 +48,6 @@ public class DatabaseManagerImpl implements DatabaseManager {
 
   @Override
   public void initDatabase() {
-    buildSchema();
     try {
       KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
       keyGenerator.init(256); // specify the key size
@@ -61,6 +60,7 @@ public class DatabaseManagerImpl implements DatabaseManager {
       System.out.println(e.getMessage());
       e.printStackTrace();
     }
+    buildSchema();
   }
 
   @Override 
@@ -82,9 +82,7 @@ public class DatabaseManagerImpl implements DatabaseManager {
   public String encrypt(String plaintext) {
     try {
       SecretKey key = AESKeyReader.readSharedKey("src/main/credentials/shared-key.bin");
-      Cipher cipher = Cipher.getInstance("AES");
-      cipher.init(Cipher.ENCRYPT_MODE, key);
-      String ciphertext = Base64.getEncoder().encodeToString(cipher.doFinal(plaintext.getBytes(StandardCharsets.UTF_8)));
+      String ciphertext = Crypto.encryptAES(plaintext, key);
       System.out.println("Encrypted text: " + ciphertext);
       return ciphertext;
 
@@ -114,11 +112,14 @@ public class DatabaseManagerImpl implements DatabaseManager {
 
   @Override
   public void populate() {
-    //executeQuery(Queries.insertUser("lala", "admin@gmail.com", "Employer"));
-    //executeQuery(Queries.insertUser("lolo","cust@gmail.com", "Customer"));
-    executeQuery(Queries.insertVehicle(1, 200, "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12448.046022212302!2d-9.3042988!3d38.7404982!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x92000ad2cef547fa!2sTaguspark!5e0!3m2!1spt-PT!2spt!4v1669853654934!5m2!1spt-PT!2spt", "Scooter"));
-    executeQuery(Queries.insertVehicle(2, 15, "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12448.687282539375!2d-9.138705!3d38.7368192!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x880c7c731a54423!2sInstituto%20Superior%20T%C3%A9cnico!5e0!3m2!1spt-PT!2spt!4v1669853788927!5m2!1spt-PT!2spt", "Bike"));
-
+    try {
+      PublicKey pk = RSAKeyReader.readPublic("src/main/credentials/employer-mobile-public.der");
+      executeQuery(Queries.insertUser(KeyConverter.keyToString(pk), encrypt("admin@gmail.com"), "Employer"));
+      executeQuery(Queries.insertVehicle(1, 200, "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12448.046022212302!2d-9.3042988!3d38.7404982!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x92000ad2cef547fa!2sTaguspark!5e0!3m2!1spt-PT!2spt!4v1669853654934!5m2!1spt-PT!2spt", "Scooter"));
+      executeQuery(Queries.insertVehicle(2, 15, "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12448.687282539375!2d-9.138705!3d38.7368192!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x880c7c731a54423!2sInstituto%20Superior%20T%C3%A9cnico!5e0!3m2!1spt-PT!2spt!4v1669853788927!5m2!1spt-PT!2spt", "Bike"));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
   @Override
   public void buildSchema(){
