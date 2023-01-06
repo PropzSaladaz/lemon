@@ -20,7 +20,7 @@ import static com.tecnico.lemon.contract.KeysServiceOuterClass.*;
 
 public class KeysServiceFrontend {
 
-    private final String target = "localhost:8082";
+    private final String target = "192.168.0.1:8082";
     private final ManagedChannel channel;
     private final KeysServiceGrpc.KeysServiceBlockingStub stub;
 

@@ -14,7 +14,7 @@ import static com.tecnico.lemon.contract.UserTableServiceOuterClass.*;
 @Component
 public class UserTableServiceFrontend {
 
-    private final String target = "localhost:8082";
+    private final String target = "192.168.0.1:8082";
     private final ManagedChannel channel;
     private final UserTableServiceGrpc.UserTableServiceBlockingStub stub;
 
