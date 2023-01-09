@@ -1,10 +1,10 @@
 # Server-backend SSL certificates
 
 echo "Creating Server's private key and Certificate Signing Request"
-openssl req -newkey rsa:4096 -nodes -keyout https-server-private-key.pem -out https-server-req.pem -subj "/C=PT/ST=Lisbon/L=Oeiras/O=Lemon/OU=Lemon/CN=192.168.1.2/emailAddress=lemon@gmail.pt" -addtext "subjectAltName = IP:192.168.1.2"
+openssl req -newkey rsa:4096 -nodes -keyout https-server-private-key.pem -out https-server-req.pem -config backend.cnf
 
 echo "Signing server certificate request with ca's private key"
-openssl x509 -req -in https-server-req.pem -CA ca-cert.pem -CAkey ca-key.pem -CAcreateserial -out https-certificate.pem
+openssl x509 -req -in https-server-req.pem -CA ca-cert.pem -CAkey ca-key.pem -CAcreateserial -out https-certificate.pem -extensions req_ext -extfile backend.cnf
 
 echo "Server's signed certificate:"
 openssl x509 -in https-certificate.pem -noout -text

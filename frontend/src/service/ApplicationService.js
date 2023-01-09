@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const serverHostname = "https://localhost:8443";
+const serverHostname = "https://192.168.1.2:8443";
 
 let user_public_key = "NOPUBLICKEYSET";
 
