@@ -12,7 +12,7 @@ import static com.tecnico.lemon.contract.MobileServiceOuterClass.*;
 
 @Component
 public class MobileFrontend {
-    private final String target = "localhost:8080";
+    private final String target = "192.168.2.3:8080";
     private final ManagedChannel channel;
     private final MobileServiceGrpc.MobileServiceBlockingStub stub;
 
